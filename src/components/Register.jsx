@@ -6,7 +6,6 @@ import toast from "react-hot-toast";
 import { useRegister } from "../shared/hooks";
 import { useNavigate } from "react-router-dom";
 
-// Importamos los íconos
 import iconUser from "../assets/icons/4.png";
 import iconEmail from "../assets/icons/3.png";
 import iconPassword from "../assets/icons/5.png";
@@ -14,11 +13,17 @@ import iconPassword from "../assets/icons/5.png";
 const registerSchema = yup.object().shape({
   name: yup.string().required("El nombre es obligatorio"),
   username: yup.string().required("El username es obligatorio"),
+  dpi: yup.string().required("El DPI es obligatorio"),
+  direccion: yup.string().required("La dirección es obligatoria"),
+  telefono: yup.string().required("El teléfono es obligatorio"),
   email: yup.string().email("Debe ser un email válido").required("El email es obligatorio"),
-  password: yup
-    .string()
-    .min(6, "La contraseña debe tener al menos 6 caracteres")
-    .required("La contraseña es obligatoria"),
+  password: yup.string().min(6, "La contraseña debe tener al menos 6 caracteres").required("La contraseña es obligatoria"),
+  nombreTrabajo: yup.string().required("El nombre del trabajo es obligatorio"),
+  montoMensual: yup
+    .number()
+    .typeError("El monto mensual debe ser un número")
+    .min(100, "Los ingresos mensuales deben ser al menos Q100")
+    .required("Los ingresos mensuales son obligatorios"),
 });
 
 export const Register = () => {
@@ -36,7 +41,17 @@ export const Register = () => {
 
   const onSubmit = async (data) => {
     try {
-      await registerUser(data.name, data.email, data.password, data.username);
+      await registerUser({
+        name: data.name,
+        username: data.username,
+        dpi: data.dpi,
+        direccion: data.direccion,
+        telefono: data.telefono,
+        email: data.email,
+        password: data.password,
+        nombreTrabajo: data.nombreTrabajo,
+        montoMensual: data.montoMensual,
+      });
       toast.success("Usuario registrado exitosamente");
       navigate("/");
     } catch (error) {
@@ -65,6 +80,24 @@ export const Register = () => {
       {errors.username && <p style={{ color: "red" }}>{errors.username.message}</p>}
 
       <div className="container-input">
+        <img src={iconUser} alt="icono dpi" className="input-icon" />
+        <input type="text" placeholder="DPI" {...register("dpi")} />
+      </div>
+      {errors.dpi && <p style={{ color: "red" }}>{errors.dpi.message}</p>}
+
+      <div className="container-input">
+        <img src={iconUser} alt="icono dirección" className="input-icon" />
+        <input type="text" placeholder="Dirección" {...register("direccion")} />
+      </div>
+      {errors.direccion && <p style={{ color: "red" }}>{errors.direccion.message}</p>}
+
+      <div className="container-input">
+        <img src={iconUser} alt="icono teléfono" className="input-icon" />
+        <input type="text" placeholder="Teléfono" {...register("telefono")} />
+      </div>
+      {errors.telefono && <p style={{ color: "red" }}>{errors.telefono.message}</p>}
+
+      <div className="container-input">
         <img src={iconEmail} alt="icono email" className="input-icon" />
         <input type="text" placeholder="Email" {...register("email")} />
       </div>
@@ -75,6 +108,22 @@ export const Register = () => {
         <input type="password" placeholder="Password" {...register("password")} />
       </div>
       {errors.password && <p style={{ color: "red" }}>{errors.password.message}</p>}
+
+      <div className="container-input">
+        <img src={iconUser} alt="icono nombre trabajo" className="input-icon" />
+        <input type="text" placeholder="Nombre del trabajo" {...register("nombreTrabajo")} />
+      </div>
+      {errors.nombreTrabajo && <p style={{ color: "red" }}>{errors.nombreTrabajo.message}</p>}
+
+      <div className="container-input">
+        <img src={iconUser} alt="icono monto mensual" className="input-icon" />
+        <input
+          type="number"
+          placeholder="Ingresos mensuales (Q)"
+          {...register("montoMensual")}
+        />
+      </div>
+      {errors.montoMensual && <p style={{ color: "red" }}>{errors.montoMensual.message}</p>}
 
       <button type="submit" className="button" disabled={isLoading}>
         {isLoading ? "Cargando...." : "REGISTRARSE"}

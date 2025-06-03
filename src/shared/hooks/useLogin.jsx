@@ -2,36 +2,34 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { login as loginRequest } from "../../services";
-
+ 
 export const useLogin = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-
-  // Cambié a parámetros explícitos para que sea más claro
-  const login = async (email, username, password, codigoBanco) => {
+ 
+  const login = async ({ email, username, password, codigoBanco }) => {
     setIsLoading(true);
-
+ 
     try {
-      // Construyo el objeto solo con campos que no son null ni undefined
       const data = { password };
       if (email) data.email = email;
       if (username) data.username = username;
       if (codigoBanco) data.codigoBanco = codigoBanco;
-
+ 
       const response = await loginRequest(data);
-
+ 
       const { userDetails } = response.data;
-
+ 
       if (!userDetails || !userDetails.token) {
         throw new Error("Error al obtener datos del usuario.");
       }
-
+ 
       const userData = {
         ...userDetails,
         role: userDetails.role?.toUpperCase() || "",
         token: userDetails.token,
       };
-
+ 
       localStorage.setItem("user", JSON.stringify(userData));
       toast.success("Sesión iniciada correctamente");
       navigate("/dashboard");
@@ -46,7 +44,7 @@ export const useLogin = () => {
       setIsLoading(false);
     }
   };
-
+ 
   return {
     login,
     isLoading,

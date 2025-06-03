@@ -7,31 +7,53 @@ export const useRegister = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  const register = async ({ name, email, password, username }) => {
+  const register = async ({
+    name,
+    username,
+    dpi,
+    direccion,
+    telefono,
+    email,
+    password,
+    nombreTrabajo,
+    montoMensual,
+  }) => {
     setIsLoading(true);
-
+  
     try {
-      const userData = { name, email, password, username };
-
+      const userData = {
+        name,
+        username,
+        dpi,
+        direccion,
+        telefono,
+        email,
+        password,
+        nombreTrabajo,
+        montoMensual,
+      };
+  
       const response = await registerRequest(userData);
-
+  
       if (!response.data || !response.data.userDetails) {
         throw new Error("Error al obtener datos del usuario.");
       }
-
+  
       toast.success("Usuario registrado correctamente (pendiente activación)");
-      navigate("/"); // ruta a login o home
+      navigate("/");
     } catch (error) {
       toast.error(
         error?.response?.data?.message ||
-        error?.response?.data?.msg ||
-        "Ocurrió un error al registrar, intenta de nuevo"
+          error?.response?.data?.msg ||
+          "Ocurrió un error al registrar, intenta de nuevo"
       );
       throw error;
     } finally {
       setIsLoading(false);
     }
   };
+  
 
   return { register, isLoading };
 };
+
