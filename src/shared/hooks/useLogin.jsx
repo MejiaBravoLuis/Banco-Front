@@ -31,6 +31,7 @@ export const useLogin = () => {
       };
  
       localStorage.setItem("user", JSON.stringify(userData));
+      localStorage.setItem("username", userDetails.username);
       toast.success("Sesión iniciada correctamente");
       navigate("/dashboard");
     } catch (error) {
