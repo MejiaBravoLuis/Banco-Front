@@ -14,6 +14,7 @@ import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
 import GradeIcon from '@mui/icons-material/Grade';
 import BadgeIcon from '@mui/icons-material/Badge';
 import SearchIcon from '@mui/icons-material/Search';
+import logo from '../../assets/img/penguin-logo.png';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -146,11 +147,24 @@ export default function CustomNavbar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="fixed" sx={{ backgroundColor: 'black', color: 'white' }}>
+      <AppBar position="fixed" sx={{ backgroundColor: 'black', color: 'white' }}>
         <Toolbar>
-          <Typography variant="h6" noWrap component="div" sx={{ display: { xs: 'none', sm: 'block' } }}>
-            Banco 
-          </Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <img src={logo} alt="Logo" style={{ height: 40, marginRight: 10 }} />
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{
+                display: { xs: 'none', sm: 'block' },
+                fontFamily: '"Amarante", cursive',
+                fontWeight: 400,
+                letterSpacing: '0.05em',
+              }}
+            >
+              Banco Pinguino Americano
+            </Typography>
+          </Box>
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
