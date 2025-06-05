@@ -50,19 +50,8 @@ export const DashboardPage = () => {
         ease="power2.out"
         rootMargin="-50px"
       />
-
+        
         <Grid container spacing={4} mt={4}>
-          <Grid item xs={12} md={4}>
-            <SpotlightCard className="custom-spotlight-card">
-              <Typography variant="h6" color="white" gutterBottom>
-                Saldo actual
-              </Typography>
-              <Typography variant="h4" color="white">
-                $0.00
-              </Typography>
-            </SpotlightCard>
-          </Grid>
-
           <Grid item xs={12} md={4}>
             <SpotlightCard className="custom-spotlight-card">
               <Typography variant="h6" color="white" gutterBottom>
@@ -73,7 +62,6 @@ export const DashboardPage = () => {
               </Typography>
             </SpotlightCard>
           </Grid>
-
           <Grid item xs={12} md={4}>
             <SpotlightCard className="custom-spotlight-card">
               <Typography variant="h6" color="white" gutterBottom>

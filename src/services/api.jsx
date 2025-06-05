@@ -36,3 +36,13 @@ export const register = async (data) => {
     return { error: true, e };
   }
 };
+
+export const getUserProfile = async () => {
+  try {
+    const response = await apiClient.get('user/me');
+    return response.data;
+  } catch (e) {
+    console.error("Error al obtener el perfil del usuario:", e);
+    return { error: true, e };
+  }
+};
