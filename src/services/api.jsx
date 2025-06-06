@@ -56,3 +56,19 @@ export const getAllUsers = async () => {
     return { data: null, error: true, e };
   }
 };
+
+export const forgotPassword = async (email) => {
+  try {
+    return await apiClient.post("user/forgot-password", { email });
+  } catch (e) {
+    return { error: true, e };
+  }
+};
+
+export const resetPassword = async (token, newPassword) => {
+  try {
+    return await apiClient.post(`user/reset-password/${token}`, { password: newPassword });
+  } catch (e) {
+    return { error: true, e };
+  }
+};
