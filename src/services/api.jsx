@@ -46,3 +46,13 @@ export const getUserProfile = async () => {
     return { error: true, e };
   }
 };
+
+export const getAllUsers = async () => {
+  try {
+    const response = await apiClient.get('user/');
+    return { data: response.data, error: false };
+  } catch (e) {
+    console.error("Error al obtener los usuarios:", e);
+    return { data: null, error: true, e };
+  }
+};
