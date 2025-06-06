@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { styled, alpha } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -58,6 +59,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export default function CustomNavbar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const navigate = useNavigate();
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -79,6 +81,16 @@ export default function CustomNavbar() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const handleGoToProfile = () => {
+  handleMenuClose();
+  navigate('/myProfile');
+  };
+
+  const handleGoToDashboard = () => {
+    handleMenuClose();
+    navigate('/dashboard');
+  };
+
   const handleLogout = () => {
     localStorage.removeItem('user'); 
     window.location.href = '/'; 
@@ -95,7 +107,8 @@ export default function CustomNavbar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Perfil</MenuItem>
+      <MenuItem onClick={handleGoToDashboard}>Dashboard</MenuItem>
+      <MenuItem onClick={handleGoToProfile}>Perfil</MenuItem>
       <MenuItem onClick={handleMenuClose}>Mi cuenta</MenuItem>
       <MenuItem onClick={handleLogout}>Cerrar sesión</MenuItem>
     </Menu>

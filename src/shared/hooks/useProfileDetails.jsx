@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getUserProfile } from '../../services/api'
 
-const useUserProfile = () => {
+export const useProfileDetails = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -20,4 +20,4 @@ const useUserProfile = () => {
   return { user, loading };
 };
 
-export default useUserProfile;
+export default useProfileDetails
