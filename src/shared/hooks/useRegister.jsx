@@ -17,6 +17,7 @@ export const useRegister = () => {
     password,
     nombreTrabajo,
     montoMensual,
+    tipoCuenta,
   }) => {
     setIsLoading(true);
   
@@ -31,6 +32,7 @@ export const useRegister = () => {
         password,
         nombreTrabajo,
         montoMensual,
+        tipoCuenta,
       };
   
       const response = await registerRequest(userData);

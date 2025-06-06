@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { Helmet } from "react-helmet-async";
 import { Login } from "../../components/Login";
 import { Register } from "../../components/Register";
+import SilkBackground from '../../components/animations/Background'
 import "./styleAuth.css";
 
 import iconSwitch from '../../assets/icons/1.png';
@@ -20,6 +21,13 @@ export const Auth =()=> {
 
   return (
     <>
+      <SilkBackground 
+        speed={8}
+        scale={1.5}
+        color="#CCA0F3"
+        noiseIntensity={1}
+        rotation={2}
+      />
       <Helmet>
         <link
           rel="stylesheet"

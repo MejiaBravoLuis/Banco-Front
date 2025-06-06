@@ -31,7 +31,7 @@ body {
     background-color: #F7F5F0;
     box-shadow: 0 0 30px rgba(46, 46, 46, 0.2);
     border-radius: 12px;
-    border: 1px solid #D9C2A6;
+    border: 1px solid #ffffff;
 }
 
 .container-form {
@@ -95,11 +95,11 @@ body {
 .container-input {
   display: flex;
   align-items: center;
-  border: 1px solid #D9C2A6;
+  border: 1px solid #ffffff;
   padding: 0.5rem;
   border-radius: 8px;
   margin-bottom: 10px;
-  background-color: #F7F5F0;
+  background-color: #ffffff;
 }
 
 .input-icon {
@@ -177,8 +177,8 @@ body {
 .button {
     position: relative;
     border-radius: 20px;
-    border: 1px solid #008080;
-    background: #008080;
+    border: 1px solid #CCA0F3;
+    background: #CCA0F3;
     color: #F7F5F0;
     font-size: 15px;
     font-weight: 700;
@@ -192,7 +192,7 @@ body {
 
 .button:hover {
     letter-spacing: 3px;
-    background-color: #006666;
+    background-color: #CCA0F3;
 }
 
 .welcome,
@@ -279,4 +279,35 @@ ion-icon {
     background-position: right 10px center;
     background-size: 16px;
     cursor: pointer;
+}
+
+.custom-select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.custom-select {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  appearance: none;
+  background-color: #f9f9f9;
+  font-size: 16px;
+  font-family: inherit;
+  color: #333;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.custom-select:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+  outline: none;
+}
+
+.select-label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #444;
 }

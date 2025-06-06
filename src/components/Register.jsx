@@ -24,6 +24,10 @@ const registerSchema = yup.object().shape({
     .typeError("El monto mensual debe ser un número")
     .min(100, "Los ingresos mensuales deben ser al menos Q100")
     .required("Los ingresos mensuales son obligatorios"),
+  tipoCuenta: yup
+  .string()
+  .oneOf(["AHORRO", "MONETARIA"], "Tipo de cuenta inválido")
+  .required("El tipo de cuenta es obligatorio"),
 });
 
 export const Register = () => {
@@ -51,6 +55,7 @@ export const Register = () => {
         password: data.password,
         nombreTrabajo: data.nombreTrabajo,
         montoMensual: data.montoMensual,
+        tipoCuenta: data.tipoCuenta,
       });
       toast.success("Usuario registrado exitosamente");
       navigate("/");
@@ -124,6 +129,20 @@ export const Register = () => {
         />
       </div>
       {errors.montoMensual && <p style={{ color: "red" }}>{errors.montoMensual.message}</p>}
+
+      <div className="container-input">
+      <label htmlFor="tipoCuenta" className="select-label">Tipo de cuenta</label>
+      <div className="custom-select-wrapper">
+          <select id="tipoCuenta" {...register("tipoCuenta")} className="custom-select">
+            <option value="">Selecciona una opción</option>
+            <option value="AHORRO">Ahorro</option>
+            <option value="MONETARIA">Monetaria</option>
+          </select>
+        </div>
+      </div>
+{errors.tipoCuenta && <p style={{ color: "red" }}>{errors.tipoCuenta.message}</p>}
+
+
 
       <button type="submit" className="button" disabled={isLoading}>
         {isLoading ? "Cargando...." : "REGISTRARSE"}
