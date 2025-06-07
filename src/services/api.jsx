@@ -72,3 +72,23 @@ export const resetPassword = async (token, newPassword) => {
     return { error: true, e };
   }
 };
+
+export const getPendingUsers = async () => {
+  try {
+    const response = await apiClient.get('user/pending');
+    return { data: response.data.users, error: false };
+  } catch (e) {
+    console.error("Error al obtener usuarios pendientes:", e);
+    return { data: null, error: true, e };
+  }
+};
+
+export const acceptUser = async (userId) => {
+  try {
+    const response = await apiClient.put(`user/aceptar/${userId}`);
+    return { data: response.data, error: false };
+  } catch (e) {
+    console.error("Error al aceptar usuario:", e);
+    return { data: null, error: true, e };
+  }
+};

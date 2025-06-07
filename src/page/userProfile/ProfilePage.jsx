@@ -22,10 +22,6 @@ export const ProfilePage = () => {
     { label: 'Nombre completo', value: user.name },
     { label: 'Usuario', value: user.username },
     { label: 'Correo', value: user.email },
-    { label: 'Dirección', value: user.direccion },
-    { label: 'Teléfono', value: user.telefono },
-    { label: 'Trabajo', value: user.nombreTrabajo },
-    { label: 'Monto mensual', value: `Q. ${user.montoMensual}` },
     { label: 'Rol', value: user.role },
   ];
 
