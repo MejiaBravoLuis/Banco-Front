@@ -3,7 +3,6 @@ import { useForgotPassword, useResetPassword } from "../../shared/hooks";
 import { useNavigate } from "react-router-dom";
 import { Container, Typography, TextField, Button, Box, Paper } from "@mui/material";
 import SilkBackground from "../../components/animations/Background";
-import Navbar from "../../components/navbar/Navbar";
 import "./styleRecoverPassword.css";
 
 export const PasswordRecoveryPage = () => {
@@ -70,7 +69,6 @@ export const PasswordRecoveryPage = () => {
   return (
     <>
       <SilkBackground />
-      <Navbar />
       <Container
         maxWidth="sm"
         sx={{
