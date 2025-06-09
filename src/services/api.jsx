@@ -92,3 +92,11 @@ export const acceptUser = async (userId) => {
     return { data: null, error: true, e };
   }
 };
+
+export const updateProfile = async (data) => {
+  try{
+    return await apiClient.put("/user/me", data); 
+  }catch (e) {
+    return { error: true, e };
+  }
+};
