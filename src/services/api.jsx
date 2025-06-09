@@ -92,3 +92,67 @@ export const acceptUser = async (userId) => {
     return { data: null, error: true, e };
   }
 };
+export const getMyAccounts = async () => {
+  try {
+    const response = await apiClient.get("account/mias");
+    return response.data.cuentas || []; 
+  } catch (e) {
+    console.error("Error al obtener las cuentas:", e);
+    return [];
+  }
+};
+
+
+export const createDeposit = async (fromAccount, toAccount, amount, description = "") => {
+  try {
+    const response = await apiClient.post('movement/crear', {
+      fromAccount,
+      toAccount,
+      amount,
+      description
+    });
+    return response.data;
+  } catch (e) {
+    console.error("Error al crear el depósito:", e);
+    throw e;
+  }
+};
+
+export const getMyMovements = async () => {
+  try {
+    const response = await apiClient.get('movement/mios');
+    return response.data || [];
+  } catch (e) {
+    console.error("Error al obtener movimientos del usuario:", e);
+    return [];
+  }
+};
+
+export const getAllActiveMovements = async () => {
+  try {
+    const response = await apiClient.get('movement/activos');
+    return response.data;
+  } catch (e) {
+    console.error("Error al obtener movimientos activos:", e);
+    return [];
+  }
+};
+
+export const getAllCanceledMovements = async () => {
+  try {
+    const response = await apiClient.get('movement/cancelados');
+    return response.data;
+  } catch (e) {
+    console.error("Error al obtener movimientos cancelados:", e);
+    return [];
+  }
+};
+export const cancelMovement = async (id) => {
+  try {
+    const response = await apiClient.put(`movement/cancelar/${id}`);
+    return response.data;
+  } catch (e) {
+    console.error("Error al cancelar el movimiento:", e);
+    throw e;
+  }
+};
