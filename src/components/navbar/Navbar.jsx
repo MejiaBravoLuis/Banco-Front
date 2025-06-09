@@ -64,6 +64,9 @@ export default function CustomNavbar() {
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
+  const user = JSON.parse(localStorage.getItem('user'));
+  const role = user?.role || '';
+
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -82,8 +85,8 @@ export default function CustomNavbar() {
   };
 
   const handleGoToProfile = () => {
-  handleMenuClose();
-  navigate('/myProfile');
+    handleMenuClose();
+    navigate('/myProfile');
   };
 
   const handleGoToDashboard = () => {
@@ -92,8 +95,18 @@ export default function CustomNavbar() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('user'); 
-    window.location.href = '/'; 
+    localStorage.removeItem('user');
+    window.location.href = '/';
+  };
+
+  const handleAcceptUser = () => {
+    handleMenuClose();
+    window.location.href = '/acceptUsers';
+  };
+
+  const ListUser = () => {
+    handleMenuClose();
+    window.location.href = '/users';
   };
 
   const menuId = 'primary-search-account-menu';
@@ -110,6 +123,12 @@ export default function CustomNavbar() {
       <MenuItem onClick={handleGoToDashboard}>Dashboard</MenuItem>
       <MenuItem onClick={handleGoToProfile}>Perfil</MenuItem>
       <MenuItem onClick={handleMenuClose}>Mi cuenta</MenuItem>
+      {role === 'ADMIN' && (
+        <>
+          <MenuItem onClick={handleAcceptUser}>Aceptar usuario</MenuItem>
+          <MenuItem onClick={ListUser}>Listar usuarios</MenuItem>
+        </>
+      )}
       <MenuItem onClick={handleLogout}>Cerrar sesión</MenuItem>
     </Menu>
   );
@@ -200,7 +219,14 @@ export default function CustomNavbar() {
             </IconButton>
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-            <IconButton size="large" aria-label="mostrar más" aria-controls={mobileMenuId} aria-haspopup="true" onClick={handleMobileMenuOpen} color="inherit">
+            <IconButton
+              size="large"
+              aria-label="mostrar más"
+              aria-controls={mobileMenuId}
+              aria-haspopup="true"
+              onClick={handleMobileMenuOpen}
+              color="inherit"
+            >
               <MoreIcon />
             </IconButton>
           </Box>
