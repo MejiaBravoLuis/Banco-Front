@@ -1,6 +1,7 @@
 .profile-info-text {
-  font-size: 2rem;  /* Ajusta según necesidad */
+  font-size: 2rem;
   font-weight: bold;
   color: #ffffff;
   line-height: 1.7;
+  text-align: right; 
 }
