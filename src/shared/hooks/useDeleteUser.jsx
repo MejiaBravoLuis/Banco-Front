@@ -7,6 +7,7 @@ export const useDeleteUserByAdmin = () => {
   const [error, setError] = useState(null);
 
   const deleteUser = async (id) => {
+      console.log("ID recibido por el hook:", id);
     setLoading(true);
     setError(null);
     setResponse(null);

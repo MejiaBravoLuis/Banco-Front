@@ -9,6 +9,7 @@ import { useDeleteUserByAdmin } from '../../shared/hooks';
 export const UsersPage = () => {
   const [users, setUsers] = useState([]);
   const [deletedUserId, setDeletedUserId] = useState(null);
+
   const {
     deleteUser,
     loading: deleting,
@@ -29,12 +30,12 @@ export const UsersPage = () => {
   }, []);
 
   const handleDelete = async (id) => {
+    console.log('🧨 Intentando eliminar usuario con ID:', id);
     const confirmed = window.confirm('¿Estás seguro de que deseas eliminar este usuario?');
     if (!confirmed) return;
 
     const deleteResponse = await deleteUser(id);
 
-    // Solo guardar el ID si la eliminación fue exitosa
     if (deleteResponse?.success) {
       setDeletedUserId(id);
     }
@@ -63,48 +64,52 @@ export const UsersPage = () => {
       >
         {response && (
           <Alert severity="success" sx={{ mb: 2 }}>
-            ✅ {response} {deletedUserId && `(ID: ${deletedUserId})`}
+             {response} {deletedUserId && `(ID: ${deletedUserId})`}
           </Alert>
         )}
         {error && (
           <Alert severity="error" sx={{ mb: 2 }}>
-            ❌ {error}
+             {error}
           </Alert>
         )}
 
         <Grid container spacing={4}>
-          {users.map((user) => (
-            <Grid item xs={12} sm={6} md={4} key={user._id}>
-              <Box display="flex" flexDirection="column" alignItems="center">
-                <ProfileCard
-                  name={user.name}
-                  title={user.email}
-                  handle={user.username}
-                  status="Online"
-                  avatarUrl={
-                    user.avatarUrl ||
-                    `https://icons.veryicon.com/png/o/internet--web/prejudice/user-128.png?u=${user._id}`
-                  }
-                  contactText="Contactar"
-                  showUserInfo={false}
-                  enableTilt={true}
-                  onContactClick={() => alert(`Contactar a ${user.name}`)}
-                />
+          {users.map((user) => {
+            const userId = user.uid;
 
-                {user.role !== 'ADMIN' && (
-                  <Button
-                    variant="outlined"
-                    color="error"
-                    sx={{ mt: 1 }}
-                    disabled={deleting}
-                    onClick={() => handleDelete(user._id)}
-                  >
-                    {deleting ? 'Eliminando...' : 'Eliminar'}
-                  </Button>
-                )}
-              </Box>
-            </Grid>
-          ))}
+            return (
+              <Grid item xs={12} sm={6} md={4} key={userId}>
+                <Box display="flex" flexDirection="column" alignItems="center">
+                  <ProfileCard
+                    name={user.name}
+                    title={user.email}
+                    handle={user.username}
+                    status="Online"
+                    avatarUrl={
+                      user.avatarUrl ||
+                      `https://icons.veryicon.com/png/o/internet--web/prejudice/user-128.png?u=${userId}`
+                    }
+                    contactText="Contactar"
+                    showUserInfo={false}
+                    enableTilt={true}
+                    onContactClick={() => alert(`Contactar a ${user.name}`)}
+                  />
+
+                  {user.role !== 'ADMIN' && (
+                    <Button
+                      variant="outlined"
+                      color="error"
+                      sx={{ mt: 1 }}
+                      disabled={deleting}
+                      onClick={() => handleDelete(userId)} 
+                    >
+                      {deleting ? 'Eliminando...' : 'Eliminar'}
+                    </Button>
+                  )}
+                </Box>
+              </Grid>
+            );
+          })}
         </Grid>
       </Container>
     </>
