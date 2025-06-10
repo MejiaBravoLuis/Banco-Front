@@ -6,6 +6,7 @@ import { DepositPage } from "./page/deposit/DepositPage";
 import { UsersPage } from "./page/users/UsersPage.jsx"
 import { PasswordRecoveryPage } from "./page/recoverPassword";
 import { AcceptUsersPage } from "./page/users/AcceptUsersPage.jsx"
+import { PrizePage } from "./page/Prize/prizePage.jsx"
 
 
 const routes = [
@@ -16,6 +17,7 @@ const routes = [
     { path: '/deposit', element: <DepositPage /> },
     { path: '/users', element: <UsersPage /> },
     { path: '/acceptUsers', element: <AcceptUsersPage /> },
+    { path: '/prize', element: <PrizePage /> },
     { path: '/', element: <Navigate to={'/auth'} /> }
 ];
 

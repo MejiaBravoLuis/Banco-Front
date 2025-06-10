@@ -1,6 +1,5 @@
-// src/hooks/useForgotPassword.js
 import { useState } from "react";
-import { forgotPassword } from "../../services/api";
+import { forgotPassword } from "../../services";
 import { toast } from "react-hot-toast";
 import { forgotPasswordSchema } from "../../shared/validators";
 
