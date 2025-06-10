@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 
 import iconEmail from '../assets/icons/3.png';
 import iconPassword from '../assets/icons/5.png';
+import iconCode from '../assets/icons/9.png';
 
 export const Login = ({ switchAuthHandler }) => {
   const { login, isLoading } = useLogin();
@@ -29,7 +30,6 @@ export const Login = ({ switchAuthHandler }) => {
     }
 
     try {
-      // Solo incluye codigoBanco si no está vacío o null
       const loginData = {
         email: data.email,
         username: null,
@@ -77,7 +77,7 @@ export const Login = ({ switchAuthHandler }) => {
       )}
 
       <div className="container-input">
-        <img src={iconPassword} alt="codigo banco icon" className="input-icon" />
+        <img src={iconCode} alt="codigo banco icon" className="input-icon" />
         <input
           type="text"
           placeholder="Código de Banco (opcional)"
@@ -86,7 +86,6 @@ export const Login = ({ switchAuthHandler }) => {
       </div>
 
       <a href="resetPassword">¿Olvidaste tu contraseña?</a>
-      <a href="https://www.canva.com/design/DAGoT27eSfg/2VEh0hCMro-6RMWpdI6upA/edit?utm_content=DAGoT27eSfg&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton">Manual de Usuario</a>
       <button type="submit" className="button" disabled={isLoading}>
         INICIAR SESIÓN
       </button>

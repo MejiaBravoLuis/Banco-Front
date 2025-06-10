@@ -39,7 +39,6 @@ export const DepositPage = () => {
   const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
 
-  // ALERTAS
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const [alertSeverity, setAlertSeverity] = useState("success");
@@ -78,7 +77,7 @@ export const DepositPage = () => {
       setAlertMessage(res.message || "Depósito realizado");
       setAlertSeverity("success");
       setAlertOpen(true);
-      setOpen(false); // cerrar modal al éxito
+      setOpen(false);
       setFromAccount("");
       setToAccount("");
       setAmount("");
@@ -91,7 +90,7 @@ export const DepositPage = () => {
       setAlertMessage(backendMessage);
       setAlertSeverity("error");
       setAlertOpen(true);
-      setOpen(false); // 🔥 cerrar modal también al error
+      setOpen(false);
     }
   };
 
@@ -130,9 +129,11 @@ export const DepositPage = () => {
           </Typography>
         ))}
 
-        <Button variant="contained" sx={{ mt: 2 }} onClick={() => setOpen(true)}>Hacer Depósito</Button>
+        <Button variant="contained" sx={{ mt: 2 }} onClick={() => setOpen(true)}>
+          Hacer Depósito
+        </Button>
 
-        <Typography variant="h5" sx={{ mt: 4 }}>Movimientos</Typography>
+        <Typography variant="h5" sx={{ mt: 4 }}>Últimos 5 Movimientos</Typography>
         <Paper sx={{ width: "100%", overflow: "auto", mt: 1 }}>
           <Table>
             <TableHead>
@@ -147,28 +148,31 @@ export const DepositPage = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {movements.map((mov) => (
-                <TableRow key={mov._id}>
-                  <TableCell>{mov.fromAccount}</TableCell>
-                  <TableCell>{mov.toAccount}</TableCell>
-                  <TableCell>Q{mov.amount}</TableCell>
-                  <TableCell>{mov.description}</TableCell>
-                  <TableCell sx={{ color: mov.active ? "green" : "red" }}>
-                    {mov.active ? "Activo" : "Cancelado"}
-                  </TableCell>
-                  <TableCell>{new Date(mov.createdAt).toLocaleString()}</TableCell>
-                  <TableCell>
-                    {puedeCancelar(mov) && (
-                      <Button
-                        variant="outlined"
-                        color="error"
-                        onClick={() => handleCancel(mov._id)}
-                      >
-                        Cancelar
-                      </Button>
-                    )}
-                  </TableCell>
-                </TableRow>
+              {[...movements]
+                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                .slice(0, 5)
+                .map((mov) => (
+                  <TableRow key={mov._id}>
+                    <TableCell>{mov.fromAccount}</TableCell>
+                    <TableCell>{mov.toAccount}</TableCell>
+                    <TableCell>Q{mov.amount}</TableCell>
+                    <TableCell>{mov.description}</TableCell>
+                    <TableCell sx={{ color: mov.active ? "green" : "red" }}>
+                      {mov.active ? "Activo" : "Cancelado"}
+                    </TableCell>
+                    <TableCell>{new Date(mov.createdAt).toLocaleString()}</TableCell>
+                    <TableCell>
+                      {puedeCancelar(mov) && (
+                        <Button
+                          variant="outlined"
+                          color="error"
+                          onClick={() => handleCancel(mov._id)}
+                        >
+                          Cancelar
+                        </Button>
+                      )}
+                    </TableCell>
+                  </TableRow>
               ))}
             </TableBody>
           </Table>
@@ -223,20 +227,20 @@ export const DepositPage = () => {
         </Modal>
 
         <Snackbar
-            open={alertOpen}
-            autoHideDuration={4000}
+          open={alertOpen}
+          autoHideDuration={4000}
+          onClose={() => setAlertOpen(false)}
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          sx={{ zIndex: 99999, position: "fixed" }}
+        >
+          <Alert
             onClose={() => setAlertOpen(false)}
-            anchorOrigin={{ vertical: "top", horizontal: "center" }}
-            sx={{ zIndex: 99999, position: "fixed" }} // 💥 siempre encima y flotante
+            severity={alertSeverity}
+            sx={{ width: "100%" }}
           >
-            <Alert
-              onClose={() => setAlertOpen(false)}
-              severity={alertSeverity}
-              sx={{ width: "100%" }}
-            >
-              {alertMessage}
-            </Alert>
-      </Snackbar>
+            {alertMessage}
+          </Alert>
+        </Snackbar>
       </Container>
     </>
   );
