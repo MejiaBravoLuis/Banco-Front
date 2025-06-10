@@ -164,9 +164,33 @@ export const UsersPage = () => {
               <TextField
                 fullWidth
                 margin="normal"
-                label="Correo"
-                name="email"
-                value={editedData.email || ''}
+                label="Telefono"
+                name="telefono"
+                value={editedData.telefono || ''}
+                onChange={handleEditChange}
+              />
+              <TextField
+                fullWidth
+                margin="normal"
+                label="MontoMensual"
+                name="montoMensual"
+                value={editedData.montoMensual || ''}
+                onChange={handleEditChange}
+              />
+              <TextField
+                fullWidth
+                margin="normal"
+                label="NombreTrabajo"
+                name="nombreTrabajo"
+                value={editedData.nombreTrabajo || ''}
+                onChange={handleEditChange}
+              />
+              <TextField
+                fullWidth
+                margin="normal"
+                label="Direccion"
+                name="direccion"
+                value={editedData.direccion || ''}
                 onChange={handleEditChange}
               />
               <TextField
