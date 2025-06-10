@@ -83,6 +83,21 @@ export const getPendingUsers = async () => {
   }
 };
 
+export const deleteUserByAdmin = async (id) => {
+  console.log(id)
+  try {
+    const response = await apiClient.delete(`user/${id}`);
+    return { data: response.data, error: false };
+  } catch (error) {
+    console.error("Error al eliminar usuario:", error);
+    return {
+      data: null,
+      error: true,
+      msg: error.response?.data?.msg || "Error al eliminar usuario",
+    };
+  }
+};
+
 export const acceptUser = async (userId) => {
   try {
     const response = await apiClient.put(`user/aceptar/${userId}`);
