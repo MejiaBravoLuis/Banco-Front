@@ -9,6 +9,11 @@ import { useNavigate } from "react-router-dom";
 import iconUser from "../assets/icons/4.png";
 import iconEmail from "../assets/icons/3.png";
 import iconPassword from "../assets/icons/5.png";
+import iconFone from "../assets/icons/6.png";
+import iconCasita from "../assets/icons/7.png";
+import iconMonny from "../assets/icons/8.png";
+import iconPala from "../assets/icons/10.png";
+import iconCUI from "../assets/icons/11.png";
 
 const registerSchema = yup.object().shape({
   name: yup.string().required("El nombre es obligatorio"),
@@ -85,19 +90,19 @@ export const Register = () => {
       {errors.username && <p style={{ color: "red" }}>{errors.username.message}</p>}
 
       <div className="container-input">
-        <img src={iconUser} alt="icono dpi" className="input-icon" />
+        <img src={iconCUI} alt="icono dpi" className="input-icon" />
         <input type="text" placeholder="DPI" {...register("dpi")} />
       </div>
       {errors.dpi && <p style={{ color: "red" }}>{errors.dpi.message}</p>}
 
       <div className="container-input">
-        <img src={iconUser} alt="icono dirección" className="input-icon" />
+        <img src={iconCasita} alt="icono dirección" className="input-icon" />
         <input type="text" placeholder="Dirección" {...register("direccion")} />
       </div>
       {errors.direccion && <p style={{ color: "red" }}>{errors.direccion.message}</p>}
 
       <div className="container-input">
-        <img src={iconUser} alt="icono teléfono" className="input-icon" />
+        <img src={iconFone} alt="icono teléfono" className="input-icon" />
         <input type="text" placeholder="Teléfono" {...register("telefono")} />
       </div>
       {errors.telefono && <p style={{ color: "red" }}>{errors.telefono.message}</p>}
@@ -115,13 +120,13 @@ export const Register = () => {
       {errors.password && <p style={{ color: "red" }}>{errors.password.message}</p>}
 
       <div className="container-input">
-        <img src={iconUser} alt="icono nombre trabajo" className="input-icon" />
+        <img src={iconPala} alt="icono nombre trabajo" className="input-icon" />
         <input type="text" placeholder="Nombre del trabajo" {...register("nombreTrabajo")} />
       </div>
       {errors.nombreTrabajo && <p style={{ color: "red" }}>{errors.nombreTrabajo.message}</p>}
 
       <div className="container-input">
-        <img src={iconUser} alt="icono monto mensual" className="input-icon" />
+        <img src={iconMonny} alt="icono monto mensual" className="input-icon" />
         <input
           type="number"
           placeholder="Ingresos mensuales (Q)"
