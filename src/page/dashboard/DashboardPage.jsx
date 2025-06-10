@@ -67,16 +67,15 @@ export const DashboardPage = () => {
             </SpotlightCard>
           </Grid>
  
-          <Grid item xs={12} md={4}>
+          <Grid item xs={12} md={4} onClick={handleDepositClick}>
             <SpotlightCard
               className="custom-spotlight-card"
-              
               style={{ cursor: 'pointer' }}
             >
-              <Typography variant="h6" color="white" gutterBottom onClick={handleDepositClick}>
+              <Typography variant="h6" color="white" gutterBottom >
                 Hacer un depósito
               </Typography>
-              <Typography variant="body2" color="gray" onClick={handleDepositClick}>
+              <Typography variant="body2" color="gray">
                 Agrega saldo a tu cuenta fácilmente
               </Typography>
             </SpotlightCard>
