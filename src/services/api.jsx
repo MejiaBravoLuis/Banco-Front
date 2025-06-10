@@ -98,6 +98,20 @@ export const deleteUserByAdmin = async (id) => {
   }
 };
 
+export const updateUserByAdmin = async (id, data) => {
+  try {
+    const response = await apiClient.put(`user/${id}`, data); 
+    return { data: response.data, error: false };
+  } catch (error) {
+    console.error("Error al actualizar usuario:", error);
+    return {
+      data: null,
+      error: true,
+      msg: error.response?.data?.msg || "Error al actualizar el usuario",
+    };
+  }
+};
+
 export const acceptUser = async (userId) => {
   try {
     const response = await apiClient.put(`user/aceptar/${userId}`);
