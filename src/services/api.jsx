@@ -188,8 +188,33 @@ export const cancelMovement = async (id) => {
 
 export const updateProfile = async (data) => {
   try{
-    return await apiClient.put("/user/me", data); 
+    return await apiClient.put("user/me", data); 
   }catch (e) {
     return { error: true, e };
+  }
+};
+
+export const createPrize = async (data) => {
+  try {
+    return await apiClient.post('prize/', data);
+  } catch (e) {
+    return { error: true, msg: e?.response?.data?.message || "Error al crear premio", e };
+  }
+};
+
+export const editPrize = async (id, data) => {
+  try {
+    return await apiClient.put(`prize/${id}`, data);
+  } catch (e) {
+    return { error: true, msg: e?.response?.data?.message || "Error al editar premio", e };
+  }
+};
+
+export const getAllPrizes = async () => {
+  try {
+    const response = await apiClient.get('prize/prizes');
+    return response;
+  } catch (error) {
+    return { error: true, msg: "Error al obtener premios", e: error };
   }
 };

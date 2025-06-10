@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { getPendingUsers, acceptUser } from '../../services/api'
+import { getPendingUsers, acceptUser } from '../../services'
 
 export const usePendingUsers = () => {
   const [users, setUsers] = useState([]);
