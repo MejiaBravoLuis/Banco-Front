@@ -109,29 +109,35 @@ export default function CustomNavbar() {
     window.location.href = '/users';
   };
 
+  const handleGoToMovements = () => {
+    handleMenuClose();
+    navigate('/movements');
+  };
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <MenuItem onClick={handleGoToDashboard}>Dashboard</MenuItem>
-      <MenuItem onClick={handleGoToProfile}>Perfil</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Mi cuenta</MenuItem>
-      {role === 'ADMIN' && (
-        <>
-          <MenuItem onClick={handleAcceptUser}>Aceptar usuario</MenuItem>
-          <MenuItem onClick={ListUser}>Listar usuarios</MenuItem>
-        </>
-      )}
-      <MenuItem onClick={handleLogout}>Cerrar sesión</MenuItem>
-    </Menu>
-  );
+  <Menu
+    anchorEl={anchorEl}
+    anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+    id={menuId}
+    keepMounted
+    transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+    open={isMenuOpen}
+    onClose={handleMenuClose}
+  >
+    <MenuItem onClick={handleGoToDashboard}>Dashboard</MenuItem>
+    <MenuItem onClick={handleGoToProfile}>Perfil</MenuItem>
+    <MenuItem onClick={handleMenuClose}>Mi cuenta</MenuItem>
+
+    {role === 'ADMIN' && (
+      <div>
+        <MenuItem onClick={handleAcceptUser}>Aceptar usuario</MenuItem>
+        <MenuItem onClick={ListUser}>Listar usuarios</MenuItem>
+      </div>
+    )}
+    <MenuItem onClick={handleLogout}>Cerrar sesión</MenuItem>
+  </Menu>
+);
 
   const mobileMenuId = 'primary-search-account-menu-mobile';
   const renderMobileMenu = (
@@ -162,6 +168,14 @@ export default function CustomNavbar() {
         </IconButton>
         <p>Divisas</p>
       </MenuItem>
+      {role && (role === 'CLIENT' || role === 'ADMIN') && (
+        <MenuItem onClick={handleGoToMovements}>
+          <IconButton size="large" color="inherit">
+            <CurrencyExchangeIcon />
+          </IconButton>
+          <p>Movimientos</p>
+        </MenuItem>
+      )}
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton size="large" color="inherit">
           <AccountCircle />
