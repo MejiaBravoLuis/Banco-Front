@@ -26,6 +26,10 @@ export const DashboardPage = () => {
   const handleDepositClick = () => {
     navigate('/deposit');
   };
+
+  const handleMovementsClick = () =>{
+    navigate('/movements')
+  }
  
   return (
     <>
@@ -56,7 +60,7 @@ export const DashboardPage = () => {
         />
  
         <Grid container spacing={4} mt={4}>
-          <Grid item xs={12} md={4}>
+          <Grid item xs={12} md={4} onClick={handleMovementsClick}>
             <SpotlightCard className="custom-spotlight-card">
               <Typography variant="h6" color="white" gutterBottom>
                 Movimientos

@@ -218,3 +218,20 @@ export const getAllPrizes = async () => {
     return { error: true, msg: "Error al obtener premios", e: error };
   }
 };
+
+export const claimPrize = async (prizeId, numeroCuenta) => {
+  try {
+    const response = await apiClient.post('redemption/canjear', {
+      prizeId,
+      numeroCuenta
+    });
+    return { data: response.data, error: false };
+  } catch (error) {
+    console.error("Error al reclamar premio:", error);
+    return {
+      data: null,
+      error: true,
+      msg: error.response?.data?.msg || "No se pudo reclamar el premio",
+    };
+  }
+};
