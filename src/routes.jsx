@@ -7,7 +7,8 @@ import { UsersPage } from "./page/users/UsersPage.jsx";
 import { PasswordRecoveryPage } from "./page/recoverPassword";
 import { AcceptUsersPage } from "./page/users/AcceptUsersPage.jsx";
 import { PrizePage } from "./page/Prize/prizePage.jsx";
-import { MovementsPage } from "./page/movements/MovementsPage.jsx"; 
+import { MovementsPage } from "./page/movements/MovementsPage.jsx";
+import { AccountsPage } from "./page/accounts/AccountsPage.jsx"; 
 
 const routes = [
   { path: '/auth', element: <Auth /> },
@@ -18,7 +19,8 @@ const routes = [
   { path: '/users', element: <UsersPage /> },
   { path: '/acceptUsers', element: <AcceptUsersPage /> },
   { path: '/prize', element: <PrizePage /> },
-  { path: '/movements', element: <MovementsPage /> },  
+  { path: '/movements', element: <MovementsPage /> },
+  { path: '/accounts', element: <AccountsPage /> },
   { path: '/', element: <Navigate to={'/auth'} /> }
 ];
 
