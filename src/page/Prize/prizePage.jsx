@@ -47,7 +47,8 @@ export const PrizePage = () => {
   });
 
   const [accounts, setAccounts] = useState([]);
-  const [selectedAccount, setSelectedAccount] = useState("");
+  const [selectedAccounts, setSelectedAccounts] = useState({});
+  const [lastClaimedPrizeId, setLastClaimedPrizeId] = useState(null);
 
   const {
     handleClaim,
@@ -269,8 +270,13 @@ export const PrizePage = () => {
                         <TextField
                           select
                           label="Desde Cuenta"
-                          value={selectedAccount}
-                          onChange={(e) => setSelectedAccount(e.target.value)}
+                          value={selectedAccounts[prize._id] || ""}
+                          onChange={(e) =>
+                            setSelectedAccounts((prev) => ({
+                              ...prev,
+                              [prize._id]: e.target.value,
+                            }))
+                          }
                           fullWidth
                           size="small"
                           sx={{ mb: 1 }}
@@ -283,15 +289,17 @@ export const PrizePage = () => {
                         </TextField>
 
                         {(() => {
+                          const cuentaSeleccionada =
+                            selectedAccounts[prize._id];
                           const account = accounts.find(
-                            (a) => a.numeroCuenta === selectedAccount
+                            (a) => a.numeroCuenta === cuentaSeleccionada
                           );
                           const puntosSuficientes =
                             account && account.puntos >= prize.precioPuntos;
 
                           return (
                             <>
-                              {!puntosSuficientes && selectedAccount && (
+                              {!puntosSuficientes && cuentaSeleccionada && (
                                 <Typography
                                   variant="body2"
                                   sx={{ color: "#f44336", mb: 1 }}
@@ -303,11 +311,12 @@ export const PrizePage = () => {
                               <Button
                                 variant="contained"
                                 color="primary"
-                                onClick={() =>
-                                  handleClaim(prize._id, selectedAccount)
-                                }
+                                onClick={() => {
+                                  setLastClaimedPrizeId(prize._id);
+                                  handleClaim(prize._id, cuentaSeleccionada);
+                                }}
                                 disabled={
-                                  !selectedAccount ||
+                                  !cuentaSeleccionada ||
                                   !puntosSuficientes ||
                                   claiming
                                 }
@@ -315,24 +324,26 @@ export const PrizePage = () => {
                                 Reclamar
                               </Button>
 
-                              {claimResponse && (
-                                <Alert
-                                  severity="success"
-                                  onClose={clearClaim}
-                                  sx={{ mt: 1 }}
-                                >
-                                  🎉 {claimResponse}
-                                </Alert>
-                              )}
-                              {claimError && (
-                                <Alert
-                                  severity="error"
-                                  onClose={clearClaim}
-                                  sx={{ mt: 1 }}
-                                >
-                                  ❌ {claimError}
-                                </Alert>
-                              )}
+                              {claimResponse &&
+                                lastClaimedPrizeId === prize._id && (
+                                  <Alert
+                                    severity="success"
+                                    onClose={clearClaim}
+                                    sx={{ mt: 1 }}
+                                  >
+                                    🎉 {claimResponse}
+                                  </Alert>
+                                )}
+                              {claimError &&
+                                lastClaimedPrizeId === prize._id && (
+                                  <Alert
+                                    severity="error"
+                                    onClose={clearClaim}
+                                    sx={{ mt: 1 }}
+                                  >
+                                    ❌ {claimError}
+                                  </Alert>
+                                )}
                             </>
                           );
                         })()}
