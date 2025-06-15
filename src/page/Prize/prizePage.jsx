@@ -20,6 +20,7 @@ import {
   useEditPrize,
   useGetAllPrizes,
   useClaimPrize,
+  useDeletePrize,
 } from "../../shared/hooks";
 import { getMyAccounts } from "../../services/api";
 
@@ -47,8 +48,7 @@ export const PrizePage = () => {
   });
 
   const [accounts, setAccounts] = useState([]);
-  const [selectedAccounts, setSelectedAccounts] = useState({});
-  const [lastClaimedPrizeId, setLastClaimedPrizeId] = useState(null);
+  const [selectedAccount, setSelectedAccount] = useState("");
 
   const {
     handleClaim,
@@ -80,6 +80,15 @@ export const PrizePage = () => {
     error: loadError,
     refetch: refetchPrizes,
   } = useGetAllPrizes();
+
+  const {
+  deletePrize,
+  loading: deleting,
+  response: deleteResponse,
+  error: deleteError,
+  clearMessages: clearDelete,
+  } = useDeletePrize();
+
 
   useEffect(() => {
     if (isClient) {
@@ -114,6 +123,12 @@ export const PrizePage = () => {
       descripcion: prize.descripcion,
     });
   };
+
+  const handleDelete = async (prize) => {
+  await deletePrize(prize._id);
+  await refetchPrizes();
+  };
+
 
   return (
     <>
@@ -270,13 +285,8 @@ export const PrizePage = () => {
                         <TextField
                           select
                           label="Desde Cuenta"
-                          value={selectedAccounts[prize._id] || ""}
-                          onChange={(e) =>
-                            setSelectedAccounts((prev) => ({
-                              ...prev,
-                              [prize._id]: e.target.value,
-                            }))
-                          }
+                          value={selectedAccount}
+                          onChange={(e) => setSelectedAccount(e.target.value)}
                           fullWidth
                           size="small"
                           sx={{ mb: 1 }}
@@ -289,17 +299,15 @@ export const PrizePage = () => {
                         </TextField>
 
                         {(() => {
-                          const cuentaSeleccionada =
-                            selectedAccounts[prize._id];
                           const account = accounts.find(
-                            (a) => a.numeroCuenta === cuentaSeleccionada
+                            (a) => a.numeroCuenta === selectedAccount
                           );
                           const puntosSuficientes =
                             account && account.puntos >= prize.precioPuntos;
 
                           return (
                             <>
-                              {!puntosSuficientes && cuentaSeleccionada && (
+                              {!puntosSuficientes && selectedAccount && (
                                 <Typography
                                   variant="body2"
                                   sx={{ color: "#f44336", mb: 1 }}
@@ -311,12 +319,11 @@ export const PrizePage = () => {
                               <Button
                                 variant="contained"
                                 color="primary"
-                                onClick={() => {
-                                  setLastClaimedPrizeId(prize._id);
-                                  handleClaim(prize._id, cuentaSeleccionada);
-                                }}
+                                onClick={() =>
+                                  handleClaim(prize._id, selectedAccount)
+                                }
                                 disabled={
-                                  !cuentaSeleccionada ||
+                                  !selectedAccount ||
                                   !puntosSuficientes ||
                                   claiming
                                 }
@@ -324,39 +331,48 @@ export const PrizePage = () => {
                                 Reclamar
                               </Button>
 
-                              {claimResponse &&
-                                lastClaimedPrizeId === prize._id && (
-                                  <Alert
-                                    severity="success"
-                                    onClose={clearClaim}
-                                    sx={{ mt: 1 }}
-                                  >
-                                    🎉 {claimResponse}
-                                  </Alert>
-                                )}
-                              {claimError &&
-                                lastClaimedPrizeId === prize._id && (
-                                  <Alert
-                                    severity="error"
-                                    onClose={clearClaim}
-                                    sx={{ mt: 1 }}
-                                  >
-                                    ❌ {claimError}
-                                  </Alert>
-                                )}
+                              {claimResponse && (
+                                <Alert
+                                  severity="success"
+                                  onClose={clearClaim}
+                                  sx={{ mt: 1 }}
+                                >
+                                  🎉 {claimResponse}
+                                </Alert>
+                              )}
+                              {claimError && (
+                                <Alert
+                                  severity="error"
+                                  onClose={clearClaim}
+                                  sx={{ mt: 1 }}
+                                >
+                                  ❌ {claimError}
+                                </Alert>
+                              )}
                             </>
                           );
                         })()}
                       </>
                     )}
                     {isAdmin && (
-                      <Button
-                        onClick={() => handleEditClick(prize)}
-                        variant="outlined"
-                        sx={{ m: 1 }}
-                      >
-                        Editar
-                      </Button>
+                      <Box sx={{ display: "flex", justifyContent: "center", gap: 1, mt: 1 }}>
+                        <Button
+                          onClick={() => handleEditClick(prize)}
+                          variant="outlined"
+                          sx={{ flex: 1 }}
+                        >
+                          Editar
+                        </Button>
+                        <Button
+                          onClick={() => handleDelete(prize)}
+                          variant="outlined"
+                          color="error"
+                          sx={{ flex: 1 }}
+                          disabled={deleting}
+                        >
+                          Eliminar
+                        </Button>
+                      </Box>
                     )}
                   </CardActions>
                 </Card>

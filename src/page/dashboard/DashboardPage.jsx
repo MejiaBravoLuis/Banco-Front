@@ -1,19 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { Box, Container, Grid, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import Navbar from "../../components/navbar/Navbar";
-import SplitText from "../../components/common/SplitText";
-import SilkBackground from "../../components/animations/Background";
-import SpotlightCard from "../../components/cards/SpotligthCard";
-import "./DashboardPage.css";
-import movimientos from "../../assets/icons/movimientos.png";
-import deposit from "../../assets/icons/deposit.png";
-import prize from "../../assets/icons/prize.png"
-
+import React, { useEffect, useState } from 'react';
+import { Box, Container, Grid, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import Navbar from '../../components/navbar/Navbar';
+import SplitText from '../../components/common/SplitText';
+import SilkBackground from '../../components/animations/Background';
+import SpotlightCard from '../../components/cards/SpotligthCard';
+import './DashboardPage.css';
+ 
 export const DashboardPage = () => {
   const [username, setUsername] = useState("guest");
   const navigate = useNavigate();
-
+ 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
@@ -26,18 +23,22 @@ export const DashboardPage = () => {
     }
   }, []);
 
+  const handleAccountClick = () => {
+    navigate('/accounts');
+  };
+ 
   const handleDepositClick = () => {
-    navigate("/deposit");
+    navigate('/deposit');
   };
 
-  const handleMovementsClick = () => {
-    navigate("/movements");
+  const handlePrizeClick = () => {
+    navigate('/prize');
   };
 
-  const handlePrizesClick = () => {
-    navigate("/prize")
+  const handleMovementsClick = () =>{
+    navigate('/movements')
   }
-
+ 
   return (
     <>
       <SilkBackground />
@@ -46,10 +47,10 @@ export const DashboardPage = () => {
         maxWidth="lg"
         sx={{
           mt: 15,
-          justifyContent: "center",
-          alignItems: "center",
-          minHeight: "calc(100vh - 64px - 64px)",
-          position: "relative",
+          justifyContent: 'center',
+          alignItems: 'center',
+          minHeight: 'calc(100vh - 64px - 64px)',
+          position: 'relative',
           zIndex: 1,
         }}
       >
@@ -65,80 +66,55 @@ export const DashboardPage = () => {
           ease="power2.out"
           rootMargin="-50px"
         />
-
+ 
         <Grid container spacing={4} mt={4}>
-          <Grid item xs={12} md={4} onClick={handleMovementsClick}>
+          <Grid item xs={12} md={4} onClick={handleAccountClick}>
             <SpotlightCard
               className="custom-spotlight-card"
-              style={{ cursor: "pointer" }}
+              style={{ cursor: 'pointer' }}
             >
-              <Box display="flex" flexDirection="column" alignItems="center">
-                <img
-                  src={movimientos}
-                  alt="Icono de movimientos"
-                  style={{
-                    width: "94px",
-                    height: "94px",
-                    marginBottom: "16px",
-                  }}
-                />
-                <Typography variant="h6" color="white" gutterBottom>
-                  Movimientos
-                </Typography>
-                <Typography variant="body2" color="gray" align="center">
-                  Ver tus últimas transacciones y actividad reciente
-                </Typography>
-              </Box>
+              <Typography variant="h6" color="white" gutterBottom >
+                Tus cuentas
+              </Typography>
+              <Typography variant="body2" color="gray">
+               Ver tus cuentas y solicitar otra cuenta.
+              </Typography>
             </SpotlightCard>
           </Grid>
-
+          <Grid item xs={12} md={4} onClick={handleMovementsClick}>
+            <SpotlightCard className="custom-spotlight-card">
+              <Typography variant="h6" color="white" gutterBottom>
+                Movimientos
+              </Typography>
+              <Typography variant="body2" color="gray">
+                Ver tus últimas transacciones
+              </Typography>
+            </SpotlightCard>
+          </Grid>
           <Grid item xs={12} md={4} onClick={handleDepositClick}>
             <SpotlightCard
               className="custom-spotlight-card"
-              style={{ cursor: "pointer" }}
+              style={{ cursor: 'pointer' }}
             >
-              <Box display="flex" flexDirection="column" alignItems="center">
-                <img
-                  src={deposit}
-                  alt="Icono de movimientos"
-                  style={{
-                    width: "94px",
-                    height: "94px",
-                    marginBottom: "16px",
-                  }}
-                />
-                <Typography variant="h6" color="white" gutterBottom>
-                  Depositos
-                </Typography>
-                <Typography variant="body2" color="gray" align="center">
-                  Añade saldo a tu cuenta o transfiere a otras cuentas
-                </Typography>
-              </Box>
+              <Typography variant="h6" color="white" gutterBottom >
+                Hacer un depósito
+              </Typography>
+              <Typography variant="body2" color="gray">
+                Agrega saldo a tu cuenta fácilmente
+              </Typography>
             </SpotlightCard>
           </Grid>
-
-          <Grid item xs={12} md={4} onClick={handlePrizesClick}>
+          <Grid item xs={12} md={4} onClick={handlePrizeClick}>
             <SpotlightCard
               className="custom-spotlight-card"
-              style={{ cursor: "pointer" }}
+              style={{ cursor: 'pointer' }}
             >
-              <Box display="flex" flexDirection="column" alignItems="center">
-                <img
-                  src={prize}
-                  alt="Icono de movimientos"
-                  style={{
-                    width: "94px",
-                    height: "94px",
-                    marginBottom: "16px",
-                  }}
-                />
-                <Typography variant="h6" color="white" gutterBottom>
-                  Premios
-                </Typography>
-                <Typography variant="body2" color="gray" align="center">
-                  Usa tus puntos para ganar increíbles premios
-                </Typography>
-              </Box>
+              <Typography variant="h6" color="white" gutterBottom >
+                Ver Premios
+              </Typography>
+              <Typography variant="body2" color="gray">
+               Canjea tus puntos por Premios.
+              </Typography>
             </SpotlightCard>
           </Grid>
         </Grid>
@@ -146,3 +122,4 @@ export const DashboardPage = () => {
     </>
   );
 };
+ 
