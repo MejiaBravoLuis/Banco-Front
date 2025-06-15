@@ -68,14 +68,13 @@ export const MovementsPage = () => {
 const puedeCancelar = (mov) => {
   const ahora = new Date();
   const creado = new Date(mov.createdAt);
-  const diferenciaMin = (ahora - creado) / (1000 * 60);  // Diferencia en minutos
+  const diferenciaMin = (ahora - creado) / (1000 * 60);  
 
-  // Si el tiempo pasado es mayor a 3 minutos, no se puede cancelar
   if (diferenciaMin > 3) {
-    return false;  // No se puede cancelar
+    return false;  
   }
 
-  return true;  // Puede cancelar
+  return true;  
 };
 
 

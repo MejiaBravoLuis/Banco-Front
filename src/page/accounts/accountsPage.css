@@ -1,0 +1,90 @@
+body {
+  background-color: #f9f9fb;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.accounts-container {
+  margin-top: 80px;
+  padding: 40px;
+  background: #ffffffcc;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.accounts-container h4 {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.accounts-container .MuiButton-contained {
+  background-color: #5e60ce;
+  color: white;
+  font-weight: bold;
+  border-radius: 12px;
+  padding: 10px 20px;
+  transition: all 0.3s ease;
+}
+
+.accounts-container .MuiButton-contained:hover {
+  background-color: #4ea8de;
+}
+
+.accounts-container .MuiTable-root {
+  background: #ffffffcc;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.accounts-container .MuiTableCell-head {
+  background-color: #e0e7ff;
+  color: #2c3e50;
+  font-weight: bold;
+}
+
+.accounts-container .MuiTableCell-body {
+  color: #2c3e50;
+}
+
+.accounts-container .MuiTableRow-root {
+  background-color: #ffffff;
+  transition: background-color 0.3s;
+}
+
+.accounts-container .MuiTableRow-root:hover {
+  background-color: #f4f6fc;
+}
+
+.action-button {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  text-transform: none;
+}
+
+.accept-button {
+  background-color: #27ae60;
+  color: white;
+}
+
+.accept-button:hover {
+  background-color: #219150;
+}
+
+.delete-button {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.delete-button:hover {
+  background-color: #c0392b;
+}
+
+.snackbar {
+  z-index: 99999;
+  position: fixed;
+}
+
+.snackbar-message {
+  width: 100%;
+}

@@ -22,9 +22,17 @@ export const DashboardPage = () => {
       }
     }
   }, []);
+
+  const handleAccountClick = () => {
+    navigate('/accounts');
+  };
  
   const handleDepositClick = () => {
     navigate('/deposit');
+  };
+
+  const handlePrizeClick = () => {
+    navigate('/prize');
   };
 
   const handleMovementsClick = () =>{
@@ -60,6 +68,19 @@ export const DashboardPage = () => {
         />
  
         <Grid container spacing={4} mt={4}>
+          <Grid item xs={12} md={4} onClick={handleAccountClick}>
+            <SpotlightCard
+              className="custom-spotlight-card"
+              style={{ cursor: 'pointer' }}
+            >
+              <Typography variant="h6" color="white" gutterBottom >
+                Tus cuentas
+              </Typography>
+              <Typography variant="body2" color="gray">
+               Ver tus cuentas y solicitar otra cuenta.
+              </Typography>
+            </SpotlightCard>
+          </Grid>
           <Grid item xs={12} md={4} onClick={handleMovementsClick}>
             <SpotlightCard className="custom-spotlight-card">
               <Typography variant="h6" color="white" gutterBottom>
@@ -70,7 +91,6 @@ export const DashboardPage = () => {
               </Typography>
             </SpotlightCard>
           </Grid>
- 
           <Grid item xs={12} md={4} onClick={handleDepositClick}>
             <SpotlightCard
               className="custom-spotlight-card"
@@ -81,6 +101,19 @@ export const DashboardPage = () => {
               </Typography>
               <Typography variant="body2" color="gray">
                 Agrega saldo a tu cuenta fácilmente
+              </Typography>
+            </SpotlightCard>
+          </Grid>
+          <Grid item xs={12} md={4} onClick={handlePrizeClick}>
+            <SpotlightCard
+              className="custom-spotlight-card"
+              style={{ cursor: 'pointer' }}
+            >
+              <Typography variant="h6" color="white" gutterBottom >
+                Ver Premios
+              </Typography>
+              <Typography variant="body2" color="gray">
+               Canjea tus puntos por Premios.
               </Typography>
             </SpotlightCard>
           </Grid>

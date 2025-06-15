@@ -20,6 +20,7 @@ import {
   useEditPrize,
   useGetAllPrizes,
   useClaimPrize,
+  useDeletePrize,
 } from "../../shared/hooks";
 import { getMyAccounts } from "../../services/api";
 
@@ -80,6 +81,15 @@ export const PrizePage = () => {
     refetch: refetchPrizes,
   } = useGetAllPrizes();
 
+  const {
+  deletePrize,
+  loading: deleting,
+  response: deleteResponse,
+  error: deleteError,
+  clearMessages: clearDelete,
+  } = useDeletePrize();
+
+
   useEffect(() => {
     if (isClient) {
       getMyAccounts().then((res) => setAccounts(res));
@@ -113,6 +123,12 @@ export const PrizePage = () => {
       descripcion: prize.descripcion,
     });
   };
+
+  const handleDelete = async (prize) => {
+  await deletePrize(prize._id);
+  await refetchPrizes();
+  };
+
 
   return (
     <>
@@ -339,13 +355,24 @@ export const PrizePage = () => {
                       </>
                     )}
                     {isAdmin && (
-                      <Button
-                        onClick={() => handleEditClick(prize)}
-                        variant="outlined"
-                        sx={{ m: 1 }}
-                      >
-                        Editar
-                      </Button>
+                      <Box sx={{ display: "flex", justifyContent: "center", gap: 1, mt: 1 }}>
+                        <Button
+                          onClick={() => handleEditClick(prize)}
+                          variant="outlined"
+                          sx={{ flex: 1 }}
+                        >
+                          Editar
+                        </Button>
+                        <Button
+                          onClick={() => handleDelete(prize)}
+                          variant="outlined"
+                          color="error"
+                          sx={{ flex: 1 }}
+                          disabled={deleting}
+                        >
+                          Eliminar
+                        </Button>
+                      </Box>
                     )}
                   </CardActions>
                 </Card>
