@@ -119,6 +119,11 @@ export default function CustomNavbar() {
     navigate('/divisa');
   };
 
+  const handleGoToFavortios = () => {
+    handleMenuClose();
+    navigate('/favorito');
+  };
+
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -162,7 +167,7 @@ export default function CustomNavbar() {
         </IconButton>
         <p>Todos los movimientos</p>
       </MenuItem>
-      <MenuItem>
+      <MenuItem onClick={handleGoToFavortios}>
         <IconButton size="large" color="inherit">
           <GradeIcon />
         </IconButton>
@@ -227,9 +232,10 @@ export default function CustomNavbar() {
         <IconButton size="large" color="inherit" title="Divisas" onClick={handleGoToDivisa}>
           <CurrencyExchangeIcon />
         </IconButton>
-        <IconButton size="large" color="inherit" title="Cuentas favoritas">
+        <IconButton size="large" color="inherit" title="Cuentas favoritas" onClick={handleGoToFavortios}>
           <GradeIcon />
         </IconButton>
+
         <IconButton size="large" color="inherit" title="Todos los movimientos" onClick={handleGoToMovements} >
           <BadgeIcon />
         </IconButton>
