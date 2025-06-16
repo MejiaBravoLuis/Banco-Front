@@ -9,6 +9,11 @@ import { AcceptUsersPage } from "./page/users/AcceptUsersPage.jsx";
 import { PrizePage } from "./page/Prize/prizePage.jsx";
 import { MovementsPage } from "./page/movements/MovementsPage.jsx";
 import { AccountsPage } from "./page/accounts/AccountsPage.jsx"; 
+import {RewardPage} from "./page/reward/RewardPage.jsx"
+import {DivisaPage} from "./page/divisa/divisaPage.jsx"
+import { FavoritesPage } from "./page/favorite/FavoritePage.jsx";
+
+
 
 const routes = [
   { path: '/auth', element: <Auth /> },
@@ -20,8 +25,12 @@ const routes = [
   { path: '/acceptUsers', element: <AcceptUsersPage /> },
   { path: '/prize', element: <PrizePage /> },
   { path: '/movements', element: <MovementsPage /> },
+  { path: '/reward', element: <RewardPage /> },
   { path: '/accounts', element: <AccountsPage /> },
+  { path: '/divisa', element: <DivisaPage /> },
+  { path: '/favorito', element: <FavoritesPage /> },
   { path: '/', element: <Navigate to={'/auth'} /> }
+  
 ];
 
 export default routes;

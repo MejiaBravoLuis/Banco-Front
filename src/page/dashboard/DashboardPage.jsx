@@ -9,6 +9,7 @@ import account from "../../assets/icons/account.png";
 import deposit from "../../assets/icons/deposit.png";
 import movimientos from "../../assets/icons/movimientos.png";
 import prize from "../../assets/icons/prize.png";
+import reward from "../../assets/icons/reward.png";
 import "./DashboardPage.css";
 
 export const DashboardPage = () => {
@@ -31,6 +32,7 @@ export const DashboardPage = () => {
   const handleDepositClick = () => navigate("/deposit");
   const handlePrizeClick = () => navigate("/prize");
   const handleMovementsClick = () => navigate("/movements");
+  const handleRewardsClick = () => navigate("/reward");
 
   return (
     <>
@@ -135,6 +137,23 @@ export const DashboardPage = () => {
               </Typography>
               <Typography variant="body2" color="gray">
                 Canjea tus puntos por premios.
+              </Typography>
+            </SpotlightCard>
+          </Grid>
+
+          <Grid item xs={12} md={4} onClick={handleRewardsClick}>
+            <SpotlightCard
+              className="custom-spotlight-card"
+              style={{ cursor: "pointer" }}
+            >
+              <Box display="flex" justifyContent="center" mb={2}>
+                <img src={reward} alt="icono reward" width={80} height={80} />
+              </Box>
+              <Typography variant="h6" color="white" gutterBottom>
+                Ver Premios Canjeados
+              </Typography>
+              <Typography variant="body2" color="gray">
+                Historial de los premios que has canjeado.
               </Typography>
             </SpotlightCard>
           </Grid>

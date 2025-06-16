@@ -321,6 +321,77 @@ export const deleteAccount = async (id) => {
   }
 };
 
+export const getRedemptions = async () => {
+  try {
+    const response = await apiClient.get("redemption/");  
+    return response.data;
+  } catch (error) {
+    console.error("Error al obtener los canjes:", error);
+    return { error: true, msg: "Error al obtener canjes" };
+  }
+};
+
+export const agregarAFavoritos = async (numeroCuenta, alias) => {
+  try {
+    const response = await apiClient.post("favorite", { numeroCuenta, alias });
+    return { data: response.data, error: false };
+  } catch (error) {
+    console.error("Error al agregar a favoritos:", error);
+    return {
+      data: null,
+      error: true,
+      msg: error.response?.data?.message || "No se pudo agregar a favoritos",
+    };
+  }
+};
+
+export const eliminarDeFavoritos = async (favoritoId) => {
+  try {
+    const response = await apiClient.delete(`favorite/${favoritoId}`);
+    return { data: response.data, error: false };
+  } catch (error) {
+    console.error("Error al eliminar favorito:", error);
+    return {
+      data: null,
+      error: true,
+      msg: error.response?.data?.message || "No se pudo eliminar de favoritos",
+    };
+  }
+};
+
+export const listarFavoritos = async () => {
+  try {
+    const response = await apiClient.get("favorite");
+    return { data: response.data.favoritos, error: false };
+  } catch (error) {
+    console.error("Error al listar favoritos:", error);
+    return {
+      data: [],
+      error: true,
+      msg: error.response?.data?.message || "Error al obtener favoritos",
+    };
+  }
+};
+
+export const agregarSaldoCuenta = async (accountId, monto) => {
+  try {
+    const response = await apiClient.put(`account/agregar-saldo/${accountId}`, { monto });
+    return { data: response.data, error: false };
+  } catch (error) {
+    console.error("Error al agregar saldo a la cuenta:", error);
+    return {
+      data: null,
+      error: true,
+      msg: error.response?.data?.message || "Error al agregar saldo",
+    };
+  }
+};
+
+
+
+
+
+
 
 
 

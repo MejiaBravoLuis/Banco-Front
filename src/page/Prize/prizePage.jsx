@@ -326,6 +326,8 @@ export const PrizePage = () => {
                               premio.
                             </Typography>
                           )}
+
+                          <p> Los canjes de premio NO SE PUEDEN REEMBOLZAR. </p>
                           <Button
                             variant="contained"
                             color="primary"
@@ -340,23 +342,24 @@ export const PrizePage = () => {
                           </Button>
 
                           {claimResponse && (
-                            <Alert
-                              severity="success"
-                              onClose={clearClaim}
-                              sx={{ mt: 1 }}
-                            >
-                              🎉 {claimResponse}
-                            </Alert>
-                          )}
-                          {claimError && (
-                            <Alert
-                              severity="error"
-                              onClose={clearClaim}
-                              sx={{ mt: 1 }}
-                            >
-                              ❌ {claimError}
-                            </Alert>
-                          )}
+                              <Alert
+                                severity="success"
+                                onClose={clearClaim}
+                                sx={{ mt: 1 }}
+                              >
+                                🎉 {claimResponse}
+                              </Alert>
+                            )}
+                            {claimError && (
+                              <Alert
+                                severity="error"
+                                onClose={clearClaim}
+                                sx={{ mt: 1 }}
+                              >
+                                ❌ {claimError}
+                              </Alert>
+                            )}
+
                         </>
                       )}
 

@@ -117,9 +117,18 @@ export default function CustomNavbar() {
     navigate("/movements");
   };
 
-  const { rate: exchangeRate, error } = useExchangeRate("USD", "GTQ");
+  const handleGoToDivisa = () => {
+    handleMenuClose();
+    navigate('/divisa');
+  };
 
-  const menuId = "primary-search-account-menu";
+  const handleGoToFavortios = () => {
+    handleMenuClose();
+    navigate('/favorito');
+  };
+
+
+  const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
@@ -161,7 +170,7 @@ export default function CustomNavbar() {
         </IconButton>
         <p>Todos los movimientos</p>
       </MenuItem>
-      <MenuItem>
+      <MenuItem onClick={handleGoToFavortios}>
         <IconButton size="large" color="inherit">
           <GradeIcon />
         </IconButton>
@@ -198,92 +207,59 @@ export default function CustomNavbar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar
-        position="fixed"
-        sx={{ backgroundColor: "black", color: "white" }}
+      <AppBar position="fixed" sx={{ backgroundColor: 'black', color: 'white' }}>
+          <Toolbar>
+      <Box
+        sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
+        onClick={handleGoToDashboard}
       >
-        <Toolbar>
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <img
-              src={logo}
-              alt="Logo"
-              style={{ height: 40, marginRight: 10 }}
-            />
-            <Typography
-              variant="h6"
-              noWrap
-              component="div"
-              sx={{
-                display: { xs: "none", sm: "block" },
-                fontFamily: '"Amarante", cursive',
-                fontWeight: 400,
-                letterSpacing: "0.05em",
-              }}
-            >
-              Banco Pinguino Americano
-            </Typography>
-          </Box>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Buscar…"
-              inputProps={{ "aria-label": "search" }}
-            />
-          </Search>
-          {exchangeRate && (
-            <Box sx={{ ml: 2, mr: 2 }}>
-              <Typography variant="body2" color="inherit">
-                USD → GTQ: {exchangeRate.toFixed(3)}
-              </Typography>
-            </Box>
-          )}
+        <img src={logo} alt="Logo" style={{ height: 40, marginRight: 10 }} />
+        <Typography
+          variant="h6"
+          noWrap
+          component="div"
+          sx={{
+            display: { xs: 'none', sm: 'block' },
+            fontFamily: '"Amarante", cursive',
+            fontWeight: 400,
+            letterSpacing: '0.05em',
+          }}
+        >
+          Banco Pinguino Americano
+        </Typography>
+      </Box>
 
-          {error && (
-            <Box sx={{ ml: 2, mr: 2 }}>
-              <Typography variant="body2" color="error">
-                {error}
-              </Typography>
-            </Box>
-          )}
-          <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <IconButton
-              size="large"
-              color="inherit"
-              title="Todos los movimientos"
-            >
-              <CurrencyExchangeIcon />
-            </IconButton>
-            <IconButton size="large" color="inherit" title="Cuentas favoritas">
-              <GradeIcon />
-            </IconButton>
-            <IconButton size="large" color="inherit" title="Divisas">
-              <BadgeIcon />
-            </IconButton>
-            <IconButton
-              size="large"
-              edge="end"
-              color="inherit"
-              onClick={handleProfileMenuOpen}
-            >
-              <AccountCircle />
-            </IconButton>
-          </Box>
-          <Box sx={{ display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="mostrar más"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <MoreIcon />
-            </IconButton>
-          </Box>
-        </Toolbar>
+      <Box sx={{ flexGrow: 1 }} />
+
+      <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+        <IconButton size="large" color="inherit" title="Divisas" onClick={handleGoToDivisa}>
+          <CurrencyExchangeIcon />
+        </IconButton>
+        <IconButton size="large" color="inherit" title="Cuentas favoritas" onClick={handleGoToFavortios}>
+          <GradeIcon />
+        </IconButton>
+
+        <IconButton size="large" color="inherit" title="Todos los movimientos" onClick={handleGoToMovements} >
+          <BadgeIcon />
+        </IconButton>
+        <IconButton size="large" edge="end" color="inherit" onClick={handleProfileMenuOpen}>
+          <AccountCircle />
+        </IconButton>
+      </Box>
+
+      <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+        <IconButton
+          size="large"
+          aria-label="mostrar más"
+          aria-controls={mobileMenuId}
+          aria-haspopup="true"
+          onClick={handleMobileMenuOpen}
+          color="inherit"
+        >
+          <MoreIcon />
+        </IconButton>
+      </Box>
+    </Toolbar>
       </AppBar>
       {renderMobileMenu}
       {renderMenu}

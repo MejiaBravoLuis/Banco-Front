@@ -15,6 +15,11 @@ import {
   Select,
   FormControl,
   InputLabel,
+  TextField,
+  Dialog, 
+  DialogTitle, 
+  DialogContent, 
+  DialogActions
 } from "@mui/material";
 import {
   getMyAccounts,
@@ -23,6 +28,7 @@ import {
   createAccount,
   deleteAccount,
   acceptAccount,
+  agregarSaldoCuenta
 } from "../../services/api";
 import Navbar from "../../components/navbar/Navbar";
 import SilkBackground from "../../components/animations/Background";
@@ -34,6 +40,10 @@ export const AccountsPage = () => {
   const [pendingAccounts, setPendingAccounts] = useState([]);
   const [tipoCuentaSeleccionado, setTipoCuentaSeleccionado] = useState("AHORRO");
   const [alert, setAlert] = useState({ open: false, message: "", severity: "success" });
+  const [searchTerm, setSearchTerm] = useState("");
+  const [openAddBalanceDialog, setOpenAddBalanceDialog] = useState(false);
+  const [selectedAccountId, setSelectedAccountId] = useState(null);
+  const [balanceToAdd, setBalanceToAdd] = useState("");
 
   const user = JSON.parse(localStorage.getItem("user"));
   const role = user?.role?.toUpperCase();
@@ -105,6 +115,42 @@ export const AccountsPage = () => {
     }
   };
 
+  const handleOpenAddBalanceDialog = (accountId) => {
+    setSelectedAccountId(accountId);
+    setBalanceToAdd("");
+    setOpenAddBalanceDialog(true);
+  };
+
+  const handleCloseAddBalanceDialog = () => {
+    setOpenAddBalanceDialog(false);
+    setSelectedAccountId(null);
+    setBalanceToAdd("");
+  };
+
+  const handleAddBalance = async () => {
+    if (!balanceToAdd || isNaN(balanceToAdd) || Number(balanceToAdd) <= 0) {
+      showAlert("Ingrese un monto válido", "warning");
+      return;
+    }
+
+    try {
+      const res = await agregarSaldoCuenta(selectedAccountId, Number(balanceToAdd));
+      if (res.error) {
+        showAlert(res.msg || "Error al agregar saldo.", "error");
+      } else {
+        showAlert("Saldo agregado con éxito.");
+        fetchAccounts();
+        handleCloseAddBalanceDialog();
+      }
+    } catch {
+      showAlert("Error al agregar saldo.", "error");
+    }
+  };
+
+  const filteredAccounts = accounts.filter((acc) =>
+    acc.numeroCuenta.toString().includes(searchTerm)
+  );
+
   return (
     <>
       <SilkBackground />
@@ -112,7 +158,16 @@ export const AccountsPage = () => {
       <Container sx={{ mt: 10, p: 4, background: "#ffffffcc", borderRadius: 4, boxShadow: 3 }}>
         <Typography variant="h4" gutterBottom>Cuentas Bancarias</Typography>
 
-        <div style={{ display: "flex", gap: "1rem", marginBottom: "1rem" }}>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem", marginBottom: "1rem" }}>
+          <TextField
+            label="Buscar por número de cuenta"
+            variant="outlined"
+            size="small"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            sx={{ minWidth: 250 }}
+          />
+
           <FormControl>
             <InputLabel id="tipo-cuenta-label">Tipo de cuenta</InputLabel>
             <Select
@@ -149,15 +204,23 @@ export const AccountsPage = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {(Array.isArray(accounts) ? accounts : []).map((acc) => (
+              {filteredAccounts.map((acc) => (
                 <TableRow key={acc._id}>
                   <TableCell>{acc.numeroCuenta}</TableCell>
                   <TableCell>{acc.tipoCuenta}</TableCell>
                   <TableCell>Q{acc.saldo}</TableCell>
                   <TableCell>{acc.puntos}</TableCell>
-                  <TableCell>{acc.owner?.name || "N/A"}</TableCell> {/* Aquí el propietario */}
+                  <TableCell>{acc.owner?.name || "N/A"}</TableCell>
                   {role === "ADMIN" && (
                     <TableCell>
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        sx={{ mr: 1 }}
+                        onClick={() => handleOpenAddBalanceDialog(acc._id)}
+                      >
+                        Agregar Saldo
+                      </Button>
                       <Button
                         variant="outlined"
                         color="error"
@@ -206,6 +269,29 @@ export const AccountsPage = () => {
             </Table>
           </Paper>
         )}
+
+        <Dialog open={openAddBalanceDialog} onClose={handleCloseAddBalanceDialog}>
+          <DialogTitle>Agregar saldo a la cuenta</DialogTitle>
+          <DialogContent>
+            <TextField
+              autoFocus
+              margin="dense"
+              label="Monto a agregar"
+              type="number"
+              fullWidth
+              variant="standard"
+              value={balanceToAdd}
+              onChange={(e) => setBalanceToAdd(e.target.value)}
+              inputProps={{ min: 0, step: "0.01" }}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseAddBalanceDialog}>Cancelar</Button>
+            <Button onClick={handleAddBalance} variant="contained" color="primary">
+              Agregar
+            </Button>
+          </DialogActions>
+        </Dialog>
 
         <Snackbar
           open={alert.open}
