@@ -109,29 +109,39 @@ export default function CustomNavbar() {
     window.location.href = '/users';
   };
 
+  const handleGoToMovements = () => {
+    handleMenuClose();
+    navigate('/movements');
+  };
+  const handleGoToDivisa = () => {
+    handleMenuClose();
+    navigate('/divisa');
+  };
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <MenuItem onClick={handleGoToDashboard}>Dashboard</MenuItem>
-      <MenuItem onClick={handleGoToProfile}>Perfil</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Mi cuenta</MenuItem>
-      {role === 'ADMIN' && (
-        <>
-          <MenuItem onClick={handleAcceptUser}>Aceptar usuario</MenuItem>
-          <MenuItem onClick={ListUser}>Listar usuarios</MenuItem>
-        </>
-      )}
-      <MenuItem onClick={handleLogout}>Cerrar sesión</MenuItem>
-    </Menu>
-  );
+  <Menu
+    anchorEl={anchorEl}
+    anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+    id={menuId}
+    keepMounted
+    transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+    open={isMenuOpen}
+    onClose={handleMenuClose}
+  >
+    <MenuItem onClick={handleGoToDashboard}>Dashboard</MenuItem>
+    <MenuItem onClick={handleGoToProfile}>Perfil</MenuItem>
+    <MenuItem onClick={handleMenuClose}>Mi cuenta</MenuItem>
+
+    {role === 'ADMIN' && (
+      <div>
+        <MenuItem onClick={handleAcceptUser}>Aceptar usuario</MenuItem>
+        <MenuItem onClick={ListUser}>Listar usuarios</MenuItem>
+      </div>
+    )}
+    <MenuItem onClick={handleLogout}>Cerrar sesión</MenuItem>
+  </Menu>
+);
 
   const mobileMenuId = 'primary-search-account-menu-mobile';
   const renderMobileMenu = (
@@ -162,6 +172,14 @@ export default function CustomNavbar() {
         </IconButton>
         <p>Divisas</p>
       </MenuItem>
+      {role && (role === 'CLIENT' || role === 'ADMIN') && (
+        <MenuItem onClick={handleGoToMovements}>
+          <IconButton size="large" color="inherit">
+            <CurrencyExchangeIcon />
+          </IconButton>
+          <p>Movimientos</p>
+        </MenuItem>
+      )}
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton size="large" color="inherit">
           <AccountCircle />
@@ -180,57 +198,57 @@ export default function CustomNavbar() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="fixed" sx={{ backgroundColor: 'black', color: 'white' }}>
-        <Toolbar>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <img src={logo} alt="Logo" style={{ height: 40, marginRight: 10 }} />
-            <Typography
-              variant="h6"
-              noWrap
-              component="div"
-              sx={{
-                display: { xs: 'none', sm: 'block' },
-                fontFamily: '"Amarante", cursive',
-                fontWeight: 400,
-                letterSpacing: '0.05em',
-              }}
-            >
-              Banco Pinguino Americano
-            </Typography>
-          </Box>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase placeholder="Buscar…" inputProps={{ 'aria-label': 'search' }} />
-          </Search>
-          <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <IconButton size="large" color="inherit" title="Todos los movimientos">
-              <CurrencyExchangeIcon />
-            </IconButton>
-            <IconButton size="large" color="inherit" title="Cuentas favoritas">
-              <GradeIcon />
-            </IconButton>
-            <IconButton size="large" color="inherit" title="Divisas">
-              <BadgeIcon />
-            </IconButton>
-            <IconButton size="large" edge="end" color="inherit" onClick={handleProfileMenuOpen}>
-              <AccountCircle />
-            </IconButton>
-          </Box>
-          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size="large"
-              aria-label="mostrar más"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <MoreIcon />
-            </IconButton>
-          </Box>
-        </Toolbar>
+          <Toolbar>
+      <Box
+        sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
+        onClick={handleGoToDashboard}
+      >
+        <img src={logo} alt="Logo" style={{ height: 40, marginRight: 10 }} />
+        <Typography
+          variant="h6"
+          noWrap
+          component="div"
+          sx={{
+            display: { xs: 'none', sm: 'block' },
+            fontFamily: '"Amarante", cursive',
+            fontWeight: 400,
+            letterSpacing: '0.05em',
+          }}
+        >
+          Banco Pinguino Americano
+        </Typography>
+      </Box>
+
+      <Box sx={{ flexGrow: 1 }} />
+
+      <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+        <IconButton size="large" color="inherit" title="Todos los movimientos">
+          <CurrencyExchangeIcon />
+        </IconButton>
+        <IconButton size="large" color="inherit" title="Cuentas favoritas">
+          <GradeIcon />
+        </IconButton>
+        <IconButton size="large" color="inherit" title="Divisas" onClick={handleGoToDivisa}>
+          <BadgeIcon />
+        </IconButton>
+        <IconButton size="large" edge="end" color="inherit" onClick={handleProfileMenuOpen}>
+          <AccountCircle />
+        </IconButton>
+      </Box>
+
+      <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+        <IconButton
+          size="large"
+          aria-label="mostrar más"
+          aria-controls={mobileMenuId}
+          aria-haspopup="true"
+          onClick={handleMobileMenuOpen}
+          color="inherit"
+        >
+          <MoreIcon />
+        </IconButton>
+      </Box>
+    </Toolbar>
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
