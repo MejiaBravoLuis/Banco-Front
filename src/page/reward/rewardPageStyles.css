@@ -1,0 +1,9 @@
+.reward-container {
+    margin-top: 100px;
+    background: #ffffffcc;
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(10px);
+  }
+  

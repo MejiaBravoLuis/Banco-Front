@@ -218,3 +218,8 @@ export const getAllPrizes = async () => {
     return { error: true, msg: "Error al obtener premios", e: error };
   }
 };
+
+export const getRedemptions = async () => {
+  const res = await axios.get("/redemptions");
+  return res.data;
+};
