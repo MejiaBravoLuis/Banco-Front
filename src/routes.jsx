@@ -8,7 +8,8 @@ import { PasswordRecoveryPage } from "./page/recoverPassword";
 import { AcceptUsersPage } from "./page/users/AcceptUsersPage.jsx";
 import { PrizePage } from "./page/Prize/prizePage.jsx";
 import { MovementsPage } from "./page/movements/MovementsPage.jsx";
-import { RewardPage } from "./page/reward/RewardPage.jsx"; 
+import { AccountsPage } from "./page/accounts/AccountsPage.jsx"; 
+import {RewardPage} from "./page/reward/RewardPage.jsx"
 
 const routes = [
   { path: '/auth', element: <Auth /> },
@@ -20,7 +21,8 @@ const routes = [
   { path: '/acceptUsers', element: <AcceptUsersPage /> },
   { path: '/prize', element: <PrizePage /> },
   { path: '/movements', element: <MovementsPage /> },
-  { path: '/reward', element: <RewardPage /> }, 
+  { path: '/reward', element: <RewardPage /> },
+  { path: '/accounts', element: <AccountsPage /> },
   { path: '/', element: <Navigate to={'/auth'} /> }
 ];
 

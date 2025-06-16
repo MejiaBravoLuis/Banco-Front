@@ -11,7 +11,8 @@ import {
   CircularProgress,
 } from "@mui/material";
 import Navbar from "../../components/navbar/Navbar";
-import { getRedemptions } from "../../services/api"; 
+import { getRedemptions } from "../../services/api";
+import SilkBackground from "../../components/animations/Background";
 import "./rewardPageStyles.css";
 
 export const RewardPage = () => {
@@ -35,8 +36,9 @@ export const RewardPage = () => {
 
   return (
     <>
+      <SilkBackground /> 
       <Navbar />
-      <Container className="reward-container">
+      <Container className="reward-container" sx={{ mt: 10, p: 4, background: "#ffffffcc", borderRadius: 4, boxShadow: 3 }}>
         <Typography variant="h4" gutterBottom>
           Mis Canjes de Recompensas
         </Typography>

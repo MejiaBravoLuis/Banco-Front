@@ -121,6 +121,7 @@ export const acceptUser = async (userId) => {
     return { data: null, error: true, e };
   }
 };
+
 export const getMyAccounts = async () => {
   try {
     const response = await apiClient.get("account/mias");
@@ -219,7 +220,119 @@ export const getAllPrizes = async () => {
   }
 };
 
-export const getRedemptions = async () => {
-  const res = await axios.get("/redemptions");
-  return res.data;
+export const claimPrize = async (prizeId, numeroCuenta) => {
+  try {
+    const response = await apiClient.post('redemption/canjear', {
+      prizeId,
+      numeroCuenta
+    });
+    return { data: response.data, error: false };
+  } catch (error) {
+    console.error("Error al reclamar premio:", error);
+    return {
+      data: null,
+      error: true,
+      msg: error.response?.data?.msg || "No se pudo reclamar el premio",
+    };
+  }
 };
+
+export const eliminarPrize = async (prizeId) => {
+  try {
+    const response = await apiClient.delete(`prize/${prizeId}`);
+    return { data: response.data, error: false };
+  } catch (error) {
+    console.error("Error al eliminar premio:", error);
+    return {
+      data: null,
+      error: true,
+      msg: error.response?.data?.message || "Error al eliminar premio",
+    };
+  }
+};
+
+export const createAccount = async (tipoCuenta) => {
+  try {
+    const response = await apiClient.post('account/solicitar', { tipoCuenta });
+    return { data: response.data, error: false };
+  } catch (error) {
+    console.error("Error al crear cuenta:", error);
+    return {
+      data: null,
+      error: true,
+      msg: error.response?.data?.message || "Error al crear cuenta",
+    };
+  }
+};
+
+export const getPendingAccounts = async () => {
+  try {
+    const response = await apiClient.get('account/pendientes');
+    return { data: response.data.cuentas || [], error: false };
+  } catch (error) {
+    console.error("Error al obtener cuentas pendientes:", error);
+    return {
+      data: [],
+      error: true,
+      msg: error.response?.data?.message || "Error al obtener cuentas pendientes",
+    };
+  }
+};
+
+export const getActiveAccounts = async () => {
+  try {
+    const response = await apiClient.get('account/activas');
+    return { data: response.data.cuentas || [], error: false };
+  } catch (error) {
+    console.error("Error al obtener cuentas activas:", error);
+    return {
+      data: [],
+      error: true,
+      msg: error.response?.data?.message || "Error al obtener cuentas activas",
+    };
+  }
+};
+
+export const acceptAccount = async (id) => {
+  try {
+    const response = await apiClient.put(`account/aceptar/${id}`);
+    return { data: response.data, error: false };
+  } catch (error) {
+    console.error("Error al aceptar cuenta:", error);
+    return {
+      data: null,
+      error: true,
+      msg: error.response?.data?.message || "Error al aceptar cuenta",
+    };
+  }
+};
+
+export const deleteAccount = async (id) => {
+  try {
+    const response = await apiClient.put(`account/desactivar/${id}`);
+    return { data: response.data, error: false };
+  } catch (error) {
+    console.error("Error al desactivar cuenta:", error);
+    return {
+      data: null,
+      error: true,
+      msg: error.response?.data?.message || "Error al desactivar cuenta",
+    };
+  }
+};
+export const getRedemptions = async () => {
+  try {
+    const response = await apiClient.get("redemption/");  
+    return response.data;
+  } catch (error) {
+    console.error("Error al obtener los canjes:", error);
+    return { error: true, msg: "Error al obtener canjes" };
+  }
+};
+
+
+
+
+
+
+
