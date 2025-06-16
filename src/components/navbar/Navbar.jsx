@@ -114,6 +114,11 @@ export default function CustomNavbar() {
     navigate('/movements');
   };
 
+  const handleGoToDivisa = () => {
+    handleMenuClose();
+    navigate('/divisa');
+  };
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
   <Menu
@@ -224,7 +229,7 @@ export default function CustomNavbar() {
         <IconButton size="large" color="inherit" title="Cuentas favoritas">
           <GradeIcon />
         </IconButton>
-        <IconButton size="large" color="inherit" title="Divisas">
+        <IconButton size="large" color="inherit" title="Divisas" onClick={handleGoToDivisa}>
           <BadgeIcon />
         </IconButton>
         <IconButton size="large" edge="end" color="inherit" onClick={handleProfileMenuOpen}>

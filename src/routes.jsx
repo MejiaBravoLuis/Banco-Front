@@ -10,6 +10,8 @@ import { PrizePage } from "./page/Prize/prizePage.jsx";
 import { MovementsPage } from "./page/movements/MovementsPage.jsx";
 import { AccountsPage } from "./page/accounts/AccountsPage.jsx"; 
 import {RewardPage} from "./page/reward/RewardPage.jsx"
+import {DivisaPage} from "./page/divisa/divisaPage.jsx"
+
 
 const routes = [
   { path: '/auth', element: <Auth /> },
@@ -23,6 +25,7 @@ const routes = [
   { path: '/movements', element: <MovementsPage /> },
   { path: '/reward', element: <RewardPage /> },
   { path: '/accounts', element: <AccountsPage /> },
+  { path: '/divisa', element: <DivisaPage /> },
   { path: '/', element: <Navigate to={'/auth'} /> }
 ];
 
