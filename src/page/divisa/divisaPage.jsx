@@ -3,12 +3,14 @@ import {
   Container,
   Typography,
   Paper,
+  TextField,
 } from "@mui/material";
 import Navbar from "../../components/navbar/Navbar";
 import SilkBackground from "../../components/animations/Background";
 
 export const DivisaPage = () => {
   const [exchangeRates, setExchangeRates] = useState([]);
+  const [amount, setAmount] = useState(1); // Valor ingresado por el usuario
 
   const essentialCurrencies = ["USD", "EUR", "MXN", "COP", "CRC"];
   const API_KEY = "cur_live_afxlaxoTNGkuzKcSuU7uo9k2M3iNyW7NkGvptUvK";
@@ -42,21 +44,31 @@ export const DivisaPage = () => {
       <SilkBackground />
       <Navbar />
       <Container className="deposit-container">
-        <Typography variant="h5" sx={{ mt: 4 }}>
-          Tasa de Cambio (1 Quetzal)
+        <Typography variant="h5" sx={{ mt: 4, mb: 2 }}>
+          Conversor de Divisas desde Quetzales (GTQ)
         </Typography>
+
+        
 
         <Paper sx={{ p: 2, mb: 4 }}>
           {exchangeRates.length > 0 ? (
             exchangeRates.map((curr) => (
               <Typography key={curr.code}>
-                1 GTQ = {curr.rate.toFixed(2)} {curr.code}
+                {amount} GTQ = {(amount * curr.rate).toFixed(2)} {curr.code}
               </Typography>
             ))
           ) : (
             <Typography>Cargando tasas de cambio...</Typography>
           )}
         </Paper>
+
+        <TextField
+          label="Cantidad en GTQ"
+          type="number"
+          value={amount}
+          onChange={(e) => setAmount(Number(e.target.value))}
+          sx={{ mb: 3 }}
+        />
       </Container>
     </>
   );

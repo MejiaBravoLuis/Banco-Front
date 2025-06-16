@@ -119,6 +119,7 @@ export default function CustomNavbar() {
     navigate('/divisa');
   };
 
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
   <Menu
@@ -223,13 +224,13 @@ export default function CustomNavbar() {
       <Box sx={{ flexGrow: 1 }} />
 
       <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-        <IconButton size="large" color="inherit" title="Todos los movimientos">
+        <IconButton size="large" color="inherit" title="Divisas" onClick={handleGoToDivisa}>
           <CurrencyExchangeIcon />
         </IconButton>
         <IconButton size="large" color="inherit" title="Cuentas favoritas">
           <GradeIcon />
         </IconButton>
-        <IconButton size="large" color="inherit" title="Divisas" onClick={handleGoToDivisa}>
+        <IconButton size="large" color="inherit" title="Todos los movimientos" onClick={handleGoToMovements} >
           <BadgeIcon />
         </IconButton>
         <IconButton size="large" edge="end" color="inherit" onClick={handleProfileMenuOpen}>

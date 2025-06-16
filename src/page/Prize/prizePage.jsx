@@ -342,23 +342,24 @@ export const PrizePage = () => {
                           </Button>
 
                           {claimResponse && (
-                            <Alert
-                              severity="success"
-                              onClose={clearClaim}
-                              sx={{ mt: 1 }}
-                            >
-                              🎉 {claimResponse}
-                            </Alert>
-                          )}
-                          {claimError && (
-                            <Alert
-                              severity="error"
-                              onClose={clearClaim}
-                              sx={{ mt: 1 }}
-                            >
-                              ❌ {claimError}
-                            </Alert>
-                          )}
+                              <Alert
+                                severity="success"
+                                onClose={clearClaim}
+                                sx={{ mt: 1 }}
+                              >
+                                🎉 {claimResponse}
+                              </Alert>
+                            )}
+                            {claimError && (
+                              <Alert
+                                severity="error"
+                                onClose={clearClaim}
+                                sx={{ mt: 1 }}
+                              >
+                                ❌ {claimError}
+                              </Alert>
+                            )}
+
                         </>
                       )}
 
