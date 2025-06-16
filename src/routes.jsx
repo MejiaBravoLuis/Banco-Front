@@ -12,6 +12,7 @@ import { AccountsPage } from "./page/accounts/AccountsPage.jsx";
 import {RewardPage} from "./page/reward/RewardPage.jsx"
 import {DivisaPage} from "./page/divisa/divisaPage.jsx"
 
+
 const routes = [
   { path: '/auth', element: <Auth /> },
   { path: '/resetPassword', element: <PasswordRecoveryPage /> },

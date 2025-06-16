@@ -113,6 +113,7 @@ export default function CustomNavbar() {
     handleMenuClose();
     navigate('/movements');
   };
+
   const handleGoToDivisa = () => {
     handleMenuClose();
     navigate('/divisa');
