@@ -48,7 +48,14 @@ export const PrizePage = () => {
   });
 
   const [accounts, setAccounts] = useState([]);
-  const [selectedAccount, setSelectedAccount] = useState("");
+  const [selectedAccounts, setSelectedAccounts] = useState({});
+
+  const handleAccountChange = (prizeId, value) => {
+    setSelectedAccounts((prev) => ({
+      ...prev,
+      [prizeId]: value,
+    }));
+  };
 
   const {
     handleClaim,
@@ -82,13 +89,12 @@ export const PrizePage = () => {
   } = useGetAllPrizes();
 
   const {
-  deletePrize,
-  loading: deleting,
-  response: deleteResponse,
-  error: deleteError,
-  clearMessages: clearDelete,
+    deletePrize,
+    loading: deleting,
+    response: deleteResponse,
+    error: deleteError,
+    clearMessages: clearDelete,
   } = useDeletePrize();
-
 
   useEffect(() => {
     if (isClient) {
@@ -125,10 +131,9 @@ export const PrizePage = () => {
   };
 
   const handleDelete = async (prize) => {
-  await deletePrize(prize._id);
-  await refetchPrizes();
+    await deletePrize(prize._id);
+    await refetchPrizes();
   };
-
 
   return (
     <>
@@ -201,6 +206,7 @@ export const PrizePage = () => {
                   variant="contained"
                   color="secondary"
                   size="large"
+                  disabled={creating || editing}
                 >
                   {editingPrizeId ? "Actualizar Premio" : "Crear Premio"}
                 </Button>
@@ -253,131 +259,139 @@ export const PrizePage = () => {
           ) : prizes.length === 0 ? (
             <Typography color="white">No hay premios disponibles.</Typography>
           ) : (
-            prizes.map((prize) => (
-              <Grid item xs={12} sm={6} md={4} key={prize._id}>
-                <Card
-                  sx={{
-                    backgroundColor: "#2d2d44",
-                    color: "white",
-                    borderRadius: 3,
-                    height: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <CardContent>
-                    <Typography variant="h6">{prize.nombre}</Typography>
-                    <Typography variant="body2" color="#bbb" gutterBottom>
-                      {prize.descripcion}
-                    </Typography>
-                    <Divider sx={{ my: 1, borderColor: "#555" }} />
-                    <Typography variant="subtitle2" color="#a5d6a7">
-                      🎯 Puntos: {prize.precioPuntos}
-                    </Typography>
-                  </CardContent>
+            prizes.map((prize) => {
+              const selected = selectedAccounts[prize._id] || "";
+              const account = accounts.find(
+                (a) => a.numeroCuenta === selected
+              );
+              const puntosSuficientes =
+                account && account.puntos >= prize.precioPuntos;
 
-                  <CardActions
-                    sx={{ flexDirection: "column", alignItems: "stretch" }}
+              return (
+                <Grid item xs={12} sm={6} md={4} key={prize._id}>
+                  <Card
+                    sx={{
+                      backgroundColor: "#2d2d44",
+                      color: "white",
+                      borderRadius: 3,
+                      height: "100%",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "space-between",
+                    }}
                   >
-                    {isClient && (
-                      <>
-                        <TextField
-                          select
-                          label="Desde Cuenta"
-                          value={selectedAccount}
-                          onChange={(e) => setSelectedAccount(e.target.value)}
-                          fullWidth
-                          size="small"
-                          sx={{ mb: 1 }}
-                        >
-                          {accounts.map((acc) => (
-                            <MenuItem key={acc._id} value={acc.numeroCuenta}>
-                              {acc.numeroCuenta} - Puntos: {acc.puntos}
-                            </MenuItem>
-                          ))}
-                        </TextField>
+                    <CardContent>
+                      <Typography variant="h6">{prize.nombre}</Typography>
+                      <Typography variant="body2" color="#bbb" gutterBottom>
+                        {prize.descripcion}
+                      </Typography>
+                      <Divider sx={{ my: 1, borderColor: "#555" }} />
+                      <Typography variant="subtitle2" color="#a5d6a7">
+                        🎯 Puntos: {prize.precioPuntos}
+                      </Typography>
+                    </CardContent>
 
-                        {(() => {
-                          const account = accounts.find(
-                            (a) => a.numeroCuenta === selectedAccount
-                          );
-                          const puntosSuficientes =
-                            account && account.puntos >= prize.precioPuntos;
-
-                          return (
-                            <>
-                              {!puntosSuficientes && selectedAccount && (
-                                <Typography
-                                  variant="body2"
-                                  sx={{ color: "#f44336", mb: 1 }}
-                                >
-                                  ❌ No tienes suficientes puntos para reclamar
-                                  este premio.
-                                </Typography>
-                              )}
-                              <Button
-                                variant="contained"
-                                color="primary"
-                                onClick={() =>
-                                  handleClaim(prize._id, selectedAccount)
-                                }
-                                disabled={
-                                  !selectedAccount ||
-                                  !puntosSuficientes ||
-                                  claiming
-                                }
+                    <CardActions
+                      sx={{ flexDirection: "column", alignItems: "stretch" }}
+                    >
+                      {isClient && (
+                        <>
+                          <TextField
+                            select
+                            label="Desde Cuenta"
+                            value={selected}
+                            onChange={(e) =>
+                              handleAccountChange(prize._id, e.target.value)
+                            }
+                            fullWidth
+                            size="small"
+                            sx={{ mb: 1 }}
+                          >
+                            {accounts.map((acc) => (
+                              <MenuItem
+                                key={acc._id}
+                                value={acc.numeroCuenta}
                               >
-                                Reclamar
-                              </Button>
+                                {acc.numeroCuenta} - Puntos: {acc.puntos}
+                              </MenuItem>
+                            ))}
+                          </TextField>
 
-                              {claimResponse && (
-                                <Alert
-                                  severity="success"
-                                  onClose={clearClaim}
-                                  sx={{ mt: 1 }}
-                                >
-                                  🎉 {claimResponse}
-                                </Alert>
-                              )}
-                              {claimError && (
-                                <Alert
-                                  severity="error"
-                                  onClose={clearClaim}
-                                  sx={{ mt: 1 }}
-                                >
-                                  ❌ {claimError}
-                                </Alert>
-                              )}
-                            </>
-                          );
-                        })()}
-                      </>
-                    )}
-                    {isAdmin && (
-                      <Box sx={{ display: "flex", justifyContent: "center", gap: 1, mt: 1 }}>
-                        <Button
-                          onClick={() => handleEditClick(prize)}
-                          variant="outlined"
-                          sx={{ flex: 1 }}
+                          {!puntosSuficientes && selected && (
+                            <Typography
+                              variant="body2"
+                              sx={{ color: "#f44336", mb: 1 }}
+                            >
+                              ❌ No tienes suficientes puntos para reclamar este
+                              premio.
+                            </Typography>
+                          )}
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={() =>
+                              handleClaim(prize._id, selected)
+                            }
+                            disabled={
+                              !selected || !puntosSuficientes || claiming
+                            }
+                          >
+                            Reclamar
+                          </Button>
+
+                          {claimResponse && (
+                            <Alert
+                              severity="success"
+                              onClose={clearClaim}
+                              sx={{ mt: 1 }}
+                            >
+                              🎉 {claimResponse}
+                            </Alert>
+                          )}
+                          {claimError && (
+                            <Alert
+                              severity="error"
+                              onClose={clearClaim}
+                              sx={{ mt: 1 }}
+                            >
+                              ❌ {claimError}
+                            </Alert>
+                          )}
+                        </>
+                      )}
+
+                      {isAdmin && (
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "center",
+                            gap: 1,
+                            mt: 1,
+                          }}
                         >
-                          Editar
-                        </Button>
-                        <Button
-                          onClick={() => handleDelete(prize)}
-                          variant="outlined"
-                          color="error"
-                          sx={{ flex: 1 }}
-                          disabled={deleting}
-                        >
-                          Eliminar
-                        </Button>
-                      </Box>
-                    )}
-                  </CardActions>
-                </Card>
-              </Grid>
-            ))
+                          <Button
+                            onClick={() => handleEditClick(prize)}
+                            variant="outlined"
+                            sx={{ flex: 1 }}
+                          >
+                            Editar
+                          </Button>
+                          <Button
+                            onClick={() => handleDelete(prize)}
+                            variant="outlined"
+                            color="error"
+                            sx={{ flex: 1 }}
+                            disabled={deleting}
+                          >
+                            Eliminar
+                          </Button>
+                        </Box>
+                      )}
+                    </CardActions>
+                  </Card>
+                </Grid>
+              );
+            })
           )}
         </Grid>
       </Container>
