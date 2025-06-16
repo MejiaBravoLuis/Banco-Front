@@ -1,57 +1,60 @@
-import * as React from 'react';
-import { styled, alpha } from '@mui/material/styles';
-import { useNavigate } from 'react-router-dom';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import InputBase from '@mui/material/InputBase';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
-import MoreIcon from '@mui/icons-material/MoreVert';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
-import GradeIcon from '@mui/icons-material/Grade';
-import BadgeIcon from '@mui/icons-material/Badge';
-import SearchIcon from '@mui/icons-material/Search';
-import logo from '../../assets/img/penguin-logo.png';
+import * as React from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { styled, alpha } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import InputBase from "@mui/material/InputBase";
+import MenuItem from "@mui/material/MenuItem";
+import Menu from "@mui/material/Menu";
+import MoreIcon from "@mui/icons-material/MoreVert";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
+import GradeIcon from "@mui/icons-material/Grade";
+import BadgeIcon from "@mui/icons-material/Badge";
+import SearchIcon from "@mui/icons-material/Search";
+import logo from "../../assets/img/penguin-logo.png";
+import { useExchangeRate } from "../../shared/hooks/useExchangeRate";
 
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
+const Search = styled("div")(({ theme }) => ({
+  position: "relative",
   borderRadius: theme.shape.borderRadius,
   backgroundColor: alpha(theme.palette.common.white, 0.15),
-  '&:hover': {
+  "&:hover": {
     backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
   marginRight: theme.spacing(2),
   marginLeft: 0,
-  width: '100%',
-  [theme.breakpoints.up('sm')]: {
+  width: "100%",
+  [theme.breakpoints.up("sm")]: {
     marginLeft: theme.spacing(3),
-    width: 'auto',
+    width: "auto",
   },
 }));
 
-const SearchIconWrapper = styled('div')(({ theme }) => ({
+const SearchIconWrapper = styled("div")(({ theme }) => ({
   padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
+  height: "100%",
+  position: "absolute",
+  pointerEvents: "none",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  '& .MuiInputBase-input': {
+  color: "inherit",
+  "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 0),
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '20ch',
+    transition: theme.transitions.create("width"),
+    width: "100%",
+    [theme.breakpoints.up("md")]: {
+      width: "20ch",
     },
   },
 }));
@@ -64,8 +67,8 @@ export default function CustomNavbar() {
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-  const user = JSON.parse(localStorage.getItem('user'));
-  const role = user?.role || '';
+  const user = JSON.parse(localStorage.getItem("user"));
+  const role = user?.role || "";
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -86,67 +89,69 @@ export default function CustomNavbar() {
 
   const handleGoToProfile = () => {
     handleMenuClose();
-    navigate('/myProfile');
+    navigate("/myProfile");
   };
 
   const handleGoToDashboard = () => {
     handleMenuClose();
-    navigate('/dashboard');
+    navigate("/dashboard");
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('user');
-    window.location.href = '/';
+    localStorage.removeItem("user");
+    window.location.href = "/";
   };
 
   const handleAcceptUser = () => {
     handleMenuClose();
-    window.location.href = '/acceptUsers';
+    window.location.href = "/acceptUsers";
   };
 
   const ListUser = () => {
     handleMenuClose();
-    window.location.href = '/users';
+    window.location.href = "/users";
   };
 
   const handleGoToMovements = () => {
     handleMenuClose();
-    navigate('/movements');
+    navigate("/movements");
   };
 
-  const menuId = 'primary-search-account-menu';
+  const { rate: exchangeRate, error } = useExchangeRate("USD", "GTQ");
+
+  const menuId = "primary-search-account-menu";
   const renderMenu = (
-  <Menu
-    anchorEl={anchorEl}
-    anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-    id={menuId}
-    keepMounted
-    transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-    open={isMenuOpen}
-    onClose={handleMenuClose}
-  >
-    <MenuItem onClick={handleGoToDashboard}>Dashboard</MenuItem>
-    <MenuItem onClick={handleGoToProfile}>Perfil</MenuItem>
-    <MenuItem onClick={handleMenuClose}>Mi cuenta</MenuItem>
+    <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{ vertical: "top", horizontal: "right" }}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+    >
+      <MenuItem onClick={handleGoToDashboard}>Dashboard</MenuItem>
+      <MenuItem onClick={handleGoToProfile}>Perfil</MenuItem>
+      <MenuItem onClick={handleMenuClose}>Mi cuenta</MenuItem>
 
-    {role === 'ADMIN' && (
-      <div>
-        <MenuItem onClick={handleAcceptUser}>Aceptar usuario</MenuItem>
-        <MenuItem onClick={ListUser}>Listar usuarios</MenuItem>
-      </div>
-    )}
-    <MenuItem onClick={handleLogout}>Cerrar sesión</MenuItem>
-  </Menu>
-);
+      {role === "ADMIN" && (
+        <div>
+          <MenuItem onClick={handleAcceptUser}>Aceptar usuario</MenuItem>
+          <MenuItem onClick={ListUser}>Listar usuarios</MenuItem>
+        </div>
+      )}
+      <MenuItem onClick={handleLogout}>Cerrar sesión</MenuItem>
+    </Menu>
+  );
 
-  const mobileMenuId = 'primary-search-account-menu-mobile';
+  const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (
     <Menu
       anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      anchorOrigin={{ vertical: "top", horizontal: "right" }}
       id={mobileMenuId}
       keepMounted
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      transformOrigin={{ vertical: "top", horizontal: "right" }}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
@@ -168,7 +173,7 @@ export default function CustomNavbar() {
         </IconButton>
         <p>Divisas</p>
       </MenuItem>
-      {role && (role === 'CLIENT' || role === 'ADMIN') && (
+      {role && (role === "CLIENT" || role === "ADMIN") && (
         <MenuItem onClick={handleGoToMovements}>
           <IconButton size="large" color="inherit">
             <CurrencyExchangeIcon />
@@ -193,19 +198,26 @@ export default function CustomNavbar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="fixed" sx={{ backgroundColor: 'black', color: 'white' }}>
+      <AppBar
+        position="fixed"
+        sx={{ backgroundColor: "black", color: "white" }}
+      >
         <Toolbar>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <img src={logo} alt="Logo" style={{ height: 40, marginRight: 10 }} />
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <img
+              src={logo}
+              alt="Logo"
+              style={{ height: 40, marginRight: 10 }}
+            />
             <Typography
               variant="h6"
               noWrap
               component="div"
               sx={{
-                display: { xs: 'none', sm: 'block' },
+                display: { xs: "none", sm: "block" },
                 fontFamily: '"Amarante", cursive',
                 fontWeight: 400,
-                letterSpacing: '0.05em',
+                letterSpacing: "0.05em",
               }}
             >
               Banco Pinguino Americano
@@ -215,11 +227,33 @@ export default function CustomNavbar() {
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
-            <StyledInputBase placeholder="Buscar…" inputProps={{ 'aria-label': 'search' }} />
+            <StyledInputBase
+              placeholder="Buscar…"
+              inputProps={{ "aria-label": "search" }}
+            />
           </Search>
+          {exchangeRate && (
+            <Box sx={{ ml: 2, mr: 2 }}>
+              <Typography variant="body2" color="inherit">
+                USD → GTQ: {exchangeRate.toFixed(3)}
+              </Typography>
+            </Box>
+          )}
+
+          {error && (
+            <Box sx={{ ml: 2, mr: 2 }}>
+              <Typography variant="body2" color="error">
+                {error}
+              </Typography>
+            </Box>
+          )}
           <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <IconButton size="large" color="inherit" title="Todos los movimientos">
+          <Box sx={{ display: { xs: "none", md: "flex" } }}>
+            <IconButton
+              size="large"
+              color="inherit"
+              title="Todos los movimientos"
+            >
               <CurrencyExchangeIcon />
             </IconButton>
             <IconButton size="large" color="inherit" title="Cuentas favoritas">
@@ -228,11 +262,16 @@ export default function CustomNavbar() {
             <IconButton size="large" color="inherit" title="Divisas">
               <BadgeIcon />
             </IconButton>
-            <IconButton size="large" edge="end" color="inherit" onClick={handleProfileMenuOpen}>
+            <IconButton
+              size="large"
+              edge="end"
+              color="inherit"
+              onClick={handleProfileMenuOpen}
+            >
               <AccountCircle />
             </IconButton>
           </Box>
-          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+          <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
               aria-label="mostrar más"
