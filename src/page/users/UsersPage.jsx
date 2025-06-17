@@ -11,12 +11,13 @@ import {
   TextField,
   Typography,
   Paper,
+  Divider,
 } from '@mui/material';
 import Navbar from '../../components/navbar/Navbar';
 import SilkBackground from '../../components/animations/Background';
 import { getAllUsers } from '../../services/api';
 import ProfileCard from '../../components/cards/ProfileCard';
-import { useDeleteUserByAdmin,useUpdateUserByAdmin } from '../../shared/hooks';
+import { useDeleteUserByAdmin, useUpdateUserByAdmin } from '../../shared/hooks';
 
 export const UsersPage = () => {
   const [users, setUsers] = useState([]);
@@ -72,6 +73,10 @@ export const UsersPage = () => {
     setEditedData({
       name: user.name,
       email: user.email,
+      telefono: user.telefono || '',
+      montoMensual: user.montoMensual || '',
+      nombreTrabajo: user.nombreTrabajo || '',
+      direccion: user.direccion || '',
       role: user.role,
     });
   };
@@ -93,25 +98,47 @@ export const UsersPage = () => {
     <>
       <SilkBackground />
       <Navbar />
-      <Container sx={{ mt: 10, minHeight: 'calc(100vh - 64px - 64px)' }}>
+      <Container sx={{ mt: 12, minHeight: 'calc(100vh - 64px)', pb: 8 }}>
         {response && (
-          <Alert severity="success" sx={{ mb: 2 }}>
+          <Alert severity="success" sx={{ mb: 3 }}>
             {response} {deletedUserId && `(ID: ${deletedUserId})`}
           </Alert>
         )}
-        {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
-        {updateError && <Alert severity="error" sx={{ mb: 2 }}>{updateError}</Alert>}
+        {error && <Alert severity="error" sx={{ mb: 3 }}>{error}</Alert>}
+        {updateError && <Alert severity="error" sx={{ mb: 3 }}>{updateError}</Alert>}
+
+        <Typography variant="h4" fontWeight="bold" mb={4} textAlign="center">
+          Gestión de Usuarios
+        </Typography>
 
         <Grid container spacing={4}>
           {users.map((user) => (
-            <Grid item xs={12} sm={6} md={4} key={user.uid}>
-              <Box display="flex" flexDirection="column" alignItems="center">
+            <Grid item xs={12} sm={6} md={4} lg={3} key={user.uid}>
+              <Box
+                display="flex"
+                flexDirection="column"
+                alignItems="center"
+                sx={{
+                  p: 2,
+                  borderRadius: 4,
+                  transition: 'all 0.3s ease',
+                  boxShadow: 3,
+                  backgroundColor: 'white',
+                  '&:hover': {
+                    boxShadow: 6,
+                    transform: 'translateY(-4px)',
+                  },
+                }}
+              >
                 <ProfileCard
                   name={user.name}
                   title={user.email}
                   handle={user.username}
                   status="Online"
-                  avatarUrl={user.avatarUrl || `https://icons.veryicon.com/png/o/internet--web/prejudice/user-128.png?u=${user.uid}`}
+                  avatarUrl={
+                    user.avatarUrl ||
+                    `https://icons.veryicon.com/png/o/internet--web/prejudice/user-128.png?u=${user.uid}`
+                  }
                   contactText="Contactar"
                   showUserInfo={false}
                   enableTilt={true}
@@ -120,17 +147,19 @@ export const UsersPage = () => {
                 {user.role !== 'ADMIN' && (
                   <>
                     <Button
-                      variant="outlined"
                       color="error"
-                      sx={{ mt: 1 }}
+                      variant="outlined"
+                      fullWidth
+                      sx={{ mt: 2 }}
                       disabled={deleting}
                       onClick={() => handleDelete(user.uid)}
                     >
                       {deleting ? 'Eliminando...' : 'Eliminar'}
                     </Button>
                     <Button
-                      variant="outlined"
                       color="primary"
+                      variant="contained"
+                      fullWidth
                       sx={{ mt: 1 }}
                       onClick={() => openEditModal(user)}
                     >
@@ -151,59 +180,47 @@ export const UsersPage = () => {
           BackdropProps={{ timeout: 500 }}
         >
           <Fade in={Boolean(selectedUser)}>
-            <Paper elevation={6} sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, p: 4 }}>
-              <Typography variant="h6" mb={2}>Editar Usuario</Typography>
-              <TextField
-                fullWidth
-                margin="normal"
-                label="Nombre"
-                name="name"
-                value={editedData.name || ''}
-                onChange={handleEditChange}
-              />
-              <TextField
-                fullWidth
-                margin="normal"
-                label="Telefono"
-                name="telefono"
-                value={editedData.telefono || ''}
-                onChange={handleEditChange}
-              />
-              <TextField
-                fullWidth
-                margin="normal"
-                label="MontoMensual"
-                name="montoMensual"
-                value={editedData.montoMensual || ''}
-                onChange={handleEditChange}
-              />
-              <TextField
-                fullWidth
-                margin="normal"
-                label="NombreTrabajo"
-                name="nombreTrabajo"
-                value={editedData.nombreTrabajo || ''}
-                onChange={handleEditChange}
-              />
-              <TextField
-                fullWidth
-                margin="normal"
-                label="Direccion"
-                name="direccion"
-                value={editedData.direccion || ''}
-                onChange={handleEditChange}
-              />
-              <TextField
-                fullWidth
-                margin="normal"
-                label="Rol"
-                name="role"
-                value={editedData.role || ''}
-                onChange={handleEditChange}
-              />
-              <Box mt={2} display="flex" justifyContent="space-between">
+            <Paper
+              elevation={10}
+              sx={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: { xs: '90%', sm: 500 },
+                p: 4,
+                borderRadius: 4,
+              }}
+            >
+              <Typography variant="h6" mb={2} fontWeight="bold">
+                Editar Usuario
+              </Typography>
+              <Divider sx={{ mb: 2 }} />
+              {[
+                { label: 'Nombre', name: 'name' },
+                { label: 'Teléfono', name: 'telefono' },
+                { label: 'Monto Mensual', name: 'montoMensual' },
+                { label: 'Nombre del Trabajo', name: 'nombreTrabajo' },
+                { label: 'Dirección', name: 'direccion' },
+                { label: 'Rol', name: 'role' },
+              ].map((field) => (
+                <TextField
+                  key={field.name}
+                  fullWidth
+                  margin="dense"
+                  label={field.label}
+                  name={field.name}
+                  value={editedData[field.name] || ''}
+                  onChange={handleEditChange}
+                />
+              ))}
+              <Box mt={3} display="flex" justifyContent="flex-end" gap={2}>
                 <Button onClick={() => setSelectedUser(null)}>Cancelar</Button>
-                <Button variant="contained" onClick={handleEditSubmit} disabled={updating}>
+                <Button
+                  variant="contained"
+                  onClick={handleEditSubmit}
+                  disabled={updating}
+                >
                   {updating ? 'Guardando...' : 'Guardar'}
                 </Button>
               </Box>

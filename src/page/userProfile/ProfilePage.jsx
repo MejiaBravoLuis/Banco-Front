@@ -57,8 +57,9 @@ export const ProfilePage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await submitProfileUpdate(formData);
-    setIsEditing(false);
+    window.location.reload(); 
   };
+  
 
   const handleEditToggle = () => {
     setIsEditing((prev) => !prev);
