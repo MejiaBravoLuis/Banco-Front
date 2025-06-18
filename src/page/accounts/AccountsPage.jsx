@@ -32,7 +32,6 @@ import {
 } from "../../services/api";
 import Sidebar from "../../components/sidebar/Sidebar";
 import SilkBackground from "../../components/animations/Background";
-import StarBorder from "../../components/animations/button/StarBorder";
 
 import "./accountsPage.css";
 
