@@ -26,3 +26,10 @@
 .custom-spotlight-card:hover {
   transform: translateY(-5px);
 }
+.welcome-text {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--color-1);
+  text-align: center;
+  z-index: 10;
+}

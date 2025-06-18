@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import Navbar from "../../components/navbar/Navbar";
 import SilkBackground from "../../components/animations/Background";
+import Sidebar from "../../components/sidebar/Sidebar";
 import {
   useCreatePrize,
   useEditPrize,
@@ -137,8 +138,14 @@ export const PrizePage = () => {
 
   return (
     <>
-      <SilkBackground />
-      <Navbar />
+      <SilkBackground
+        speed={6}
+        scale={1}
+        noiseIntensity={0}
+        rotation={0}
+        color={"#e87d7d"}
+      />
+      <Sidebar />
       <Container sx={{ mt: 12, mb: 8 }}>
         {isAdmin && (
           <Box
@@ -261,9 +268,7 @@ export const PrizePage = () => {
           ) : (
             prizes.map((prize) => {
               const selected = selectedAccounts[prize._id] || "";
-              const account = accounts.find(
-                (a) => a.numeroCuenta === selected
-              );
+              const account = accounts.find((a) => a.numeroCuenta === selected);
               const puntosSuficientes =
                 account && account.puntos >= prize.precioPuntos;
 
@@ -308,10 +313,7 @@ export const PrizePage = () => {
                             sx={{ mb: 1 }}
                           >
                             {accounts.map((acc) => (
-                              <MenuItem
-                                key={acc._id}
-                                value={acc.numeroCuenta}
-                              >
+                              <MenuItem key={acc._id} value={acc.numeroCuenta}>
                                 {acc.numeroCuenta} - Puntos: {acc.puntos}
                               </MenuItem>
                             ))}
@@ -331,9 +333,7 @@ export const PrizePage = () => {
                           <Button
                             variant="contained"
                             color="primary"
-                            onClick={() =>
-                              handleClaim(prize._id, selected)
-                            }
+                            onClick={() => handleClaim(prize._id, selected)}
                             disabled={
                               !selected || !puntosSuficientes || claiming
                             }
@@ -342,24 +342,23 @@ export const PrizePage = () => {
                           </Button>
 
                           {claimResponse && (
-                              <Alert
-                                severity="success"
-                                onClose={clearClaim}
-                                sx={{ mt: 1 }}
-                              >
-                                🎉 {claimResponse}
-                              </Alert>
-                            )}
-                            {claimError && (
-                              <Alert
-                                severity="error"
-                                onClose={clearClaim}
-                                sx={{ mt: 1 }}
-                              >
-                                ❌ {claimError}
-                              </Alert>
-                            )}
-
+                            <Alert
+                              severity="success"
+                              onClose={clearClaim}
+                              sx={{ mt: 1 }}
+                            >
+                              🎉 {claimResponse}
+                            </Alert>
+                          )}
+                          {claimError && (
+                            <Alert
+                              severity="error"
+                              onClose={clearClaim}
+                              sx={{ mt: 1 }}
+                            >
+                              ❌ {claimError}
+                            </Alert>
+                          )}
                         </>
                       )}
 

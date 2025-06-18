@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   Container,
   Grid,
@@ -12,12 +12,13 @@ import {
   Typography,
   Paper,
   Divider,
-} from '@mui/material';
-import Navbar from '../../components/navbar/Navbar';
-import SilkBackground from '../../components/animations/Background';
-import { getAllUsers } from '../../services/api';
-import ProfileCard from '../../components/cards/ProfileCard';
-import { useDeleteUserByAdmin, useUpdateUserByAdmin } from '../../shared/hooks';
+} from "@mui/material";
+import Navbar from "../../components/navbar/Navbar";
+import SilkBackground from "../../components/animations/Background";
+import { getAllUsers } from "../../services/api";
+import ProfileCard from "../../components/cards/ProfileCard";
+import { useDeleteUserByAdmin, useUpdateUserByAdmin } from "../../shared/hooks";
+import Sidebar from "../../components/sidebar/Sidebar";
 
 export const UsersPage = () => {
   const [users, setUsers] = useState([]);
@@ -53,7 +54,9 @@ export const UsersPage = () => {
   }, []);
 
   const handleDelete = async (id) => {
-    const confirmed = window.confirm('¿Estás seguro de que deseas eliminar este usuario?');
+    const confirmed = window.confirm(
+      "¿Estás seguro de que deseas eliminar este usuario?"
+    );
     if (!confirmed) return;
 
     const deleteResponse = await deleteUser(id);
@@ -73,10 +76,10 @@ export const UsersPage = () => {
     setEditedData({
       name: user.name,
       email: user.email,
-      telefono: user.telefono || '',
-      montoMensual: user.montoMensual || '',
-      nombreTrabajo: user.nombreTrabajo || '',
-      direccion: user.direccion || '',
+      telefono: user.telefono || "",
+      montoMensual: user.montoMensual || "",
+      nombreTrabajo: user.nombreTrabajo || "",
+      direccion: user.direccion || "",
       role: user.role,
     });
   };
@@ -96,16 +99,30 @@ export const UsersPage = () => {
 
   return (
     <>
-      <SilkBackground />
-      <Navbar />
-      <Container sx={{ mt: 12, minHeight: 'calc(100vh - 64px)', pb: 8 }}>
+      <SilkBackground
+        speed={6}
+        scale={1}
+        noiseIntensity={0}
+        rotation={0}
+        color={"#e87d7d"}
+      />
+      <Sidebar />
+      <Container sx={{ mt: 12, minHeight: "calc(100vh - 64px)", pb: 8 }}>
         {response && (
           <Alert severity="success" sx={{ mb: 3 }}>
             {response} {deletedUserId && `(ID: ${deletedUserId})`}
           </Alert>
         )}
-        {error && <Alert severity="error" sx={{ mb: 3 }}>{error}</Alert>}
-        {updateError && <Alert severity="error" sx={{ mb: 3 }}>{updateError}</Alert>}
+        {error && (
+          <Alert severity="error" sx={{ mb: 3 }}>
+            {error}
+          </Alert>
+        )}
+        {updateError && (
+          <Alert severity="error" sx={{ mb: 3 }}>
+            {updateError}
+          </Alert>
+        )}
 
         <Typography variant="h4" fontWeight="bold" mb={4} textAlign="center">
           Gestión de Usuarios
@@ -121,12 +138,12 @@ export const UsersPage = () => {
                 sx={{
                   p: 2,
                   borderRadius: 4,
-                  transition: 'all 0.3s ease',
+                  transition: "all 0.3s ease",
                   boxShadow: 3,
-                  backgroundColor: 'white',
-                  '&:hover': {
+                  backgroundColor: "white",
+                  "&:hover": {
                     boxShadow: 6,
-                    transform: 'translateY(-4px)',
+                    transform: "translateY(-4px)",
                   },
                 }}
               >
@@ -144,7 +161,7 @@ export const UsersPage = () => {
                   enableTilt={true}
                   onContactClick={() => alert(`Contactar a ${user.name}`)}
                 />
-                {user.role !== 'ADMIN' && (
+                {user.role !== "ADMIN" && (
                   <>
                     <Button
                       color="error"
@@ -154,7 +171,7 @@ export const UsersPage = () => {
                       disabled={deleting}
                       onClick={() => handleDelete(user.uid)}
                     >
-                      {deleting ? 'Eliminando...' : 'Eliminar'}
+                      {deleting ? "Eliminando..." : "Eliminar"}
                     </Button>
                     <Button
                       color="primary"
@@ -183,11 +200,11 @@ export const UsersPage = () => {
             <Paper
               elevation={10}
               sx={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                width: { xs: '90%', sm: 500 },
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                width: { xs: "90%", sm: 500 },
                 p: 4,
                 borderRadius: 4,
               }}
@@ -197,12 +214,12 @@ export const UsersPage = () => {
               </Typography>
               <Divider sx={{ mb: 2 }} />
               {[
-                { label: 'Nombre', name: 'name' },
-                { label: 'Teléfono', name: 'telefono' },
-                { label: 'Monto Mensual', name: 'montoMensual' },
-                { label: 'Nombre del Trabajo', name: 'nombreTrabajo' },
-                { label: 'Dirección', name: 'direccion' },
-                { label: 'Rol', name: 'role' },
+                { label: "Nombre", name: "name" },
+                { label: "Teléfono", name: "telefono" },
+                { label: "Monto Mensual", name: "montoMensual" },
+                { label: "Nombre del Trabajo", name: "nombreTrabajo" },
+                { label: "Dirección", name: "direccion" },
+                { label: "Rol", name: "role" },
               ].map((field) => (
                 <TextField
                   key={field.name}
@@ -210,7 +227,7 @@ export const UsersPage = () => {
                   margin="dense"
                   label={field.label}
                   name={field.name}
-                  value={editedData[field.name] || ''}
+                  value={editedData[field.name] || ""}
                   onChange={handleEditChange}
                 />
               ))}
@@ -221,7 +238,7 @@ export const UsersPage = () => {
                   onClick={handleEditSubmit}
                   disabled={updating}
                 >
-                  {updating ? 'Guardando...' : 'Guardar'}
+                  {updating ? "Guardando..." : "Guardar"}
                 </Button>
               </Box>
             </Paper>

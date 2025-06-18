@@ -13,6 +13,7 @@ import {
 import Navbar from "../../components/navbar/Navbar";
 import { getRedemptions } from "../../services/api";
 import SilkBackground from "../../components/animations/Background";
+import Sidebar from "../../components/sidebar/Sidebar";
 import "./rewardPageStyles.css";
 
 export const RewardPage = () => {
@@ -36,9 +37,24 @@ export const RewardPage = () => {
 
   return (
     <>
-      <SilkBackground /> 
-      <Navbar />
-      <Container className="reward-container" sx={{ mt: 10, p: 4, background: "#ffffffcc", borderRadius: 4, boxShadow: 3 }}>
+      <SilkBackground
+        speed={6}
+        scale={1}
+        noiseIntensity={0}
+        rotation={0}
+        color={"#e87d7d"}
+      />
+      <Sidebar />
+      <Container
+        className="reward-container"
+        sx={{
+          mt: 10,
+          p: 4,
+          background: "#ffffffcc",
+          borderRadius: 4,
+          boxShadow: 3,
+        }}
+      >
         <Typography variant="h4" gutterBottom>
           Mis Canjes de Recompensas
         </Typography>
@@ -65,7 +81,9 @@ export const RewardPage = () => {
                     <TableCell>{r.pointsUsed}</TableCell>
                     <TableCell>{r.prize?.descripcion}</TableCell>
                     <TableCell>{r.status}</TableCell>
-                    <TableCell>{new Date(r.redeemedAt).toLocaleString()}</TableCell>
+                    <TableCell>
+                      {new Date(r.redeemedAt).toLocaleString()}
+                    </TableCell>
                     <TableCell>
                       {r.user?.name || "-"} ({r.user?.email || "N/A"})
                     </TableCell>

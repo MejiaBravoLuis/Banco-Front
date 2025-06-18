@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   Container,
   Grid,
@@ -7,13 +7,14 @@ import {
   Button,
   Alert,
   Typography,
-} from '@mui/material';
-import ProfileCard from '../../components/cards/ProfileCard';
-import Navbar from '../../components/navbar/Navbar';
-import SilkBackground from '../../components/animations/Background';
-import SplitText from '../../components/common/SplitText';
-import { useProfileDetails, useUpdateProfile } from '../../shared/hooks';
-import './userProfilePage.css';
+} from "@mui/material";
+import ProfileCard from "../../components/cards/ProfileCard";
+import Navbar from "../../components/navbar/Navbar";
+import SilkBackground from "../../components/animations/Background";
+import SplitText from "../../components/common/SplitText";
+import { useProfileDetails, useUpdateProfile } from "../../shared/hooks";
+import "./userProfilePage.css";
+import Sidebar from "../../components/sidebar/Sidebar";
 
 export const ProfilePage = () => {
   const { user, loading } = useProfileDetails();
@@ -26,10 +27,10 @@ export const ProfilePage = () => {
   } = useUpdateProfile();
 
   const [formData, setFormData] = useState({
-    name: '',
-    direccion: '',
-    nombreTrabajo: '',
-    montoMensual: '',
+    name: "",
+    direccion: "",
+    nombreTrabajo: "",
+    montoMensual: "",
   });
 
   const [isEditing, setIsEditing] = useState(false);
@@ -37,10 +38,10 @@ export const ProfilePage = () => {
   useEffect(() => {
     if (user) {
       setFormData({
-        name: user.name || '',
-        direccion: user.direccion || '',
-        nombreTrabajo: user.nombreTrabajo || '',
-        montoMensual: user.montoMensual || '',
+        name: user.name || "",
+        direccion: user.direccion || "",
+        nombreTrabajo: user.nombreTrabajo || "",
+        montoMensual: user.montoMensual || "",
       });
     }
   }, [user]);
@@ -57,9 +58,8 @@ export const ProfilePage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await submitProfileUpdate(formData);
-    window.location.reload(); 
+    window.location.reload();
   };
-  
 
   const handleEditToggle = () => {
     setIsEditing((prev) => !prev);
@@ -70,14 +70,20 @@ export const ProfilePage = () => {
 
   return (
     <>
-      <SilkBackground />
-      <Navbar />
+      <SilkBackground
+        speed={6}
+        scale={1}
+        noiseIntensity={0}
+        rotation={0}
+        color={"#e87d7d"}
+      />
+      <Sidebar />
       <Container
         sx={{
           mt: 10,
-          minHeight: 'calc(100vh - 64px - 64px)',
+          minHeight: "calc(100vh - 64px - 64px)",
           zIndex: 1,
-          position: 'relative',
+          position: "relative",
         }}
       >
         <Grid container spacing={4} alignItems="flex-start">
@@ -90,12 +96,12 @@ export const ProfilePage = () => {
               status="Online"
               avatarUrl={
                 user.avatarUrl ||
-                'https://d15f34w2p8l1cc.cloudfront.net/overwatch/bc538b345188bdcb2d2be5b2894d471ba54aeea53b03862429205ed49d693bbe.png'
+                "https://d15f34w2p8l1cc.cloudfront.net/overwatch/bc538b345188bdcb2d2be5b2894d471ba54aeea53b03862429205ed49d693bbe.png"
               }
               contactText="Contactar"
               showUserInfo={true}
               enableTilt={true}
-              onContactClick={() => console.log('Contacto')}
+              onContactClick={() => console.log("Contacto")}
             />
           </Grid>
 
@@ -112,15 +118,15 @@ export const ProfilePage = () => {
                   Información del Perfil
                 </Typography>
                 {[
-                  { label: 'Nombre completo', value: user.name },
-                  { label: 'Usuario', value: user.username },
-                  { label: 'Correo', value: user.email },
-                  { label: 'Rol', value: user.role },
-                  { label: 'Dirección', value: user.direccion },
-                  { label: 'Trabajo', value: user.nombreTrabajo },
-                  { label: 'Monto mensual', value: user.montoMensual },
+                  { label: "Nombre completo", value: user.name },
+                  { label: "Usuario", value: user.username },
+                  { label: "Correo", value: user.email },
+                  { label: "Rol", value: user.role },
+                  { label: "Dirección", value: user.direccion },
+                  { label: "Trabajo", value: user.nombreTrabajo },
+                  { label: "Monto mensual", value: user.montoMensual },
                 ].map((field, index) => (
-                  <Box key={field.label} sx={{ width: '100%' }}>
+                  <Box key={field.label} sx={{ width: "100%" }}>
                     <SplitText
                       text={`${field.label}: ${field.value}`}
                       className="profile-info-text"
@@ -157,8 +163,8 @@ export const ProfilePage = () => {
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  InputProps={{ style: { color: 'white' } }}
-                  sx={{ input: { color: 'white' }, label: { color: '#ccc' } }}
+                  InputProps={{ style: { color: "white" } }}
+                  sx={{ input: { color: "white" }, label: { color: "#ccc" } }}
                 />
 
                 <TextField
@@ -167,8 +173,8 @@ export const ProfilePage = () => {
                   name="direccion"
                   value={formData.direccion}
                   onChange={handleChange}
-                  InputProps={{ style: { color: 'white' } }}
-                  sx={{ input: { color: 'white' }, label: { color: '#ccc' } }}
+                  InputProps={{ style: { color: "white" } }}
+                  sx={{ input: { color: "white" }, label: { color: "#ccc" } }}
                 />
 
                 <TextField
@@ -177,8 +183,8 @@ export const ProfilePage = () => {
                   name="nombreTrabajo"
                   value={formData.nombreTrabajo}
                   onChange={handleChange}
-                  InputProps={{ style: { color: 'white' } }}
-                  sx={{ input: { color: 'white' }, label: { color: '#ccc' } }}
+                  InputProps={{ style: { color: "white" } }}
+                  sx={{ input: { color: "white" }, label: { color: "#ccc" } }}
                 />
 
                 <TextField
@@ -188,8 +194,8 @@ export const ProfilePage = () => {
                   type="number"
                   value={formData.montoMensual}
                   onChange={handleChange}
-                  InputProps={{ style: { color: 'white' } }}
-                  sx={{ input: { color: 'white' }, label: { color: '#ccc' } }}
+                  InputProps={{ style: { color: "white" } }}
+                  sx={{ input: { color: "white" }, label: { color: "#ccc" } }}
                 />
 
                 {error && <Alert severity="error">{error}</Alert>}
@@ -202,7 +208,7 @@ export const ProfilePage = () => {
                     type="submit"
                     disabled={updating}
                   >
-                    {updating ? 'Guardando...' : 'Guardar Cambios'}
+                    {updating ? "Guardando..." : "Guardar Cambios"}
                   </Button>
                   <Button
                     variant="outlined"
@@ -210,10 +216,10 @@ export const ProfilePage = () => {
                     onClick={() => {
                       setIsEditing(false);
                       setFormData({
-                        name: user.name || '',
-                        direccion: user.direccion || '',
-                        nombreTrabajo: user.nombreTrabajo || '',
-                        montoMensual: user.montoMensual || '',
+                        name: user.name || "",
+                        direccion: user.direccion || "",
+                        nombreTrabajo: user.nombreTrabajo || "",
+                        montoMensual: user.montoMensual || "",
                       });
                       clearMessages();
                     }}

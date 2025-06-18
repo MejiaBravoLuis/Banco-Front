@@ -18,6 +18,7 @@ import {
 } from "@mui/material";
 import Navbar from "../../components/navbar/Navbar";
 import SilkBackground from "../../components/animations/Background";
+import Sidebar from "../../components/sidebar/Sidebar";
 import {
   getMyAccounts,
   getMyMovements,
@@ -73,7 +74,12 @@ export const DepositPage = () => {
 
   const handleDeposit = async () => {
     try {
-      const res = await createDeposit(fromAccount, toAccount, amount, description);
+      const res = await createDeposit(
+        fromAccount,
+        toAccount,
+        amount,
+        description
+      );
       setAlertMessage(res.message || "Depósito realizado");
       setAlertSeverity("success");
       setAlertOpen(true);
@@ -86,7 +92,9 @@ export const DepositPage = () => {
     } catch (error) {
       console.error("Detalle del error:", error);
       const backendMessage =
-        error?.response?.data?.message || error.message || "Error al hacer el depósito.";
+        error?.response?.data?.message ||
+        error.message ||
+        "Error al hacer el depósito.";
       setAlertMessage(backendMessage);
       setAlertSeverity("error");
       setAlertOpen(true);
@@ -102,7 +110,8 @@ export const DepositPage = () => {
       setAlertOpen(true);
       setTimeout(() => window.location.reload(), 2000);
     } catch (err) {
-      const msg = err.response?.data?.message || "No se pudo cancelar el movimiento.";
+      const msg =
+        err.response?.data?.message || "No se pudo cancelar el movimiento.";
       setAlertMessage(msg);
       setAlertSeverity("error");
       setAlertOpen(true);
@@ -119,21 +128,36 @@ export const DepositPage = () => {
 
   return (
     <>
-      <SilkBackground />
-      <Navbar />
+      <SilkBackground
+        speed={6}
+        scale={1}
+        noiseIntensity={0}
+        rotation={0}
+        color={"#e87d7d"}
+      />
+      <Sidebar />
       <Container className="deposit-container">
-        <Typography variant="h4" gutterBottom>Mis Cuentas</Typography>
-        {Array.isArray(accounts) && accounts.map((acc) => (
-          <Typography key={acc._id} className="account-info">
-            Cuenta: {acc.numeroCuenta} | Saldo: Q{acc.saldo}
-          </Typography>
-        ))}
+        <Typography variant="h4" gutterBottom>
+          Mis Cuentas
+        </Typography>
+        {Array.isArray(accounts) &&
+          accounts.map((acc) => (
+            <Typography key={acc._id} className="account-info">
+              Cuenta: {acc.numeroCuenta} | Saldo: Q{acc.saldo}
+            </Typography>
+          ))}
 
-        <Button variant="contained" sx={{ mt: 2 }} onClick={() => setOpen(true)}>
+        <Button
+          variant="contained"
+          sx={{ mt: 2 }}
+          onClick={() => setOpen(true)}
+        >
           Hacer Depósito
         </Button>
 
-        <Typography variant="h5" sx={{ mt: 4 }}>Últimos 5 Movimientos</Typography>
+        <Typography variant="h5" sx={{ mt: 4 }}>
+          Últimos 5 Movimientos
+        </Typography>
         <Paper sx={{ width: "100%", overflow: "auto", mt: 1 }}>
           <Table>
             <TableHead>
@@ -160,7 +184,9 @@ export const DepositPage = () => {
                     <TableCell sx={{ color: mov.active ? "green" : "red" }}>
                       {mov.active ? "Activo" : "Cancelado"}
                     </TableCell>
-                    <TableCell>{new Date(mov.createdAt).toLocaleString()}</TableCell>
+                    <TableCell>
+                      {new Date(mov.createdAt).toLocaleString()}
+                    </TableCell>
                     <TableCell>
                       {puedeCancelar(mov) && (
                         <Button
@@ -173,14 +199,16 @@ export const DepositPage = () => {
                       )}
                     </TableCell>
                   </TableRow>
-              ))}
+                ))}
             </TableBody>
           </Table>
         </Paper>
 
         <Modal open={open} onClose={() => setOpen(false)}>
           <Box className="deposit-modal">
-            <Typography variant="h6" mb={2}>Realizar Depósito</Typography>
+            <Typography variant="h6" mb={2}>
+              Realizar Depósito
+            </Typography>
 
             <TextField
               select
@@ -222,7 +250,9 @@ export const DepositPage = () => {
               sx={{ mb: 2 }}
             />
 
-            <Button variant="contained" fullWidth onClick={handleDeposit}>Depositar</Button>
+            <Button variant="contained" fullWidth onClick={handleDeposit}>
+              Depositar
+            </Button>
           </Box>
         </Modal>
 

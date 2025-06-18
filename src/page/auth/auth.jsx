@@ -2,12 +2,13 @@ import { useRef } from "react";
 import { Helmet } from "react-helmet-async";
 import { Login } from "../../components/Login";
 import { Register } from "../../components/Register";
-import SilkBackground from '../../components/animations/Background'
+import SilkBackground from "../../components/animations/Background";
 import "./styleAuth.css";
+import logo from "../../assets/img/penguin-logo.png";
 
-import iconSwitch from '../../assets/icons/1.png';
+import iconSwitch from "../../assets/icons/1.png";
 
-export const Auth =()=> {
+export const Auth = () => {
   const containerRef = useRef(null);
 
   const handleSignInClick = () => {
@@ -21,12 +22,12 @@ export const Auth =()=> {
 
   return (
     <>
-      <SilkBackground 
-        speed={8}
-        scale={1.5}
-        color="#CCA0F3"
-        noiseIntensity={1}
-        rotation={2}
+      <SilkBackground
+        speed={6}
+        scale={1}
+        noiseIntensity={0}
+        rotation={0}
+        color={"#e87d7d"}
       />
       <Helmet>
         <link
@@ -50,7 +51,11 @@ export const Auth =()=> {
               <h3>¡Bienvenido!</h3>
               <p>Ingrese sus datos</p>
               <button className="button" onClick={handleSignUpClick}>
-                <img src={iconSwitch} alt="icono password" className="input-icon" />
+                <img
+                  src={iconSwitch}
+                  alt="icono password"
+                  className="input-icon"
+                />
                 Registrarse <i className="lni lni-arrow-left login"></i>
               </button>
             </div>
@@ -59,7 +64,11 @@ export const Auth =()=> {
               <p>Registre sus datos</p>
 
               <button className="button" onClick={handleSignInClick}>
-                <img src={iconSwitch} alt="icono password" className="input-icon" />
+                <img
+                  src={iconSwitch}
+                  alt="icono password"
+                  className="input-icon"
+                />
                 Iniciar Sesión <i className="lni lni-arrow-right"></i>
               </button>
             </div>
@@ -68,6 +77,6 @@ export const Auth =()=> {
       </div>
     </>
   );
-}
+};
 
 export default Auth;

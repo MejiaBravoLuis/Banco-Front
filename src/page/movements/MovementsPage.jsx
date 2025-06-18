@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import Navbar from "../../components/navbar/Navbar";
 import SilkBackground from "../../components/animations/Background";
+import Sidebar from "../../components/sidebar/Sidebar";
 import {
   getMyMovements,
   getAllActiveMovements,
@@ -58,37 +59,40 @@ export const MovementsPage = () => {
       setAlertOpen(true);
       setTimeout(() => window.location.reload(), 2000);
     } catch (err) {
-      const msg = err.response?.data?.message || "No se pudo cancelar el movimiento.";
+      const msg =
+        err.response?.data?.message || "No se pudo cancelar el movimiento.";
       setAlertMessage(msg);
       setAlertSeverity("error");
       setAlertOpen(true);
     }
   };
 
-const puedeCancelar = (mov) => {
-  const ahora = new Date();
-  const creado = new Date(mov.createdAt);
-  const diferenciaMin = (ahora - creado) / (1000 * 60);  
+  const puedeCancelar = (mov) => {
+    const ahora = new Date();
+    const creado = new Date(mov.createdAt);
+    const diferenciaMin = (ahora - creado) / (1000 * 60);
 
-  if (diferenciaMin > 3) {
-    return false;  
-  }
+    if (diferenciaMin > 3) {
+      return false;
+    }
 
-  return true;  
-};
-
-
-
-
-
-
+    return true;
+  };
 
   return (
     <>
-      <SilkBackground />
-      <Navbar />
+      <SilkBackground
+    speed={6}
+    scale={1}
+    noiseIntensity={0}
+    rotation={0}
+    color={"#e87d7d"}
+  />
+      <Sidebar />
       <Container className="movements-container">
-        <Typography variant="h4" gutterBottom>Movimientos</Typography>
+        <Typography variant="h4" gutterBottom>
+          Movimientos
+        </Typography>
 
         <Paper sx={{ width: "100%", overflow: "auto" }}>
           <Table>
@@ -103,55 +107,58 @@ const puedeCancelar = (mov) => {
                 <TableCell>Acción</TableCell>
               </TableRow>
             </TableHead>
-<TableBody>
-  {movements.map((mov) => {
-    console.log("Movimiento:", mov); 
-    const puedeCancelarMovimiento = puedeCancelar(mov);
-    const tiempoCaducado = !puedeCancelar(mov);  // Determina si el tiempo ya ha caducado
+            <TableBody>
+              {movements.map((mov) => {
+                console.log("Movimiento:", mov);
+                const puedeCancelarMovimiento = puedeCancelar(mov);
+                const tiempoCaducado = !puedeCancelar(mov); // Determina si el tiempo ya ha caducado
 
-    return (
-      <TableRow key={mov._id}>
-        <TableCell>{mov.fromAccount}</TableCell>
-        <TableCell>{mov.toAccount}</TableCell>
-        <TableCell>Q{mov.amount}</TableCell>
-        <TableCell>{mov.description}</TableCell>
-        <TableCell sx={{ color: mov.active ? "green" : "red" }}>
-          {mov.active ? "Activo" : "Cancelado"}
-        </TableCell>
-        <TableCell>{new Date(mov.createdAt).toLocaleString()}</TableCell>
-        <TableCell>
-          {tiempoCaducado ? (
-            <Snackbar
-              open={true}
-              autoHideDuration={4000}
-              onClose={() => {}}
-              anchorOrigin={{ vertical: "top", horizontal: "center" }}
-            >
-              <Alert severity="warning">
-                El tiempo para cancelar este movimiento ha caducado.
-              </Alert>
-            </Snackbar>
-          ) : (
-            <Button
-              variant="outlined"
-              color="error"
-              sx={{
-                minWidth: "120px",
-                padding: "10px",
-                textTransform: "none",
-              }}
-              onClick={() => handleCancel(mov._id)}
-            >
-              Cancelar
-            </Button>
-          )}
-        </TableCell>
-      </TableRow>
-    );
-  })}
-</TableBody>
-
-
+                return (
+                  <TableRow key={mov._id}>
+                    <TableCell>{mov.fromAccount}</TableCell>
+                    <TableCell>{mov.toAccount}</TableCell>
+                    <TableCell>Q{mov.amount}</TableCell>
+                    <TableCell>{mov.description}</TableCell>
+                    <TableCell sx={{ color: mov.active ? "green" : "red" }}>
+                      {mov.active ? "Activo" : "Cancelado"}
+                    </TableCell>
+                    <TableCell>
+                      {new Date(mov.createdAt).toLocaleString()}
+                    </TableCell>
+                    <TableCell>
+                      {tiempoCaducado ? (
+                        <Snackbar
+                          open={true}
+                          autoHideDuration={4000}
+                          onClose={() => {}}
+                          anchorOrigin={{
+                            vertical: "top",
+                            horizontal: "center",
+                          }}
+                        >
+                          <Alert severity="warning">
+                            El tiempo para cancelar este movimiento ha caducado.
+                          </Alert>
+                        </Snackbar>
+                      ) : (
+                        <Button
+                          variant="outlined"
+                          color="error"
+                          sx={{
+                            minWidth: "120px",
+                            padding: "10px",
+                            textTransform: "none",
+                          }}
+                          onClick={() => handleCancel(mov._id)}
+                        >
+                          Cancelar
+                        </Button>
+                      )}
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
           </Table>
         </Paper>
 

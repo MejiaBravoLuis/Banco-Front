@@ -15,7 +15,7 @@ import {
   DialogContent,
   DialogActions,
   TextField,
-  Stack
+  Stack,
 } from "@mui/material";
 import Navbar from "../../components/navbar/Navbar";
 import SilkBackground from "../../components/animations/Background";
@@ -27,6 +27,7 @@ import {
 import { useSnackbar } from "notistack";
 import { Modal, Box, Snackbar, Alert, MenuItem } from "@mui/material";
 import { getMyAccounts, createDeposit } from "../../services/api";
+import Sidebar from "../../components/sidebar/Sidebar";
 import "./favorite.css";
 
 export const FavoritesPage = () => {
@@ -48,11 +49,10 @@ export const FavoritesPage = () => {
   const [alertMessage, setAlertMessage] = useState("");
   const [alertSeverity, setAlertSeverity] = useState("success");
 
-    useEffect(() => {
+  useEffect(() => {
     fetchFavorites();
     getMyAccounts().then(setAccounts).catch(console.error);
   }, []);
-
 
   const fetchFavorites = async () => {
     setLoading(true);
@@ -89,37 +89,63 @@ export const FavoritesPage = () => {
   };
 
   const handleOpenDeposit = (numeroCuentaDestino) => {
-  setToAccount(numeroCuentaDestino);
-  setOpenDeposit(true);
+    setToAccount(numeroCuentaDestino);
+    setOpenDeposit(true);
   };
 
   const handleDeposit = async () => {
-  try {
-    const res = await createDeposit(fromAccount, toAccount, amount, description);
-    setAlertMessage(res.message || "Depósito realizado");
-    setAlertSeverity("success");
-    setAlertOpen(true);
-    setOpenDeposit(false);
-    setFromAccount("");
-    setToAccount("");
-    setAmount("");
-    setDescription("");
-  } catch (error) {
-    const backendMessage = error?.response?.data?.message || error.message || "Error al hacer el depósito.";
-    setAlertMessage(backendMessage);
-    setAlertSeverity("error");
-    setAlertOpen(true);
-    setOpenDeposit(false);
-  }
-};
-
+    try {
+      const res = await createDeposit(
+        fromAccount,
+        toAccount,
+        amount,
+        description
+      );
+      setAlertMessage(res.message || "Depósito realizado");
+      setAlertSeverity("success");
+      setAlertOpen(true);
+      setOpenDeposit(false);
+      setFromAccount("");
+      setToAccount("");
+      setAmount("");
+      setDescription("");
+    } catch (error) {
+      const backendMessage =
+        error?.response?.data?.message ||
+        error.message ||
+        "Error al hacer el depósito.";
+      setAlertMessage(backendMessage);
+      setAlertSeverity("error");
+      setAlertOpen(true);
+      setOpenDeposit(false);
+    }
+  };
 
   return (
     <>
-      <SilkBackground />
-      <Navbar />
-      <Container sx={{ mt: 10, p: 4, background: "#ffffffcc", borderRadius: 4, boxShadow: 3 }}>
-        <Stack direction="row" justifyContent="space-between" alignItems="center" mb={3}>
+      <SilkBackground
+        speed={6}
+        scale={1}
+        noiseIntensity={0}
+        rotation={0}
+        color={"#e87d7d"}
+      />
+      <Sidebar />
+      <Container
+        sx={{
+          mt: 10,
+          p: 4,
+          background: "#ffffffcc",
+          borderRadius: 4,
+          boxShadow: 3,
+        }}
+      >
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          mb={3}
+        >
           <Typography variant="h4">Mis Favoritos</Typography>
           <Button variant="contained" onClick={() => setOpenDialog(true)}>
             Agregar Favorito
@@ -147,7 +173,13 @@ export const FavoritesPage = () => {
                     <TableCell>{f.cuenta?.tipoCuenta}</TableCell>
                     <TableCell>
                       <Stack direction="row" spacing={1}>
-                        <Button variant="outlined" color="primary" onClick={() => handleOpenDeposit(f.cuenta?.numeroCuenta)}>
+                        <Button
+                          variant="outlined"
+                          color="primary"
+                          onClick={() =>
+                            handleOpenDeposit(f.cuenta?.numeroCuenta)
+                          }
+                        >
                           Depositar
                         </Button>
                         <Button
@@ -187,13 +219,27 @@ export const FavoritesPage = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setOpenDialog(false)}>Cancelar</Button>
-          <Button onClick={handleAgregar} variant="contained">Agregar</Button>
+          <Button onClick={handleAgregar} variant="contained">
+            Agregar
+          </Button>
         </DialogActions>
       </Dialog>
 
       <Modal open={openDeposit} onClose={() => setOpenDeposit(false)}>
-        <Box className="deposit-modal" sx={{ bgcolor: "white", p: 4, borderRadius: 2, maxWidth: 400, mx: "auto", mt: 10 }}>
-          <Typography variant="h6" mb={2}>Realizar Depósito</Typography>
+        <Box
+          className="deposit-modal"
+          sx={{
+            bgcolor: "white",
+            p: 4,
+            borderRadius: 2,
+            maxWidth: 400,
+            mx: "auto",
+            mt: 10,
+          }}
+        >
+          <Typography variant="h6" mb={2}>
+            Realizar Depósito
+          </Typography>
 
           <TextField
             select
@@ -235,7 +281,9 @@ export const FavoritesPage = () => {
             sx={{ mb: 2 }}
           />
 
-          <Button variant="contained" fullWidth onClick={handleDeposit}>Depositar</Button>
+          <Button variant="contained" fullWidth onClick={handleDeposit}>
+            Depositar
+          </Button>
         </Box>
       </Modal>
       <Snackbar
@@ -244,11 +292,14 @@ export const FavoritesPage = () => {
         onClose={() => setAlertOpen(false)}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
       >
-        <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{ width: "100%" }}>
+        <Alert
+          onClose={() => setAlertOpen(false)}
+          severity={alertSeverity}
+          sx={{ width: "100%" }}
+        >
           {alertMessage}
         </Alert>
       </Snackbar>
-
     </>
   );
 };

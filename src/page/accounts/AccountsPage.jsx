@@ -16,10 +16,10 @@ import {
   FormControl,
   InputLabel,
   TextField,
-  Dialog, 
-  DialogTitle, 
-  DialogContent, 
-  DialogActions
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
 } from "@mui/material";
 import {
   getMyAccounts,
@@ -28,18 +28,24 @@ import {
   createAccount,
   deleteAccount,
   acceptAccount,
-  agregarSaldoCuenta
+  agregarSaldoCuenta,
 } from "../../services/api";
-import Navbar from "../../components/navbar/Navbar";
+import Sidebar from "../../components/sidebar/Sidebar";
 import SilkBackground from "../../components/animations/Background";
+import StarBorder from "../../components/animations/button/StarBorder";
 
 import "./accountsPage.css";
 
 export const AccountsPage = () => {
   const [accounts, setAccounts] = useState([]);
   const [pendingAccounts, setPendingAccounts] = useState([]);
-  const [tipoCuentaSeleccionado, setTipoCuentaSeleccionado] = useState("AHORRO");
-  const [alert, setAlert] = useState({ open: false, message: "", severity: "success" });
+  const [tipoCuentaSeleccionado, setTipoCuentaSeleccionado] =
+    useState("AHORRO");
+  const [alert, setAlert] = useState({
+    open: false,
+    message: "",
+    severity: "success",
+  });
   const [searchTerm, setSearchTerm] = useState("");
   const [openAddBalanceDialog, setOpenAddBalanceDialog] = useState(false);
   const [selectedAccountId, setSelectedAccountId] = useState(null);
@@ -54,7 +60,9 @@ export const AccountsPage = () => {
         const activeRes = await getActiveAccounts();
         const pendingRes = await getPendingAccounts();
         setAccounts(Array.isArray(activeRes.data) ? activeRes.data : []);
-        setPendingAccounts(Array.isArray(pendingRes.data) ? pendingRes.data : []);
+        setPendingAccounts(
+          Array.isArray(pendingRes.data) ? pendingRes.data : []
+        );
       } else {
         const res = await getMyAccounts();
         setAccounts(Array.isArray(res) ? res : []);
@@ -134,7 +142,10 @@ export const AccountsPage = () => {
     }
 
     try {
-      const res = await agregarSaldoCuenta(selectedAccountId, Number(balanceToAdd));
+      const res = await agregarSaldoCuenta(
+        selectedAccountId,
+        Number(balanceToAdd)
+      );
       if (res.error) {
         showAlert(res.msg || "Error al agregar saldo.", "error");
       } else {
@@ -153,12 +164,35 @@ export const AccountsPage = () => {
 
   return (
     <>
-      <SilkBackground />
-      <Navbar />
-      <Container sx={{ mt: 10, p: 4, background: "#ffffffcc", borderRadius: 4, boxShadow: 3 }}>
-        <Typography variant="h4" gutterBottom>Cuentas Bancarias</Typography>
+      <SilkBackground
+        speed={6}
+        scale={1}
+        noiseIntensity={0}
+        rotation={0}
+        color={"#e87d7d"}
+      />
+      <Sidebar />
+      <Container
+        sx={{
+          mt: 10,
+          p: 4,
+          background: "#ffffffcc",
+          borderRadius: 4,
+          boxShadow: 3,
+        }}
+      >
+        <Typography variant="h4" gutterBottom>
+          Cuentas Bancarias
+        </Typography>
 
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem", marginBottom: "1rem" }}>
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "1rem",
+            marginBottom: "1rem",
+          }}
+        >
           <TextField
             label="Buscar por número de cuenta"
             variant="outlined"
@@ -183,7 +217,12 @@ export const AccountsPage = () => {
             </Select>
           </FormControl>
 
-          <Button variant="contained" color="primary" onClick={handleCreateAccount}>
+          
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleCreateAccount}
+          >
             Solicitar nueva cuenta
           </Button>
         </div>
@@ -238,7 +277,9 @@ export const AccountsPage = () => {
 
         {role === "ADMIN" && (
           <Paper>
-            <Typography variant="h6" sx={{ p: 2 }}>Cuentas pendientes</Typography>
+            <Typography variant="h6" sx={{ p: 2 }}>
+              Cuentas pendientes
+            </Typography>
             <Table>
               <TableHead>
                 <TableRow>
@@ -270,7 +311,10 @@ export const AccountsPage = () => {
           </Paper>
         )}
 
-        <Dialog open={openAddBalanceDialog} onClose={handleCloseAddBalanceDialog}>
+        <Dialog
+          open={openAddBalanceDialog}
+          onClose={handleCloseAddBalanceDialog}
+        >
           <DialogTitle>Agregar saldo a la cuenta</DialogTitle>
           <DialogContent>
             <TextField
@@ -287,7 +331,11 @@ export const AccountsPage = () => {
           </DialogContent>
           <DialogActions>
             <Button onClick={handleCloseAddBalanceDialog}>Cancelar</Button>
-            <Button onClick={handleAddBalance} variant="contained" color="primary">
+            <Button
+              onClick={handleAddBalance}
+              variant="contained"
+              color="primary"
+            >
               Agregar
             </Button>
           </DialogActions>
@@ -299,7 +347,10 @@ export const AccountsPage = () => {
           onClose={() => setAlert({ ...alert, open: false })}
           anchorOrigin={{ vertical: "top", horizontal: "center" }}
         >
-          <Alert severity={alert.severity} onClose={() => setAlert({ ...alert, open: false })}>
+          <Alert
+            severity={alert.severity}
+            onClose={() => setAlert({ ...alert, open: false })}
+          >
             {alert.message}
           </Alert>
         </Snackbar>

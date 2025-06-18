@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from "react";
-import {
-  Container,
-  Typography,
-  Paper,
-  TextField,
-} from "@mui/material";
+import { Container, Typography, Paper, TextField } from "@mui/material";
 import Navbar from "../../components/navbar/Navbar";
 import SilkBackground from "../../components/animations/Background";
+import Sidebar from "../../components/sidebar/Sidebar";
 
 export const DivisaPage = () => {
   const [exchangeRates, setExchangeRates] = useState([]);
@@ -41,14 +37,18 @@ export const DivisaPage = () => {
 
   return (
     <>
-      <SilkBackground />
-      <Navbar />
+      <SilkBackground
+        speed={6}
+        scale={1}
+        noiseIntensity={0}
+        rotation={0}
+        color={"#e87d7d"}
+      />
+      <Sidebar />
       <Container className="deposit-container">
         <Typography variant="h5" sx={{ mt: 4, mb: 2 }}>
           Conversor de Divisas desde Quetzales (GTQ)
         </Typography>
-
-        
 
         <Paper sx={{ p: 2, mb: 4 }}>
           {exchangeRates.length > 0 ? (

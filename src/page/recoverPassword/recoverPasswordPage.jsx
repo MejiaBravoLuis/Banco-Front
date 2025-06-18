@@ -1,7 +1,14 @@
 import { useState, useEffect } from "react";
 import { useForgotPassword, useResetPassword } from "../../shared/hooks";
 import { useNavigate } from "react-router-dom";
-import { Container, Typography, TextField, Button, Box, Paper } from "@mui/material";
+import {
+  Container,
+  Typography,
+  TextField,
+  Button,
+  Box,
+  Paper,
+} from "@mui/material";
 import SilkBackground from "../../components/animations/Background";
 import "./styleRecoverPassword.css";
 
@@ -68,7 +75,14 @@ export const PasswordRecoveryPage = () => {
 
   return (
     <>
-      <SilkBackground />
+      <SilkBackground
+        speed={6}
+        scale={1}
+        noiseIntensity={0}
+        rotation={0}
+        color={"#e87d7d"}
+      />
+      <Sidebar />
       <Container
         maxWidth="sm"
         sx={{
@@ -83,7 +97,13 @@ export const PasswordRecoveryPage = () => {
       >
         <Paper
           elevation={10}
-          sx={{ p: 4, borderRadius: 4, backgroundColor: "#1e1e1e", color: "white", width: "100%" }}
+          sx={{
+            p: 4,
+            borderRadius: 4,
+            backgroundColor: "#1e1e1e",
+            color: "white",
+            width: "100%",
+          }}
         >
           <Box
             component="form"
@@ -180,7 +200,8 @@ export const PasswordRecoveryPage = () => {
                   sx={{ flex: 1 }}
                 >
                   {step === 2 && "Validar token"}
-                  {step === 3 && (loadingChange ? "Cambiando..." : "Cambiar contraseña")}
+                  {step === 3 &&
+                    (loadingChange ? "Cambiando..." : "Cambiar contraseña")}
                 </Button>
                 <Button
                   type="button"
@@ -194,10 +215,18 @@ export const PasswordRecoveryPage = () => {
             )}
 
             <Box sx={{ mt: 2 }}>
-              {responseReset && <Typography className="success">{responseReset}</Typography>}
-              {errorReset && <Typography className="error">{errorReset}</Typography>}
-              {responseChange && <Typography className="success">{responseChange}</Typography>}
-              {errorChange && <Typography className="error">{errorChange}</Typography>}
+              {responseReset && (
+                <Typography className="success">{responseReset}</Typography>
+              )}
+              {errorReset && (
+                <Typography className="error">{errorReset}</Typography>
+              )}
+              {responseChange && (
+                <Typography className="success">{responseChange}</Typography>
+              )}
+              {errorChange && (
+                <Typography className="error">{errorChange}</Typography>
+              )}
             </Box>
           </Box>
         </Paper>

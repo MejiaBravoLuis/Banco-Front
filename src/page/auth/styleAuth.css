@@ -77,7 +77,7 @@ body {
     height: 100%;
     top: 0;
     right: 0;
-    background-image: url('../../assets/img/auth.jpg');
+    background-image: url('../../assets/img/penguin-logo.png');
     background-size: cover;
     background-position: center;
     color: #F7F5F0;
@@ -177,9 +177,9 @@ body {
 .button {
     position: relative;
     border-radius: 20px;
-    border: 1px solid #CCA0F3;
-    background: #CCA0F3;
-    color: #F7F5F0;
+    border: 1px solid #e87d7d;
+    background: #e87d7d;
+    color: #000000;
     font-size: 15px;
     font-weight: 700;
     margin: 10px;
@@ -192,7 +192,7 @@ body {
 
 .button:hover {
     letter-spacing: 3px;
-    background-color: #CCA0F3;
+    background-color: #e0e9eb;
 }
 
 .welcome,
