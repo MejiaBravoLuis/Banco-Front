@@ -7,14 +7,15 @@ import {
   Button,
   Alert,
   Typography,
+  Divider
 } from "@mui/material";
-import ProfileCard from "../../components/cards/ProfileCard";
-import Navbar from "../../components/navbar/Navbar";
 import SilkBackground from "../../components/animations/Background";
-import SplitText from "../../components/common/SplitText";
 import { useProfileDetails, useUpdateProfile } from "../../shared/hooks";
-import "./userProfilePage.css";
 import Sidebar from "../../components/sidebar/Sidebar";
+import SpotLigthCard from "../../components/cards/SpotligthCard";
+import iconUser from "../../assets/icons/4.png";
+import SplitText from "../../components/common/SplitText";
+import "./userProfilePage.css";
 
 export const ProfilePage = () => {
   const { user, loading } = useProfileDetails();
@@ -78,141 +79,110 @@ export const ProfilePage = () => {
         color={"#e87d7d"}
       />
       <Sidebar />
-      <Container
-        sx={{
-          mt: 10,
-          minHeight: "calc(100vh - 64px - 64px)",
-          zIndex: 1,
-          position: "relative",
-        }}
-      >
-        <Grid container spacing={4} alignItems="flex-start">
+      <Container className="profile-container">
+        <Typography
+          variant="h4"
+          fontWeight="bold"
+          mb={5}
+          textAlign="center"
+          color="#e3e6e8"
+        >
+          Mi Perfil
+        </Typography>
+
+        <Box className="profile-grid">
           {/* Tarjeta del usuario */}
-          <Grid item xs={12} md={6}>
-            <ProfileCard
-              name={user.name}
-              title={user.nombreTrabajo}
-              handle={user.username}
-              status="Online"
-              avatarUrl={
-                user.avatarUrl ||
-                "https://d15f34w2p8l1cc.cloudfront.net/overwatch/bc538b345188bdcb2d2be5b2894d471ba54aeea53b03862429205ed49d693bbe.png"
-              }
-              contactText="Contactar"
-              showUserInfo={true}
-              enableTilt={true}
-              onContactClick={() => console.log("Contacto")}
-            />
-          </Grid>
+          <Box className="profile-panel">
+            <SpotLigthCard icon={iconUser} className="custom-spotlight-card">
+              <img
+                src={`https://api.dicebear.com/6.x/initials/svg?seed=${user.name}`}
+                alt="avatar"
+                className="user-icon"
+              />
+              <Typography className="user-name">{user.name}</Typography>
+              <Typography className="user-email">{user.email}</Typography>
+              <Typography className="user-username">
+                @{user.username}
+              </Typography>
+              <Typography variant="body2" color="white">
+                Rol: {user.role}
+              </Typography>
+              <Button
+                variant="contained"
+                color="#e3e6e8"
+                sx={{ mt: 2, px: 4 }}
+                onClick={handleEditToggle}
+              >
+                {isEditing ? "Cerrar Edición" : "Editar Perfil"}
+              </Button>
+            </SpotLigthCard>
+          </Box>
 
           {/* Información o formulario */}
-          <Grid item xs={12} md={6}>
+          <Box className="profile-panel">
             {!isEditing ? (
               <Box
                 display="flex"
                 flexDirection="column"
                 gap={2}
-                alignItems="flex-end"
+                height="100%"
+                justifyContent="center"
               >
-                <Typography variant="h6" align="right" color="white">
-                  Información del Perfil
-                </Typography>
+                <Divider textAlign="left" sx={{ mb: 2, color: "#e3e6e8" }}>
+                  Información Personal
+                </Divider>
                 {[
-                  { label: "Nombre completo", value: user.name },
-                  { label: "Usuario", value: user.username },
-                  { label: "Correo", value: user.email },
-                  { label: "Rol", value: user.role },
                   { label: "Dirección", value: user.direccion },
                   { label: "Trabajo", value: user.nombreTrabajo },
                   { label: "Monto mensual", value: user.montoMensual },
-                ].map((field, index) => (
-                  <Box key={field.label} sx={{ width: "100%" }}>
-                    <SplitText
-                      text={`${field.label}: ${field.value}`}
-                      className="profile-info-text"
-                      splitType="words"
-                      delay={index * 150}
-                      duration={0.6}
-                      from={{ opacity: 0, y: 30 }}
-                      to={{ opacity: 1, y: 0 }}
-                      ease="power2.out"
-                      rootMargin="-50px"
-                    />
-                  </Box>
+                ].map((field) => (
+                  <Typography
+                    key={field.label}
+                    sx={{ color: "white", fontSize: "1.1rem" }}
+                  >
+                    <strong>{field.label}:</strong> {field.value || "-"}
+                  </Typography>
                 ))}
-
-                <Button variant="contained" onClick={handleEditToggle}>
-                  Editar Perfil
-                </Button>
               </Box>
             ) : (
               <Box
-                display="flex"
-                flexDirection="column"
-                gap={2}
                 component="form"
                 onSubmit={handleSubmit}
+                className="profile-form"
               >
-                <Typography variant="h6" color="white">
-                  Editar Perfil
-                </Typography>
-
-                <TextField
-                  fullWidth
-                  label="Nombre completo"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  InputProps={{ style: { color: "white" } }}
-                  sx={{ input: { color: "white" }, label: { color: "#ccc" } }}
-                />
-
-                <TextField
-                  fullWidth
-                  label="Dirección"
-                  name="direccion"
-                  value={formData.direccion}
-                  onChange={handleChange}
-                  InputProps={{ style: { color: "white" } }}
-                  sx={{ input: { color: "white" }, label: { color: "#ccc" } }}
-                />
-
-                <TextField
-                  fullWidth
-                  label="Trabajo"
-                  name="nombreTrabajo"
-                  value={formData.nombreTrabajo}
-                  onChange={handleChange}
-                  InputProps={{ style: { color: "white" } }}
-                  sx={{ input: { color: "white" }, label: { color: "#ccc" } }}
-                />
-
-                <TextField
-                  fullWidth
-                  label="Monto mensual"
-                  name="montoMensual"
-                  type="number"
-                  value={formData.montoMensual}
-                  onChange={handleChange}
-                  InputProps={{ style: { color: "white" } }}
-                  sx={{ input: { color: "white" }, label: { color: "#ccc" } }}
-                />
+                <Divider textAlign="left" sx={{ mb: 2, color: "#e3e6e8" }}>
+                  Editar Información
+                </Divider>
+                {[
+                  { label: "Nombre completo", name: "name" },
+                  { label: "Dirección", name: "direccion" },
+                  { label: "Trabajo", name: "nombreTrabajo" },
+                  {
+                    label: "Monto mensual",
+                    name: "montoMensual",
+                    type: "number",
+                  },
+                ].map((field) => (
+                  <TextField
+                    key={field.name}
+                    fullWidth
+                    label={field.label}
+                    name={field.name}
+                    type={field.type || "text"}
+                    value={formData[field.name]}
+                    onChange={handleChange}
+                    InputProps={{ style: { color: "white" } }}
+                    sx={{ input: { color: "white" }, label: { color: "#ccc" } }}
+                  />
+                ))}
 
                 {error && <Alert severity="error">{error}</Alert>}
                 {response && <Alert severity="success">{response}</Alert>}
 
-                <Box display="flex" gap={2} mt={2}>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    type="submit"
-                    disabled={updating}
-                  >
-                    {updating ? "Guardando..." : "Guardar Cambios"}
-                  </Button>
+                <Box display="flex" gap={2} mt={2} justifyContent="flex-end">
                   <Button
                     variant="outlined"
-                    color="secondary"
+                    color="#e3e6e8"
                     onClick={() => {
                       setIsEditing(false);
                       setFormData({
@@ -223,14 +193,23 @@ export const ProfilePage = () => {
                       });
                       clearMessages();
                     }}
+                    className="button-cancelar"
                   >
                     Cancelar
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="#e0e9eb"
+                    disabled={updating}
+                    className="button-guardar"
+                  >
+                    {updating ? "Guardando..." : "Guardar Cambios"}
                   </Button>
                 </Box>
               </Box>
             )}
-          </Grid>
-        </Grid>
+          </Box>
+        </Box>
       </Container>
     </>
   );

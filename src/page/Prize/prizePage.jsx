@@ -24,6 +24,7 @@ import {
   useDeletePrize,
 } from "../../shared/hooks";
 import { getMyAccounts } from "../../services/api";
+import "./prizePage.css";
 
 const getUserRole = () => {
   const user = localStorage.getItem("user");
@@ -149,8 +150,9 @@ export const PrizePage = () => {
       <Container sx={{ mt: 12, mb: 8 }}>
         {isAdmin && (
           <Box
+            className="prize-form-container"
             sx={{
-              backgroundColor: "#1e1e2f",
+              backgroundColor: "#e3e6e8",
               p: 4,
               borderRadius: 4,
               boxShadow: 5,
@@ -176,8 +178,8 @@ export const PrizePage = () => {
                     onChange={handleChange}
                     fullWidth
                     required
-                    InputProps={{ style: { color: "white" } }}
-                    sx={{ input: { color: "white" }, label: { color: "#bbb" } }}
+                    slotProps={{ style: { color: "#e87d8f" } }}
+                    sx={{ input: { color: "black" }, label: { color: "#e87d7d" } }}
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
@@ -190,7 +192,7 @@ export const PrizePage = () => {
                     fullWidth
                     required
                     InputProps={{ style: { color: "white" } }}
-                    sx={{ input: { color: "white" }, label: { color: "#bbb" } }}
+                    sx={{ input: { color: "black" }, label: { color: "#e87d7d" } }}
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
@@ -202,7 +204,7 @@ export const PrizePage = () => {
                     fullWidth
                     required
                     InputProps={{ style: { color: "white" } }}
-                    sx={{ input: { color: "white" }, label: { color: "#bbb" } }}
+                    sx={{ input: { color: "black" }, label: { color: "#e87d7d" } }}
                   />
                 </Grid>
               </Grid>
@@ -211,7 +213,7 @@ export const PrizePage = () => {
                 <Button
                   type="submit"
                   variant="contained"
-                  color="secondary"
+                  color="#e87d7d"
                   size="large"
                   disabled={creating || editing}
                 >
@@ -274,10 +276,10 @@ export const PrizePage = () => {
 
               return (
                 <Grid item xs={12} sm={6} md={4} key={prize._id}>
-                  <Card
+                  <Card className="prize-card"
                     sx={{
-                      backgroundColor: "#2d2d44",
-                      color: "white",
+                      backgroundColor: "#e0e9eb",
+                      color: "e87d7d",
                       borderRadius: 3,
                       height: "100%",
                       display: "flex",
@@ -287,7 +289,7 @@ export const PrizePage = () => {
                   >
                     <CardContent>
                       <Typography variant="h6">{prize.nombre}</Typography>
-                      <Typography variant="body2" color="#bbb" gutterBottom>
+                      <Typography variant="body2" color="grey" gutterBottom>
                         {prize.descripcion}
                       </Typography>
                       <Divider sx={{ my: 1, borderColor: "#555" }} />
@@ -322,7 +324,8 @@ export const PrizePage = () => {
                           {!puntosSuficientes && selected && (
                             <Typography
                               variant="body2"
-                              sx={{ color: "#f44336", mb: 1 }}
+                              sx={{ color: "#e87d7d", mb: 1 }}
+                              color="#e87d7d"
                             >
                               ❌ No tienes suficientes puntos para reclamar este
                               premio.
@@ -332,7 +335,7 @@ export const PrizePage = () => {
                           <p> Los canjes de premio NO SE PUEDEN REEMBOLZAR. </p>
                           <Button
                             variant="contained"
-                            color="primary"
+                            color="#e87d7d"
                             onClick={() => handleClaim(prize._id, selected)}
                             disabled={
                               !selected || !puntosSuficientes || claiming

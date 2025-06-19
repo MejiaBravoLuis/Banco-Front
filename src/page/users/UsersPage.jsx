@@ -12,13 +12,15 @@ import {
   Typography,
   Paper,
   Divider,
+  Avatar,
 } from "@mui/material";
-import Navbar from "../../components/navbar/Navbar";
 import SilkBackground from "../../components/animations/Background";
 import { getAllUsers } from "../../services/api";
-import ProfileCard from "../../components/cards/ProfileCard";
 import { useDeleteUserByAdmin, useUpdateUserByAdmin } from "../../shared/hooks";
 import Sidebar from "../../components/sidebar/Sidebar";
+import SpotLigthCard from "../../components/cards/SpotligthCard";
+import iconUser from "../../assets/icons/4.png";
+import "./UsersPage.css";
 
 export const UsersPage = () => {
   const [users, setUsers] = useState([]);
@@ -52,6 +54,7 @@ export const UsersPage = () => {
   useEffect(() => {
     fetchUsers();
   }, []);
+  
 
   const handleDelete = async (id) => {
     const confirmed = window.confirm(
@@ -124,67 +127,54 @@ export const UsersPage = () => {
           </Alert>
         )}
 
-        <Typography variant="h4" fontWeight="bold" mb={4} textAlign="center">
+        <Typography variant="h4" fontWeight="bold" mb={5} textAlign="center" color="#e3e6e8">
           Gestión de Usuarios
         </Typography>
 
-        <Grid container spacing={4}>
+        <Grid container spacing={3}>
           {users.map((user) => (
             <Grid item xs={12} sm={6} md={4} lg={3} key={user.uid}>
-              <Box
-                display="flex"
-                flexDirection="column"
-                alignItems="center"
-                sx={{
-                  p: 2,
-                  borderRadius: 4,
-                  transition: "all 0.3s ease",
-                  boxShadow: 3,
-                  backgroundColor: "white",
-                  "&:hover": {
-                    boxShadow: 6,
-                    transform: "translateY(-4px)",
-                  },
-                }}
-              >
-                <ProfileCard
-                  name={user.name}
-                  title={user.email}
-                  handle={user.username}
-                  status="Online"
-                  avatarUrl={
-                    user.avatarUrl ||
-                    `https://icons.veryicon.com/png/o/internet--web/prejudice/user-128.png?u=${user.uid}`
-                  }
-                  contactText="Contactar"
-                  showUserInfo={false}
-                  enableTilt={true}
-                  onContactClick={() => alert(`Contactar a ${user.name}`)}
-                />
-                {user.role !== "ADMIN" && (
-                  <>
-                    <Button
-                      color="error"
-                      variant="outlined"
-                      fullWidth
-                      sx={{ mt: 2 }}
-                      disabled={deleting}
-                      onClick={() => handleDelete(user.uid)}
-                    >
-                      {deleting ? "Eliminando..." : "Eliminar"}
-                    </Button>
-                    <Button
-                      color="primary"
-                      variant="contained"
-                      fullWidth
-                      sx={{ mt: 1 }}
-                      onClick={() => openEditModal(user)}
-                    >
-                      Editar
-                    </Button>
-                  </>
-                )}
-              </Box>
+              <SpotLigthCard icon={iconUser} className="custom-spotlight-card">
+                <Box
+                  display="flex"
+                  flexDirection="column"
+                  alignItems="center"
+                  gap={1}
+                >
+                  <img
+                    src={`https://api.dicebear.com/6.x/initials/svg?seed=${user.name}`}
+                    alt={`${user.name} avatar`}
+                    className="user-icon"
+                  />
+                  <Typography className="user-name">{user.name}</Typography>
+                  <Typography className="user-email">{user.email}</Typography>
+                  <Typography className="user-username">
+                    @{user.username}
+                  </Typography>
+
+                  {user.role !== "ADMIN" && (
+                    <Box mt={2} width="100%">
+                      <button
+                        className="button-full-width"
+                        onClick={() => handleDelete(user.uid)}
+                        disabled={deleting}
+                      >
+                        {deleting ? "Eliminando..." : "Eliminar"}
+                      </button>
+                      <button
+                        className="button-full-width"
+                        style={{
+                          marginTop: "8px",
+                          backgroundColor: "var(--color-4)",
+                        }}
+                        onClick={() => openEditModal(user)}
+                      >
+                        Editar
+                      </button>
+                    </Box>
+                  )}
+                </Box>
+              </SpotLigthCard>
             </Grid>
           ))}
         </Grid>
@@ -209,7 +199,12 @@ export const UsersPage = () => {
                 borderRadius: 4,
               }}
             >
-              <Typography variant="h6" mb={2} fontWeight="bold">
+              <Typography
+                variant="h6"
+                mb={2}
+                fontWeight="bold"
+                color="var(--color-5)"
+              >
                 Editar Usuario
               </Typography>
               <Divider sx={{ mb: 2 }} />
@@ -231,15 +226,32 @@ export const UsersPage = () => {
                   onChange={handleEditChange}
                 />
               ))}
+
               <Box mt={3} display="flex" justifyContent="flex-end" gap={2}>
-                <Button onClick={() => setSelectedUser(null)}>Cancelar</Button>
-                <Button
-                  variant="contained"
+                <button
+                  className="button-full-width"
+                  style={{
+                    backgroundColor: "transparent",
+                    color: "var(--color-5)",
+                    border: "2px solid var(--color-5)",
+                    maxWidth: "120px",
+                  }}
+                  onClick={() => setSelectedUser(null)}
+                >
+                  Cancelar
+                </button>
+                <button
+                  className="button-full-width"
+                  style={{
+                    backgroundColor: "var(--color-5)",
+                    color: "white",
+                    maxWidth: "120px",
+                  }}
                   onClick={handleEditSubmit}
                   disabled={updating}
                 >
                   {updating ? "Guardando..." : "Guardar"}
-                </Button>
+                </button>
               </Box>
             </Paper>
           </Fade>

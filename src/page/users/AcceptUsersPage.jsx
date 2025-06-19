@@ -6,10 +6,11 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import SpotLigthCard from "../../components/cards/SpotligthCard";
 import iconUser from "../../assets/icons/4.png";
 import iconPending from "../../assets/icons/12.png";
+import { Snackbar, Alert } from "@mui/material";
 import "./AcceptUsersPage.css";
 
 export const AcceptUsersPage = () => {
-  const { users, loading, error } = usePendingUsers();
+  const { users, loading, error, acceptPendingUser } = usePendingUsers();
   const [pending, setPending] = useState([]);
 
   useEffect(() => {
@@ -18,13 +19,43 @@ export const AcceptUsersPage = () => {
     }
   }, [users, loading, error]);
 
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: "",
+    severity: "success", // "success" | "error"
+  });
+
+  const handleAcceptClick = async (userId, userName) => {
+    if (!userId) {
+      setSnackbar({
+        open: true,
+        message: "ID de usuario no válido",
+        severity: "error",
+      });
+      return;
+    }
+
+    const result = await acceptPendingUser(userId);
+    if (result.success) {
+      setSnackbar({
+        open: true,
+        message: `Usuario ${userName} aceptado correctamente`,
+        severity: "success",
+      });
+      setPending((prev) =>
+        prev.filter((user) => user._id !== userId && user.uid !== userId)
+      );
+    } else {
+      setSnackbar({
+        open: true,
+        message: "Error al aceptar usuario",
+        severity: "error",
+      });
+    }
+  };
+
   if (loading) return <p>Cargando usuarios pendientes...</p>;
   if (error) return <p>Error al cargar usuarios.</p>;
-
-  const handleAddUser = (userId) => {
-    // Aquí pones la lógica para aceptar/agregar usuario pendiente
-    console.log("Agregar usuario con ID:", userId);
-  };
 
   return (
     <>
@@ -36,7 +67,12 @@ export const AcceptUsersPage = () => {
         color={"#e87d7d"}
       />
       <Sidebar />
-      <Grid container spacing={3} justifyContent="center" className="users-grid">
+      <Grid
+        container
+        spacing={3}
+        justifyContent="center"
+        className="users-grid"
+      >
         {pending.map((user) => (
           <Grid item xs={12} sm={6} md={4} lg={3} key={user._id}>
             <SpotLigthCard icon={iconUser} className="custom-spotlight-card">
@@ -56,7 +92,7 @@ export const AcceptUsersPage = () => {
                   </div>
                   <button
                     className="add-user-button"
-                    onClick={() => handleAddUser(user._id)}
+                    onClick={() => handleAcceptClick(user.uid, user.name)}
                   >
                     Agregar
                   </button>
@@ -66,6 +102,20 @@ export const AcceptUsersPage = () => {
           </Grid>
         ))}
       </Grid>
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={4000}
+        onClose={() => setSnackbar({ ...snackbar, open: false })}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
+        <Alert
+          onClose={() => setSnackbar({ ...snackbar, open: false })}
+          severity={snackbar.severity}
+          sx={{ width: "100%" }}
+        >
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
     </>
   );
 };
