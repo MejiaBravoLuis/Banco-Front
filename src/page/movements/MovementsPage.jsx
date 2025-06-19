@@ -82,12 +82,12 @@ export const MovementsPage = () => {
   return (
     <>
       <SilkBackground
-    speed={6}
-    scale={1}
-    noiseIntensity={0}
-    rotation={0}
-    color={"#e87d7d"}
-  />
+        speed={6}
+        scale={1}
+        noiseIntensity={0}
+        rotation={0}
+        color={"#e87d7d"}
+      />
       <Sidebar />
       <Container className="movements-container">
         <Typography variant="h4" gutterBottom>
@@ -119,7 +119,11 @@ export const MovementsPage = () => {
                     <TableCell>{mov.toAccount}</TableCell>
                     <TableCell>Q{mov.amount}</TableCell>
                     <TableCell>{mov.description}</TableCell>
-                    <TableCell sx={{ color: mov.active ? "green" : "red" }}>
+                    <TableCell
+                      className={
+                        mov.active ? "estado-activo" : "estado-cancelado"
+                      }
+                    >
                       {mov.active ? "Activo" : "Cancelado"}
                     </TableCell>
                     <TableCell>
@@ -142,13 +146,7 @@ export const MovementsPage = () => {
                         </Snackbar>
                       ) : (
                         <Button
-                          variant="outlined"
-                          color="error"
-                          sx={{
-                            minWidth: "120px",
-                            padding: "10px",
-                            textTransform: "none",
-                          }}
+                          className="cancel-button"
                           onClick={() => handleCancel(mov._id)}
                         >
                           Cancelar

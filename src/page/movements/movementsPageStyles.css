@@ -1,12 +1,23 @@
+:root {
+  --color-fondo: #e0e9eb;
+  --color-principal: #e87d7d;
+  --color-principal-secundario: #e87d8f;
+  --color-secundario: #ffffffcc;
+  --color-acento: #2c3e50;
+  --color-success: #27ae60;
+  --color-error: #e74c3c;
+  --color-error-hover: #c0392b;
+}
+
 body {
-  background-color: #f9f9fb;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--color-fondo);
+  font-family: 'Sora', sans-serif;
 }
 
 .movements-container {
   margin-top: 80px;
   padding: 40px;
-  background: #ffffffcc;
+  background: var(--color-secundario);
   border-radius: 20px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(10px);
@@ -14,40 +25,26 @@ body {
 
 .movements-container h4 {
   font-weight: bold;
-  color: #2c3e50;
+  color: #e87d7d;
 }
 
-.movements-container .MuiButton-contained {
-  background-color: #5e60ce;
-  color: white;
-  font-weight: bold;
-  border-radius: 12px;
-  padding: 10px 20px;
-  transition: all 0.3s ease;
-}
-
-.movements-container .MuiButton-contained:hover {
-  background-color: #4ea8de;
-}
-
-.movements-container .MuiTable-root {
-  background: #ffffffcc;
-  border-radius: 12px;
-  overflow: hidden;
+.movements-container .MuiPaper-root {
+  background-color: var(--color-secundario);
+  border-radius: 16px;
 }
 
 .movements-container .MuiTableCell-head {
   background-color: #e0e7ff;
-  color: #2c3e50;
+  color: #e87d7d;
   font-weight: bold;
 }
 
 .movements-container .MuiTableCell-body {
-  color: #2c3e50;
+  color: var(--color-acento);
 }
 
 .movements-container .MuiTableRow-root {
-  background-color: #ffffff;
+  background-color: white;
   transition: background-color 0.3s;
 }
 
@@ -57,17 +54,27 @@ body {
 
 .cancel-button {
   padding: 10px 20px;
-  background-color: #e74c3c; /* Rojo */
+  background-color: #e87d8f;
   border-radius: 8px;
   color: white;
+  text-transform: none;
+  font-weight: bold;
   transition: background-color 0.3s ease;
 }
 
 .cancel-button:hover {
-  background-color: #c0392b;
+  background-color: var(--color-error-hover);
 }
 
+.estado-activo {
+  color: var(--color-success);
+  font-weight: bold;
+}
 
+.estado-cancelado {
+  color: var(--color-error);
+  font-weight: bold;
+}
 
 .snackbar {
   z-index: 99999;

@@ -171,68 +171,49 @@ export const AccountsPage = () => {
         color={"#e87d7d"}
       />
       <Sidebar />
-      <Container
-        sx={{
-          mt: 10,
-          p: 4,
-          background: "#ffffffcc",
-          borderRadius: 4,
-          boxShadow: 3,
-        }}
-      >
-        <Typography variant="h4" gutterBottom>
+      <Container className="accounts-container">
+        <Typography variant="h4" className="accounts-title">
           Cuentas Bancarias
         </Typography>
 
-        <div
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: "1rem",
-            marginBottom: "1rem",
-          }}
-        >
+        <div className="controls-row">
           <TextField
             label="Buscar por número de cuenta"
             variant="outlined"
             size="small"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            sx={{ minWidth: 250 }}
           />
 
-          <FormControl>
+          <FormControl size="small">
             <InputLabel id="tipo-cuenta-label">Tipo de cuenta</InputLabel>
             <Select
               labelId="tipo-cuenta-label"
               value={tipoCuentaSeleccionado}
               label="Tipo de cuenta"
               onChange={(e) => setTipoCuentaSeleccionado(e.target.value)}
-              size="small"
-              sx={{ minWidth: 150 }}
             >
               <MenuItem value="AHORRO">Ahorro</MenuItem>
               <MenuItem value="MONETARIA">Monetaria</MenuItem>
             </Select>
           </FormControl>
 
-          
           <Button
             variant="contained"
-            color="primary"
+            className="primary-button"
             onClick={handleCreateAccount}
           >
             Solicitar nueva cuenta
           </Button>
         </div>
 
-        <Paper sx={{ mb: 4 }}>
+        <Paper className="accounts-table">
           <Typography variant="h6" sx={{ p: 2 }}>
             Cuentas {role === "ADMIN" ? "activas" : "propias"}
           </Typography>
           <Table>
             <TableHead>
-              <TableRow>
+              <TableRow className="table-header">
                 <TableCell>Número</TableCell>
                 <TableCell>Tipo</TableCell>
                 <TableCell>Saldo</TableCell>
@@ -243,7 +224,7 @@ export const AccountsPage = () => {
             </TableHead>
             <TableBody>
               {filteredAccounts.map((acc) => (
-                <TableRow key={acc._id}>
+                <TableRow key={acc._id} className="table-row">
                   <TableCell>{acc.numeroCuenta}</TableCell>
                   <TableCell>{acc.tipoCuenta}</TableCell>
                   <TableCell>Q{acc.saldo}</TableCell>
@@ -253,15 +234,15 @@ export const AccountsPage = () => {
                     <TableCell>
                       <Button
                         variant="outlined"
-                        color="primary"
-                        sx={{ mr: 1 }}
+                        className="primary-button"
                         onClick={() => handleOpenAddBalanceDialog(acc._id)}
+                        sx={{ mr: 1 }}
                       >
                         Agregar Saldo
                       </Button>
                       <Button
-                        variant="outlined"
-                        color="error"
+                        variant="contained"
+                        className="delete-button"
                         onClick={() => handleDelete(acc._id)}
                       >
                         Eliminar
@@ -281,7 +262,7 @@ export const AccountsPage = () => {
             </Typography>
             <Table>
               <TableHead>
-                <TableRow>
+                <TableRow className="table-header">
                   <TableCell>Número</TableCell>
                   <TableCell>Tipo</TableCell>
                   <TableCell>Propietario</TableCell>
@@ -290,14 +271,14 @@ export const AccountsPage = () => {
               </TableHead>
               <TableBody>
                 {pendingAccounts.map((acc) => (
-                  <TableRow key={acc._id}>
+                  <TableRow key={acc._id} className="table-row">
                     <TableCell>{acc.numeroCuenta}</TableCell>
                     <TableCell>{acc.tipoCuenta}</TableCell>
                     <TableCell>{acc.owner?.name || "N/A"}</TableCell>
                     <TableCell>
                       <Button
                         variant="contained"
-                        color="success"
+                        className="accept-button"
                         onClick={() => handleAccept(acc._id)}
                       >
                         Aceptar
@@ -333,7 +314,7 @@ export const AccountsPage = () => {
             <Button
               onClick={handleAddBalance}
               variant="contained"
-              color="primary"
+              className="dialog-button"
             >
               Agregar
             </Button>

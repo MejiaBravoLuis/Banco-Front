@@ -147,7 +147,11 @@ export const FavoritesPage = () => {
           mb={3}
         >
           <Typography variant="h4">Mis Favoritos</Typography>
-          <Button variant="contained" onClick={() => setOpenDialog(true)}>
+          <Button
+            variant="contained"
+            onClick={() => setOpenDialog(true)}
+            className="add-favorite-button"
+          >
             Agregar Favorito
           </Button>
         </Stack>
@@ -172,7 +176,11 @@ export const FavoritesPage = () => {
                     <TableCell>{f.alias}</TableCell>
                     <TableCell>{f.cuenta?.tipoCuenta}</TableCell>
                     <TableCell>
-                      <Stack direction="row" spacing={1}>
+                      <Stack
+                        direction="row"
+                        spacing={1}
+                        className="table-buttons"
+                      >
                         <Button
                           variant="outlined"
                           color="primary"

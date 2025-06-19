@@ -1,6 +1,15 @@
+:root {
+  --color-1: #e0e9eb; /* Fondo claro */
+  --color-2: #e0e7eb; /* Encabezado tabla */
+  --color-3: #e3e6e8; /* Hover fila */
+  --color-4: #e87d8f; /* Botón principal */
+  --color-5: #e87d7d; /* Rosa más oscuro */
+  --color-6: #d64d4d; /* Para botones eliminar */
+}
+
 body {
-  background-color: #f9f9fb;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--color-1);
+  font-family: "Sora", sans-serif;
 }
 
 .accounts-container {
@@ -12,79 +21,72 @@ body {
   backdrop-filter: blur(10px);
 }
 
-.accounts-container h4 {
+.accounts-title {
   font-weight: bold;
-  color: #2c3e50;
+  margin-bottom: 1rem;
+  color: var(--color-5);
 }
 
-.accounts-container .MuiButton-contained {
-  background-color: #5e60ce;
-  color: white;
-  font-weight: bold;
-  border-radius: 12px;
-  padding: 10px 20px;
-  transition: all 0.3s ease;
+.controls-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
-.accounts-container .MuiButton-contained:hover {
-  background-color: #4ea8de;
+.accounts-table {
+  margin-bottom: 2rem;
 }
 
-.accounts-container .MuiTable-root {
-  background: #ffffffcc;
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-.accounts-container .MuiTableCell-head {
-  background-color: #e0e7ff;
-  color: #2c3e50;
+.table-header {
+  background-color: var(--color-2);
+  color: var(--color-5);
   font-weight: bold;
 }
 
-.accounts-container .MuiTableCell-body {
-  color: #2c3e50;
+.table-row:hover {
+  background-color: var(--color-3);
 }
 
-.accounts-container .MuiTableRow-root {
-  background-color: #ffffff;
-  transition: background-color 0.3s;
-}
-
-.accounts-container .MuiTableRow-root:hover {
-  background-color: #f4f6fc;
-}
-
-.action-button {
-  padding: 10px 20px;
+.primary-button {
+  background-color: var(--color-4) !important;
+  color: white !important;
+  font-weight: bold;
   border-radius: 8px;
-  font-weight: bold;
   text-transform: none;
 }
 
-.accept-button {
-  background-color: #27ae60;
-  color: white;
-}
-
-.accept-button:hover {
-  background-color: #219150;
+.primary-button:hover {
+  background-color: var(--color-5) !important;
 }
 
 .delete-button {
-  background-color: #e74c3c;
-  color: white;
+  background-color: var(--color-6) !important;
+  color: white !important;
+  border-radius: 8px;
+  text-transform: none;
 }
 
 .delete-button:hover {
-  background-color: #c0392b;
+  background-color: #b03b3b !important;
 }
 
-.snackbar {
-  z-index: 99999;
-  position: fixed;
+.accept-button {
+  background-color: #e87d8f !important;
+  color: black !important;
+  border-radius: 8px;
+  text-transform: none;
 }
 
-.snackbar-message {
-  width: 100%;
+.accept-button:hover {
+  background-color: #e3e6e8 !important;
+}
+
+.dialog-button {
+  background-color: var(--color-5) !important;
+  color: grey !important;
+}
+
+.dialog-button:hover {
+  background-color: #c75d5d !important;
 }
