@@ -119,7 +119,7 @@ export const DepositPage = () => {
   };
 
   const puedeCancelar = (mov) => {
-    if (!mov.active) return false;
+    if (!mov.active || !mov.createdBy) return false;
     const ahora = new Date();
     const creado = new Date(mov.createdAt);
     const diferenciaMin = (ahora - creado) / (1000 * 60);
@@ -168,7 +168,6 @@ export const DepositPage = () => {
                 <TableCell>Descripción</TableCell>
                 <TableCell>Estado</TableCell>
                 <TableCell>Fecha</TableCell>
-                <TableCell>Acción</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -186,17 +185,6 @@ export const DepositPage = () => {
                     </TableCell>
                     <TableCell>
                       {new Date(mov.createdAt).toLocaleString()}
-                    </TableCell>
-                    <TableCell>
-                      {puedeCancelar(mov) && (
-                        <Button
-                          variant="outlined"
-                          color="error"
-                          onClick={() => handleCancel(mov._id)}
-                        >
-                          Cancelar
-                        </Button>
-                      )}
                     </TableCell>
                   </TableRow>
                 ))}

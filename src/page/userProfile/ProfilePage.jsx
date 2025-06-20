@@ -198,6 +198,7 @@ export const ProfilePage = () => {
                     Cancelar
                   </Button>
                   <Button
+                    type="submit"
                     variant="contained"
                     color="#e0e9eb"
                     disabled={updating}
