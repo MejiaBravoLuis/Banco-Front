@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { Helmet } from "react-helmet-async";
+import { useEffect } from "react";
 import { Login } from "../../components/Login";
 import { Register } from "../../components/Register";
 import SilkBackground from "../../components/animations/Background";
@@ -20,6 +20,17 @@ export const Auth = () => {
     containerRef.current?.classList.add("toggle");
   };
 
+  useEffect(() => {
+  const link = document.createElement("link");
+  link.rel = "stylesheet";
+  link.href = "https://cdn.lineicons.com/4.0/lineicons.css";
+  document.head.appendChild(link);
+
+  return () => {
+    document.head.removeChild(link);
+  };
+}, []);
+
   return (
     <>
       <SilkBackground
@@ -29,12 +40,6 @@ export const Auth = () => {
         rotation={0}
         color={"#e87d7d"}
       />
-      <Helmet>
-        <link
-          rel="stylesheet"
-          href="https://cdn.lineicons.com/4.0/lineicons.css"
-        />
-      </Helmet>
 
       <div className="app">
         <div className="container" ref={containerRef}>

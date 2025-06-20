@@ -10,6 +10,7 @@ import {
   Paper,
 } from "@mui/material";
 import SilkBackground from "../../components/animations/Background";
+import Sidebar from "../../components/sidebar/Sidebar";
 import "./styleRecoverPassword.css";
 
 export const PasswordRecoveryPage = () => {
