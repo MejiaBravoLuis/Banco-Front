@@ -12,23 +12,24 @@ import { AccountsPage } from "./page/accounts/AccountsPage.jsx";
 import {RewardPage} from "./page/reward/RewardPage.jsx"
 import {DivisaPage} from "./page/divisa/divisaPage.jsx"
 import { FavoritesPage } from "./page/favorite/FavoritePage.jsx";
+import { PrivateRoute } from "./components/PrivateRoutes.jsx";
 
 
 
 const routes = [
   { path: '/auth', element: <Auth /> },
-  { path: '/resetPassword', element: <PasswordRecoveryPage /> },
-  { path: '/dashboard', element: <DashboardPage /> },
-  { path: '/myProfile', element: <ProfilePage /> },
-  { path: '/deposit', element: <DepositPage /> },
-  { path: '/users', element: <UsersPage /> },
-  { path: '/acceptUsers', element: <AcceptUsersPage /> },
-  { path: '/prize', element: <PrizePage /> },
-  { path: '/movements', element: <MovementsPage /> },
-  { path: '/reward', element: <RewardPage /> },
-  { path: '/accounts', element: <AccountsPage /> },
-  { path: '/divisa', element: <DivisaPage /> },
-  { path: '/favorito', element: <FavoritesPage /> },
+  { path: '/resetPassword', element: <PrivateRoute><PasswordRecoveryPage /></PrivateRoute> },
+  { path: '/dashboard', element: <PrivateRoute><DashboardPage /></PrivateRoute> },
+  { path: '/myProfile', element: <PrivateRoute><ProfilePage /></PrivateRoute> },
+  { path: '/deposit', element: <PrivateRoute><DepositPage /></PrivateRoute> },
+  { path: '/users', element: <PrivateRoute><UsersPage /></PrivateRoute> },
+  { path: '/acceptUsers', element: <PrivateRoute><AcceptUsersPage /></PrivateRoute> },
+  { path: '/prize', element: <PrivateRoute><PrizePage /></PrivateRoute> },
+  { path: '/movements', element: <PrivateRoute><MovementsPage /></PrivateRoute> },
+  { path: '/reward', element: <PrivateRoute><RewardPage /></PrivateRoute> },
+  { path: '/accounts', element: <PrivateRoute><AccountsPage /></PrivateRoute> },
+  { path: '/divisa', element: <PrivateRoute><DivisaPage /></PrivateRoute> },
+  { path: '/favorito', element: <PrivateRoute><FavoritesPage /></PrivateRoute> },
   { path: '/', element: <Navigate to={'/auth'} /> }
   
 ];
