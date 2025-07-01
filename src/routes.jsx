@@ -18,7 +18,7 @@ import { PrivateRoute } from "./components/PrivateRoutes.jsx";
 
 const routes = [
   { path: '/auth', element: <Auth /> },
-  { path: '/resetPassword', element: <PrivateRoute><PasswordRecoveryPage /></PrivateRoute> },
+  { path: '/resetPassword', element: <PasswordRecoveryPage />  },
   { path: '/dashboard', element: <PrivateRoute><DashboardPage /></PrivateRoute> },
   { path: '/myProfile', element: <PrivateRoute><ProfilePage /></PrivateRoute> },
   { path: '/deposit', element: <PrivateRoute><DepositPage /></PrivateRoute> },
