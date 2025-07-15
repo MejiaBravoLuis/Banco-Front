@@ -59,10 +59,38 @@ export const PasswordRecoveryPage = () => {
   const handlePasswordSubmit = async (e) => {
     e.preventDefault();
     clearChangeMessages();
-    if (password.length < 8) {
-      alert("La contraseña debe tener al menos 8 caracteres");
+
+    const weakPasswords = [
+      "12345678",
+      "password123",
+      "adminpassword",
+      "123456",
+      "abcdefg",
+      "qwerty",
+    ];
+
+    const isWeak = weakPasswords.includes(password.toLowerCase());
+
+    const hasMinLength = password.length >= 8;
+    const hasUppercase = /[A-Z]/.test(password);
+    const hasLowercase = /[a-z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+    const hasSymbol = /[\W_]/.test(password);
+
+    if (
+      !hasMinLength ||
+      !hasUppercase ||
+      !hasLowercase ||
+      !hasNumber ||
+      !hasSymbol ||
+      isWeak
+    ) {
+      alert(
+        "La contraseña debe tener al menos 8 caracteres, incluir mayúsculas, minúsculas, números y símbolos. No uses contraseñas comunes como '12345678'."
+      );
       return;
     }
+
     await submitNewPassword(token, password);
   };
 

@@ -21,8 +21,22 @@ const registerSchema = yup.object().shape({
   dpi: yup.string().required("El DPI es obligatorio"),
   direccion: yup.string().required("La dirección es obligatoria"),
   telefono: yup.string().required("El teléfono es obligatorio"),
-  email: yup.string().email("Debe ser un email válido").required("El email es obligatorio"),
-  password: yup.string().min(6, "La contraseña debe tener al menos 6 caracteres").required("La contraseña es obligatoria"),
+  email: yup
+    .string()
+    .email("Debe ser un email válido")
+    .required("El email es obligatorio"),
+  password: yup
+    .string()
+    .min(8, "La contraseña debe tener al menos 8 caracteres")
+    .matches(
+      /^(?!.*(?:12345678|password123|adminpassword|123456|abcdefg|qwerty)).*$/,
+      "La contraseña es demasiado común o insegura"
+    )
+    .matches(/[a-z]/, "Debe contener al menos una letra minúscula")
+    .matches(/[A-Z]/, "Debe contener al menos una letra mayúscula")
+    .matches(/[0-9]/, "Debe contener al menos un número")
+    .matches(/[\W_]/, "Debe contener al menos un carácter especial")
+    .required("La contraseña es obligatoria"),
   nombreTrabajo: yup.string().required("El nombre del trabajo es obligatorio"),
   montoMensual: yup
     .number()
@@ -30,9 +44,9 @@ const registerSchema = yup.object().shape({
     .min(100, "Los ingresos mensuales deben ser al menos Q100")
     .required("Los ingresos mensuales son obligatorios"),
   tipoCuenta: yup
-  .string()
-  .oneOf(["AHORRO", "MONETARIA"], "Tipo de cuenta inválido")
-  .required("El tipo de cuenta es obligatorio"),
+    .string()
+    .oneOf(["AHORRO", "MONETARIA"], "Tipo de cuenta inválido")
+    .required("El tipo de cuenta es obligatorio"),
 });
 
 export const Register = () => {
@@ -87,7 +101,9 @@ export const Register = () => {
         <img src={iconUser} alt="icono username" className="input-icon" />
         <input type="text" placeholder="Username" {...register("username")} />
       </div>
-      {errors.username && <p style={{ color: "red" }}>{errors.username.message}</p>}
+      {errors.username && (
+        <p style={{ color: "red" }}>{errors.username.message}</p>
+      )}
 
       <div className="container-input">
         <img src={iconCUI} alt="icono dpi" className="input-icon" />
@@ -99,13 +115,17 @@ export const Register = () => {
         <img src={iconCasita} alt="icono dirección" className="input-icon" />
         <input type="text" placeholder="Dirección" {...register("direccion")} />
       </div>
-      {errors.direccion && <p style={{ color: "red" }}>{errors.direccion.message}</p>}
+      {errors.direccion && (
+        <p style={{ color: "red" }}>{errors.direccion.message}</p>
+      )}
 
       <div className="container-input">
         <img src={iconFone} alt="icono teléfono" className="input-icon" />
         <input type="text" placeholder="Teléfono" {...register("telefono")} />
       </div>
-      {errors.telefono && <p style={{ color: "red" }}>{errors.telefono.message}</p>}
+      {errors.telefono && (
+        <p style={{ color: "red" }}>{errors.telefono.message}</p>
+      )}
 
       <div className="container-input">
         <img src={iconEmail} alt="icono email" className="input-icon" />
@@ -115,15 +135,27 @@ export const Register = () => {
 
       <div className="container-input">
         <img src={iconPassword} alt="icono password" className="input-icon" />
-        <input type="password" placeholder="Password" {...register("password")} />
+        <input
+          type="password"
+          placeholder="Password"
+          {...register("password")}
+        />
       </div>
-      {errors.password && <p style={{ color: "red" }}>{errors.password.message}</p>}
+      {errors.password && (
+        <p style={{ color: "red" }}>{errors.password.message}</p>
+      )}
 
       <div className="container-input">
         <img src={iconPala} alt="icono nombre trabajo" className="input-icon" />
-        <input type="text" placeholder="Nombre del trabajo" {...register("nombreTrabajo")} />
+        <input
+          type="text"
+          placeholder="Nombre del trabajo"
+          {...register("nombreTrabajo")}
+        />
       </div>
-      {errors.nombreTrabajo && <p style={{ color: "red" }}>{errors.nombreTrabajo.message}</p>}
+      {errors.nombreTrabajo && (
+        <p style={{ color: "red" }}>{errors.nombreTrabajo.message}</p>
+      )}
 
       <div className="container-input">
         <img src={iconMonny} alt="icono monto mensual" className="input-icon" />
@@ -133,21 +165,29 @@ export const Register = () => {
           {...register("montoMensual")}
         />
       </div>
-      {errors.montoMensual && <p style={{ color: "red" }}>{errors.montoMensual.message}</p>}
+      {errors.montoMensual && (
+        <p style={{ color: "red" }}>{errors.montoMensual.message}</p>
+      )}
 
       <div className="container-input">
-      <label htmlFor="tipoCuenta" className="select-label">Tipo de cuenta</label>
-      <div className="custom-select-wrapper">
-          <select id="tipoCuenta" {...register("tipoCuenta")} className="custom-select">
+        <label htmlFor="tipoCuenta" className="select-label">
+          Tipo de cuenta
+        </label>
+        <div className="custom-select-wrapper">
+          <select
+            id="tipoCuenta"
+            {...register("tipoCuenta")}
+            className="custom-select"
+          >
             <option value="">Selecciona una opción</option>
             <option value="AHORRO">Ahorro</option>
             <option value="MONETARIA">Monetaria</option>
           </select>
         </div>
       </div>
-{errors.tipoCuenta && <p style={{ color: "red" }}>{errors.tipoCuenta.message}</p>}
-
-
+      {errors.tipoCuenta && (
+        <p style={{ color: "red" }}>{errors.tipoCuenta.message}</p>
+      )}
 
       <button type="submit" className="button" disabled={isLoading}>
         {isLoading ? "Cargando...." : "REGISTRARSE"}
